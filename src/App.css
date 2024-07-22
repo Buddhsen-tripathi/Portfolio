@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: "Space Grotesk", sans-serif;
+    background-color: rgb(25, 6, 54); 
+}
+
+h2{
+    @apply text-xl md:text-4xl
+}
+
+p{
+    @apply text-xl tracking-tight leading-relaxed
+}
+
+span{
+    @apply text-purple-500
+}
+
+.shiny-effect{
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(79, 11, 100, 0.2), transparent);
+}
