@@ -1,7 +1,8 @@
-import './App.css'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
-import Hero from './components/Hero';
+import Hero from './components/Hero'
+import Project from './components/Projects'
+import Contact from './components/Contact'
 
 function App() {
 
@@ -11,9 +12,11 @@ function App() {
 
   return (
     <>
-    <NavBar/>
-    <Hero/>
-    <Footer/>
+      <NavBar />
+      <Hero />
+      <Project />
+      <Contact />
+      <Footer />
     </>
   )
 }

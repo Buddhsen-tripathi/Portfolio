@@ -5,16 +5,15 @@ import ShinyEffect from "./ShinyEffect";
 
 import {
     AiOutlineGithub,
-    AiOutlineTwitter,
+    AiOutlineX,
     AiOutlineLinkedin,
 } from "react-icons/ai";
 
 import { motion } from "framer-motion";
 
-
 const Hero = () => {
     return (
-        <div className="mt-24 max-w-[1200px] mx-auto relative">
+        <div className="mt-24 max-w-[1300px] mx-auto relative">
             <div className="grid md:grid-cols-2 place-items-center gap-8">
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
@@ -33,7 +32,7 @@ const Hero = () => {
                         ]}
                         speed={50}
                         repeat={Infinity}
-                        className="font-bold text-gray-400 text-xl md:text-6xl italic- mb-4"
+                        className="font-bold text-gray-400 text-xl md:text-5xl italic- mb-4"
                     />
 
                     <motion.p
@@ -73,15 +72,15 @@ const Hero = () => {
                         </motion.button>
 
                         <div className="flex gap-6 flex-row text-4xl md:text-6xl text-purple-400 z-20">
-                            <motion.a whileHover={{ scale: 1.2 }} href="#">
+                            <motion.a whileHover={{ scale: 1.2 }} href="https://github.com/Buddhsen-tripathi/" target="_blank"> 
                                 <AiOutlineGithub />
                             </motion.a>
 
-                            <motion.a whileHover={{ scale: 1.2 }} href="#">
-                                <AiOutlineTwitter />
+                            <motion.a whileHover={{ scale: 1.2 }} href="https://x.com/_TripathiJi" target="_blank">
+                                <AiOutlineX />
                             </motion.a>
 
-                            <motion.a whileHover={{ scale: 1.2 }} href="#">
+                            <motion.a whileHover={{ scale: 1.2 }} href="https://www.linkedin.com/in/buddhsen-tripathi/" target="_blank">
                                 <AiOutlineLinkedin />
                             </motion.a>
                         </div>
