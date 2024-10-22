@@ -1,31 +1,40 @@
 import React from 'react';
 import project1 from "../assets/project1.png"
+import project2 from "../assets/project2.png"
 
-import { AiFillGithub, AiOutlineGithub } from 'react-icons/ai'
+import { AiFillGithub } from 'react-icons/ai'
 import Reveal from './Reveal';
 
 const projects = [
     {
         img: project1,
         title: "openai-api-helper",
-        description: "A straightforward npm package designed to simplify making calls to the OpenAI API for various text-based prompts and responses.",
+        description: "Straightforward npm package designed to simplify making calls to the OpenAI API for various text-based prompts and responses.",
         links: {
             site: "https://www.npmjs.com/package/openai-api-helper",
             github: "https://github.com/Buddhsen-tripathi/openai-api-helper",
-        },
+        }
+    },
+    {
+        img: project2,
+        title:"SmartText Enhancer",
+        description: "Productivity-focused Chrome extension that uses AI to summarize content and check spelling and grammar.",
+        links: {
+            site: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm"
+        }
     }
 ]
 
 const Project = () => {
     return (
-        <div className='max-w-[1000px] mx-auto p-6 md:my-20' id="portfolio">
+        <div className='max-w-[1000px] mx-auto p-6 md:my-20' id="project">
             <Reveal>
                 <h2 className='text-4xl font-bold text-center text-gray-200 mb-12'>Projects</h2>
                 {projects.map((project, index) => (
                     <Reveal>
                         <div key={index}
                             className={`flex flex-col md:flex-row ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''} mb-12`}>
-                            <div className='w-full md:w-1/2 p-4'>
+                            <div className='w-full md:w-1/2 p-6'>
                                 <img
                                     src={project.img}
                                     alt={project.title}
@@ -44,7 +53,7 @@ const Project = () => {
                                     <a href={project.links.github}
                                         className='px-4 py-2 bg-slate-600 text-gray-200 rounded-lg hover:bg-slate-700
                                         transition duration-300' target="_blank">
-                                        <AiOutlineGithub />
+                                        <AiFillGithub/>
                                     </a>
 
                                 </div>
@@ -60,4 +69,4 @@ const Project = () => {
     )
 }
 
-export default Project
+export default Project;

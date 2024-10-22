@@ -39,7 +39,7 @@ const Navbar = () => {
                 <a href="/">Buddhsen Tripathi</a>
 
                 <ul className='hidden md:flex gap-12 z-10 cursor-pointer'>
-                    <li><Link to="projects" offset={50} smooth="true" duration={400}>Projects</Link></li>
+                    <li><Link to="project" offset={-120} smooth="true" duration={400}>Projects</Link></li>
                     <li><Link to="contact" offset={50} smooth="true" duration={400}>Contact</Link></li>
                     <li><a href="https://blog.buddhsentripathi.com" target="_blank" rel="noopener noreferrer" offset={50} smooth="true" duration={500}>Blog</a></li>
                 </ul>
@@ -55,7 +55,7 @@ const Navbar = () => {
                     className='fixed left-0 top-0 w-full min-h-screen bg-gray-900 z-40'
                 >
                     <ul className='font-semibold text-4xl space-y-8 mt-24 text-center'>
-                        <li><Link to="projects" onClick={closeNav} offset={50} smooth="true" duration={500}>Projects</Link></li>
+                        <li><Link to="project" onClick={closeNav} offset={-90} smooth="true" duration={500}>Projects</Link></li>
                         <li><Link to="contact" onClick={closeNav} offset={50} smooth="true" duration={500}>Contact</Link></li>
                         <li><a href="https://blog.buddhsentripathi.com" target="_blank" rel="noopener noreferrer" onClick={closeNav} smooth="true" offset={50} duration={500}>Blog</a></li>
                     </ul>

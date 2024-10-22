@@ -1,15 +1,28 @@
-import React from "react"
-import Reveal from "./Reveal"
+import React, { useRef } from "react";
+import Reveal from "./Reveal";
 
 const Contact = () => {
+    const formRef = useRef(null);
+
+    // Function to handle form reset after submission
+    const handleSubmit = (e) => {
+        // Allow the form to submit to the action URL
+        setTimeout(() => {
+            // Reset the form after submission
+            formRef.current.reset();
+        }, 1000); // Delay to ensure form submission occurs first
+    };
+
     return (
         <div className="flex justify-center items-center" id="contact">
             <Reveal>
                 <form
-                    action="https://getform.io/f/alljqxva"
+                    ref={formRef}
+                    action="https://openformstack.com/f/cm1zieo4j0004etb3ifjtayi2"
                     method="POST"
                     className="max-w-[1200px] w-full rounded-lg shadow-lg"
                     id="form"
+                    onSubmit={handleSubmit}
                 >
                     <p className="text-gray-200 font-bold text-3xl text-center mb-8">
                         Contact
@@ -20,6 +33,7 @@ const Contact = () => {
                         placeholder="Your Name ..."
                         name="name"
                         className="mb-4 w-full rounded-md border border-purple-400 py-2 px-4 text-black"
+                        required
                     />
                     <input
                         type="email"
@@ -27,6 +41,7 @@ const Contact = () => {
                         placeholder="Your Email ..."
                         name="email"
                         className="mb-4 w-full rounded-md border border-purple-400 py-2 px-4 text-black"
+                        required
                     />
                     <textarea
                         name="textarea"
@@ -35,6 +50,7 @@ const Contact = () => {
                         rows="4"
                         placeholder="Your Message ..."
                         className="mb-4 w-full rounded-md border border-purple-400 py-2 px-4 text-black"
+                        required
                     />
                     <button
                         type="submit"
@@ -45,8 +61,7 @@ const Contact = () => {
                 </form>
             </Reveal>
         </div>
+    );
+};
 
-    )
-}
-
-export default Contact
+export default Contact;
