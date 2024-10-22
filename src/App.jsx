@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Project from './components/Projects';
 import Contact from './components/Contact';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const handleWelcomeFinish = () => {
@@ -23,6 +24,7 @@ function App() {
       <Project/>
       <Contact/>
       <Footer />
+      <Analytics/>
     </Router>
   );
 }
