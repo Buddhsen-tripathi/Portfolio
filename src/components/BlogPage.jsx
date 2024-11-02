@@ -12,21 +12,21 @@ const BlogPage = () => {
                     'https://api.github.com/repos/Buddhsen-tripathi/Hashnode-BlogPosts/contents'
                 );
                 if (!response.ok) throw new Error('Failed to fetch posts');
-                
+
                 const files = await response.json();
                 const mdFiles = files.filter(file => file.name.endsWith('.md'));
-                
+
                 const postsData = await Promise.all(
                     mdFiles.map(async file => {
                         const contentResponse = await fetch(file.download_url);
                         const content = await contentResponse.text();
-                        
+
                         // Split content to get frontmatter
                         const parts = content.split('---');
                         if (parts.length < 2) return null;
-                        
+
                         const frontmatter = parts[1];
-                        
+
                         // Parse frontmatter line by line
                         const metadata = {};
                         frontmatter.split('\n').forEach(line => {
@@ -39,7 +39,7 @@ const BlogPage = () => {
                                 }
                             }
                         });
-                        
+
                         return {
                             title: metadata.title || '',
                             datePublished: metadata.datePublished || '',
@@ -49,11 +49,11 @@ const BlogPage = () => {
                         };
                     })
                 );
-                
+
                 // Filter out any null values and sort by date
                 const validPosts = postsData.filter(post => post !== null);
                 validPosts.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
-                
+
                 setPosts(validPosts);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
@@ -76,6 +76,8 @@ const BlogPage = () => {
 
     return (
         <div className="mx-auto mt-24 px-12 max-w-[1200px] text-gray-200">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
+                crossorigin="anonymous"></script>
             <h1 className="text-3xl font-bold mb-6">Blogs</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
@@ -94,8 +96,8 @@ const BlogPage = () => {
                         {post.tags && post.tags.length > 0 && (
                             <div className="flex gap-2 mt-3">
                                 {post.tags.map((tag, index) => (
-                                    <span 
-                                        key={index} 
+                                    <span
+                                        key={index}
                                         className="text-sm bg-gray-700 px-2 py-1 rounded-full text-gray-300"
                                     >
                                         {tag}
@@ -103,10 +105,10 @@ const BlogPage = () => {
                                 ))}
                             </div>
                         )}
-                        <a 
-                            href={`https://blog.buddhsentripathi.com/${post.externalSlug}`} 
+                        <a
+                            href={`https://blog.buddhsentripathi.com/${post.externalSlug}`}
                             className="absolute bottom-4 left-6 text-blue-400 hover:text-blue-300 font-medium"
-                            target="_blank" 
+                            target="_blank"
                             rel="noopener noreferrer"
                         >
                             Read more →

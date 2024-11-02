@@ -16,27 +16,24 @@ function App() {
 
   return (
     <Router>
-            <NavBar />
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <>
-                            <Hero />
-                            <Project />
-                            <RecentBlogs/>
-                            <Contact />
-                        </>
-                    }
-                />
-                <Route path="/project" element={<Project />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/recentblogs" element={<RecentBlogs/>}/>
-                <Route path="/blogs" element={<BlogPage />} />
-            </Routes>
-            <Footer />
-            <Analytics />
-        </Router>
+      <NavBar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Hero />
+              <Project />
+              <RecentBlogs />
+              <Contact />
+            </>
+          }
+        />
+        <Route path="/blogs" element={<BlogPage />} />
+      </Routes>
+      <Footer />
+      <Analytics />
+    </Router>
   );
 }
 
