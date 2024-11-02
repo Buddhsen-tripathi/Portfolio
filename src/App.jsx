@@ -16,8 +16,6 @@ function App() {
 
   return (
     <Router>
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
-        crossorigin="anonymous"></script>
       <NavBar />
       <Routes>
         <Route
