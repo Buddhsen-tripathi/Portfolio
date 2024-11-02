@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
     return (
-        <div className="mt-24 max-w-[1300px] mx-auto relative">
+        <div className="mt-24 max-w-[1200px] mx-auto relative">
             <div className="grid md:grid-cols-2 place-items-center gap-8">
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
@@ -26,14 +26,12 @@ const Hero = () => {
                         sequence={[
                             "Fullstack Developer",
                             1100,
-                            "Tech Strategist",
-                            1100,
-                            "AI & CyberSec Enthusiast",
+                            "AI ML Enthusiast",
                             1100,
                         ]}
                         speed={50}
                         repeat={Infinity}
-                        className="font-bold text-gray-400 text-xl md:text-5xl italic- mb-4"
+                        className="font-bold text-gray-400 text-lg md:text-5xl italic- mb-4"
                     />
 
                     <motion.p
@@ -45,7 +43,7 @@ const Hero = () => {
                     >
                         <br />
                         Hey, I'm <br />
-                        <span className="text-purple-500 md:text-7xl text-5xl">Buddhsen Tripathi </span>
+                        <span className="text-purple-500 md:text-5xl text-3xl">Buddhsen Tripathi </span>
                     </motion.p>
 
                     <motion.p
@@ -53,9 +51,9 @@ const Hero = () => {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, delay: 1 }}
-                        className="text-gray-300 max-w-[300px] md:max-w-[500px] md:text-2xl text-lg mb-6"
+                        className="text-gray-300 max-w-[300px] md:max-w-[500px] md:text-xl text-lg mb-6"
                     >
-                        With 18 months of industrial experience, I'm a motivated full-stack developer adept at designing and implementing robust web applications for diverse projects.
+                        I’m a passionate full-stack developer with 22 months of experience creating and implementing dynamic web applications. I thrive on building seamless user experiences and enjoy tackling challenges across both front-end and back-end development.
                     </motion.p>
 
                     <motion.div
@@ -93,7 +91,7 @@ const Hero = () => {
 
                 <motion.img
                     src={profilepic}
-                    className="w-[300px] md:w-[450px]"
+                    className="w-[300px] md:w-[420px]"
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}

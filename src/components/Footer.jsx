@@ -3,7 +3,7 @@ import { AiOutlineGithub, AiOutlineX, AiOutlineYoutube } from 'react-icons/ai'
 
 const Footer = () => {
     return (
-        <div className='max-w-[1300px] mx-auto flex justify-between p-4 md:p-20 text-sm md:text-lg mt-12'>
+        <div className='max-w-[1200px] mx-auto flex justify-between p-4 md:p-20 text-sm md:text-lg mt-12'>
             <div className='space-y-4'>
                 <div className='flex flex-row gap-8 text-gray-200 text-4xl'>
                     <a href="https://github.com/Buddhsen-tripathi/" target="_blank"><AiOutlineGithub/></a>

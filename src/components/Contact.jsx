@@ -4,17 +4,16 @@ import Reveal from "./Reveal";
 const Contact = () => {
     const formRef = useRef(null);
 
-    // Function to handle form reset after submission
     const handleSubmit = (e) => {
-        // Allow the form to submit to the action URL
+        
         setTimeout(() => {
-            // Reset the form after submission
+            
             formRef.current.reset();
-        }, 1000); // Delay to ensure form submission occurs first
+        }, 1000); 
     };
 
     return (
-        <div className="flex justify-center items-center" id="contact">
+        <div className="flex justify-center items-center mt-12" id="contact">
             <Reveal>
                 <form
                     ref={formRef}

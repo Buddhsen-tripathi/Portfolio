@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans:ital@0;1&family=Space+Grotesk:wght@300..700&display=swap');
-
 /*
 ! tailwindcss v3.4.6 | MIT License | https://tailwindcss.com
 */
@@ -618,6 +616,10 @@ video {
   margin-bottom: 1rem;
 }
 
+.mb-2{
+  margin-bottom: 0.5rem;
+}
+
 .mb-6{
   margin-bottom: 1.5rem;
 }
@@ -630,8 +632,15 @@ video {
   margin-top: 3rem;
 }
 
+.mt-16{
+  margin-top: 4rem;
+}
 .mt-24{
   margin-top: 6rem;
+}
+
+.mt-2{
+  margin-top: 0.5rem;
 }
 
 .flex{
@@ -714,6 +723,10 @@ video {
   gap: 3rem;
 }
 
+.gap-4{
+  gap: 1rem;
+}
+
 .gap-6{
   gap: 1.5rem;
 }
@@ -759,6 +772,11 @@ video {
 .border-purple-400{
   --tw-border-opacity: 1;
   border-color: rgb(192 132 252 / var(--tw-border-opacity));
+}
+
+.bg-gray-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity)) /* #1f2937 */;
 }
 
 .bg-gray-900{
@@ -808,6 +826,11 @@ video {
   padding-right: 1rem;
 }
 
+.px-2{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
 .py-2{
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -816,6 +839,16 @@ video {
 .py-3{
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.py-4{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.py-6{
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .text-center{
@@ -970,6 +1003,44 @@ span{
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
 
+.logo {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.prose {
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.6;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  color: #e2e8f0; 
+}
+
+.prose a {
+  color: #63b3ed; 
+  text-decoration: underline;
+}
+
+.prose img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; 
+}
+
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity)) /* #60a5fa */;
+}
+
+.hover\:text-blue-300:hover {
+  --tw-text-opacity: 1;
+  color: rgb(147 197 253 / var(--tw-text-opacity)) /* #93c5fd */;
+}
+
 @media (min-width: 768px){
   .md\:my-20{
     margin-top: 5rem;
@@ -996,8 +1067,8 @@ span{
     width: 50%;
   }
 
-  .md\:w-\[450px\]{
-    width: 450px;
+  .md\:w-\[420px\]{
+    width: 420px;
   }
 
   .md\:w-auto{

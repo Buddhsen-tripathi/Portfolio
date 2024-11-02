@@ -5,6 +5,8 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Project from './components/Projects';
 import Contact from './components/Contact';
+import BlogPage from './components/BlogPage';
+import RecentBlogs from './components/RecentBlogs';
 import { Analytics } from "@vercel/analytics/react"
 
 function App() {
@@ -14,18 +16,27 @@ function App() {
 
   return (
     <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" />
-        <Route path="/project" element={<Project />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
-      <Hero/>
-      <Project/>
-      <Contact/>
-      <Footer />
-      <Analytics/>
-    </Router>
+            <NavBar />
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <>
+                            <Hero />
+                            <Project />
+                            <RecentBlogs/>
+                            <Contact />
+                        </>
+                    }
+                />
+                <Route path="/project" element={<Project />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/recentblogs" element={<RecentBlogs/>}/>
+                <Route path="/blogs" element={<BlogPage />} />
+            </Routes>
+            <Footer />
+            <Analytics />
+        </Router>
   );
 }
 
