@@ -62,9 +62,9 @@ const Navbar = () => {
                         className='fixed left-0 top-0 w-full min-h-screen bg-gray-900 z-40'
                     >
                         <ul className='font-semibold text-4xl space-y-8 mt-24 text-center'>
-                            <li><Link to="/project" onClick={closeNav} smooth={true} duration={500}>Projects</Link></li>
-                            <li><Link to="/recentblogs" onClick={closeNav} smooth={true} duration={500}>Blogs</Link></li>
-                            <li><Link to="/contact" onClick={closeNav} smooth={true} duration={500}>Contact</Link></li>
+                            <li><Link to="project" onClick={closeNav} offset={-70} smooth={true} duration={500}>Projects</Link></li>
+                            <li><Link to="recentblogs" onClick={closeNav} smooth={true} offset={-100} duration={500}>Blogs</Link></li>
+                            <li><Link to="contact" onClick={closeNav} smooth={true} duration={500}>Contact</Link></li>
                         </ul>
                     </motion.div>
                 )}
