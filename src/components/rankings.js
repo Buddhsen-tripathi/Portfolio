@@ -367,5 +367,5 @@ export const birthdayRankings = [
 
 export const defaultRanking = {
     date: "",
-    ranking: "Not Ranked",
+    ranking: "Invalid date format",
 };

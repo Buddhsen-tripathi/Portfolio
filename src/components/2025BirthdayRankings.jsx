@@ -2,13 +2,23 @@ import React, { useState, useRef } from "react";
 import { birthdayRankings, defaultRanking } from "./rankings";
 
 const BirthdayRankings = () => {
-
     const [birthday, setBirthday] = useState("");
     const [result, setResult] = useState(null);
+    const [inputDisabled, setInputDisabled] = useState(false); 
     const screenshotRef = useRef(null);
 
     const handleInputChange = (event) => {
-        setBirthday(event.target.value);
+        let value = event.target.value;
+        if (/^(\d{2})\/(\d{2})$/.test(value)) {
+            setInputDisabled(false);
+        } else {
+            setInputDisabled(false);
+        }
+        
+        if (value.length > 5) {
+            value = value.slice(0, 5);
+        }
+        setBirthday(value);
     };
 
     const handleSubmit = (event) => {
@@ -27,7 +37,6 @@ const BirthdayRankings = () => {
         window.open(twitterShareURL, "_blank");
     };
 
-
     return (
         <div className="max-w-[1000px] mx-auto p-6 mt-28 bd-page">
             <div className="container-box-bd" ref={screenshotRef}>
@@ -40,6 +49,7 @@ const BirthdayRankings = () => {
                         onChange={handleInputChange}
                         className="input-field"
                         required
+                        disabled={inputDisabled} // Disable input once format is correct
                     />
                     <button type="submit" className="button-bd">
                         Find My Ranking
@@ -62,4 +72,4 @@ const BirthdayRankings = () => {
     );
 };
 
-export default BirthdayRankings
+export default BirthdayRankings;
