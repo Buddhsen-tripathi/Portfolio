@@ -39,7 +39,6 @@ const BirthdayRankings = () => {
 
     return (
         <div className="max-w-[1000px] mx-auto p-6 mt-28 bd-page">
-            <meta name="google-adsense-account" content="ca-pub-8627226194830904"></meta>
             <div className="container-box-bd" ref={screenshotRef}>
                 <h1 className="heading-bd">2025 Lucky Birthday Rankings 🎉</h1>
                 <form onSubmit={handleSubmit}>
@@ -68,6 +67,19 @@ const BirthdayRankings = () => {
                         </button>
                     </div>
                 )}
+            </div>
+            <div>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
+                    crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-8627226194830904"
+                    data-ad-slot="5427572218"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({ });
+                </script>
             </div>
         </div>
     );
