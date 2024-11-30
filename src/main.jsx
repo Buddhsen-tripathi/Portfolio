@@ -5,6 +5,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <meta name="google-adsense-account" content="ca-pub-8627226194830904"></meta>
     <App />
   </React.StrictMode>,
 )
