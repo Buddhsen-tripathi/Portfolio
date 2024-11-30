@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 const BlogPage = () => {
     const [posts, setPosts] = useState([]);
@@ -76,8 +75,7 @@ const BlogPage = () => {
 
     return (
         <div className="mx-auto mt-24 px-12 max-w-[1200px] text-gray-200">
-            <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
-                crossorigin="anonymous"></script></head>
+            <meta name="google-adsense-account" content="ca-pub-8627226194830904"></meta>
             <h1 className="text-3xl font-bold mb-6">Blogs</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
