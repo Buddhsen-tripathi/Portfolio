@@ -7,7 +7,9 @@ import Project from './components/Projects';
 import Contact from './components/Contact';
 import BlogPage from './components/BlogPage';
 import RecentBlogs from './components/RecentBlogs';
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
+import FunXProjects from './components/FunXProjects'
+import BirthdayRankings from './components/2025BirthdayRankings.jsx'
 
 function App() {
   const handleWelcomeFinish = () => {
@@ -25,11 +27,13 @@ function App() {
               <Hero />
               <Project />
               <RecentBlogs />
+              <FunXProjects />
               <Contact />
             </>
           }
         />
         <Route path="/blogs" element={<BlogPage />} />
+        <Route path="2025-birthday-rankings" element={<BirthdayRankings/>}/>
       </Routes>
       <Footer />
       <Analytics />
