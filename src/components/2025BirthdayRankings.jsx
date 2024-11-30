@@ -4,7 +4,7 @@ import { birthdayRankings, defaultRanking } from "./rankings";
 const BirthdayRankings = () => {
     const [birthday, setBirthday] = useState("");
     const [result, setResult] = useState(null);
-    const [inputDisabled, setInputDisabled] = useState(false); 
+    const [inputDisabled, setInputDisabled] = useState(false);
     const screenshotRef = useRef(null);
 
     const handleInputChange = (event) => {
@@ -14,7 +14,7 @@ const BirthdayRankings = () => {
         } else {
             setInputDisabled(false);
         }
-        
+
         if (value.length > 5) {
             value = value.slice(0, 5);
         }
@@ -39,6 +39,8 @@ const BirthdayRankings = () => {
 
     return (
         <div className="max-w-[1000px] mx-auto p-6 mt-28 bd-page">
+            <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8627226194830904"
+                crossorigin="anonymous"></script></head>
             <div className="container-box-bd" ref={screenshotRef}>
                 <h1 className="heading-bd">2025 Lucky Birthday Rankings 🎉</h1>
                 <form onSubmit={handleSubmit}>
