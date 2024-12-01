@@ -10,6 +10,7 @@ const funProjects = [
         links: {
             site: "2025-birthday-rankings",
         },
+        visits: "600+"
     }
 ];
 
@@ -17,7 +18,7 @@ const FunXProjects = () => {
     return (
         <div className="max-w-[1000px] mx-auto p-6 md:my-20" id="funxprojects">
             <Reveal>
-                <h2 className="text-4xl font-bold text-center text-gray-200 mb-12">Fun X Projects</h2>
+                <h2 className="text-4xl font-bold text-center text-gray-200 mb-12">Fun 𝕏 Projects</h2>
                 {funProjects.map((project, index) => (
                     <Reveal key={index}>
                         <div
@@ -36,11 +37,13 @@ const FunXProjects = () => {
                                 <h3 className="text-2xl font-semibold text-gray-200 mb-4">
                                     {project.title}
                                 </h3>
-                                <p className="text-gray-300 mb-4">{project.description}</p>
+                                <p className="text-gray-200 mb-2">{project.description}</p>
+                                <p className="text-gray-200 mb-4">Unique Visitors: {project.visits}</p>
                                 <div className="flex space-x-4">
                                     <a
                                         href={project.links.site}
-                                        className="px-4 py-2 bg-slate-600 text-gray-200 rounded-lg hover:bg-slate-700 transition duration-300"
+                                        className='px-4 py-2 bg-slate-600 text-gray-200 rounded-lg hover:bg-slate-700
+                                        transition duration-300' target='_blank'
                                     >
                                         View Project
                                     </a>

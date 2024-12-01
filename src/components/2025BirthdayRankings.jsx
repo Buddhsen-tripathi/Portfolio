@@ -39,6 +39,7 @@ const BirthdayRankings = () => {
 
     return (
         <div className="max-w-[1000px] mx-auto p-6 mt-28 bd-page">
+            <meta name="google-adsense-account" content="ca-pub-8627226194830904"></meta>
             <div className="container-box-bd" ref={screenshotRef}>
                 <h1 className="heading-bd">2025 Lucky Birthday Rankings 🎉</h1>
                 <form onSubmit={handleSubmit}>
