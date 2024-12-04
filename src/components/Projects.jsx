@@ -1,6 +1,6 @@
 import React from 'react';
-import project1 from "../assets/project1.png"
-import project2 from "../assets/project2.png"
+import project1 from "../assets/project1.webp"
+import project2 from "../assets/project2.webp"
 
 import { AiFillGithub } from 'react-icons/ai'
 import Reveal from './Reveal';

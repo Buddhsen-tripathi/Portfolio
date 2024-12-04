@@ -1,5 +1,5 @@
 import React from 'react';
-import funProject1 from "../assets/funproject1.png";
+import funProject1 from "../assets/funproject1.webp";
 import Reveal from './Reveal';
 
 const funProjects = [

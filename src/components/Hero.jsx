@@ -1,5 +1,5 @@
 import React from "react";
-import profilepic from "../assets/profpic.png"
+import profilepic from "../assets/profpic.webp"
 import { TypeAnimation } from "react-type-animation"
 import ShinyEffect from "./ShinyEffect"
 import { Link } from 'react-scroll'

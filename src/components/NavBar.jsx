@@ -3,7 +3,7 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Link } from 'react-scroll' 
 import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom'; 
-import Logo from '../assets/logo-white-256x256.png';
+import Logo from '../assets/logo-white-256x256.webp';
 
 const Navbar = () => {
     const [nav, setNav] = useState(false);
@@ -35,7 +35,7 @@ const Navbar = () => {
     };
 
     // Check if we're on the blogs page
-    const isBlogPage = location.pathname === '/blogs';
+    const isBlogPage = location.pathname === '/blogs' || '2025-birthday-rankings';
 
     return (
         <div className='fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50'>

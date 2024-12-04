@@ -33,7 +33,7 @@ function App() {
           }
         />
         <Route path="/blogs" element={<BlogPage />} />
-        <Route path="2025-birthday-rankings" element={<BirthdayRankings />} />
+        <Route path="/2025-birthday-rankings" element={<BirthdayRankings />} />
       </Routes>
       <Footer />
       <Analytics />
