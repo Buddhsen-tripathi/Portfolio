@@ -5,44 +5,102 @@ const HeartBot = () => {
         { sender: "bot", text: "Hi. How are you feeling today?" },
     ]);
     const [userMessage, setUserMessage] = useState("");
+    const [mode, setMode] = useState("interactive");
+    const [rantMessages, setRantMessages] = useState([]);
 
-    const handleSendMessage = async (e) => {
+    const handleSendMessage = (e) => {
         e.preventDefault();
         if (!userMessage.trim()) return;
 
         const newMessages = [...messages, { sender: "user", text: userMessage }];
         setMessages(newMessages);
 
-        try {
-            const response = await fetch("https://heartbotbe-production.up.railway.app/api/message", {
+        if (mode === "rant") {
+            // Store messages in a separate list for Rant Mode
+            setRantMessages([...rantMessages, userMessage]);
+        } else {
+            // Call API for Interactive Mode
+            fetch("http://localhost:8000/api/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include", // Include cookies for session management
                 body: JSON.stringify({ message: userMessage }),
-            });
-            const updatedConversation = await response.json();
-            setMessages(updatedConversation);
-        } catch (error) {
-            console.error("Error sending message:", error);
+            })
+                .then((response) => response.json())
+                .then((updatedConversation) => setMessages(updatedConversation))
+                .catch((error) => console.error("Error sending message:", error));
         }
 
         setUserMessage(""); // Clear input
     };
 
+    const toggleMode = () => {
+        const newMode = mode === "interactive" ? "rant" : "interactive";
+
+        if (newMode === "interactive" && rantMessages.length > 0) {
+            // Respond to all rant messages when switching back
+            const combinedRant = rantMessages.join(" ");
+            fetch("https://heartbotbe-production.up.railway.app:80/api/message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ message: combinedRant }),
+            })
+                .then((response) => response.json())
+                .then((updatedConversation) => {
+                    setMessages([...messages, ...updatedConversation]);
+                    setRantMessages([]); // Clear rant messages after processing
+                })
+                .catch((error) => console.error("Error processing rant messages:", error));
+        }
+
+        setMode(newMode);
+    };
+
     return (
-        <div className="max-w-[1000px] mx-auto p-6 mt-24 bd-page">
+        <div className="flex justify-center items-center min-h-screen mt-12 bg-gray-100">
             <div
                 style={{
                     width: "400px",
-                    height: "650px",
-                    border: "16px solid #333",
-                    borderRadius: "40px",
+                    height: "700px",
+                    border: "2px solid #333",
+                    borderRadius: "24px",
                     backgroundColor: "#fff",
                     display: "flex",
                     flexDirection: "column",
                     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
                 }}
             >
+                {/* Header with Toggle Button */}
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        padding: "10px 20px",
+                        backgroundColor: "#6200ea",
+                        color: "#fff",
+                        borderRadius: "24px 24px 0 0",
+                    }}
+                >
+                    <h2 style={{ fontSize: "16px", fontWeight: "bold" }}>HeartBot</h2>
+                    <button
+                        onClick={toggleMode}
+                        style={{
+                            padding: "5px 10px",
+                            backgroundColor: "#fff",
+                            color: "#6200ea",
+                            borderRadius: "12px",
+                            fontSize: "12px",
+                            cursor: "pointer",
+                            border: "none",
+                        }}
+                    >
+                        {mode === "interactive" ? "Switch to Rant Mode" : "Switch to Interactive Mode"}
+                    </button>
+                </div>
+
+                {/* Chat Messages */}
                 <div
                     style={{
                         flex: 1,
@@ -51,8 +109,7 @@ const HeartBot = () => {
                         display: "flex",
                         flexDirection: "column",
                         gap: "10px",
-                        background: "#e8eaf6",
-                        borderRadius: "24px 24px 0 0",
+                        background: "#f9f9f9",
                     }}
                 >
                     {messages.map((msg, index) => (
@@ -65,7 +122,7 @@ const HeartBot = () => {
                                 fontSize: "14px",
                                 lineHeight: "1.4",
                                 alignSelf: msg.sender === "user" ? "flex-end" : "flex-start",
-                                backgroundColor: msg.sender === "user" ? "#f5f5f5" : "#6200ea",
+                                backgroundColor: msg.sender === "user" ? "#e0e0e0" : "#6200ea",
                                 color: msg.sender === "user" ? "#333" : "#fff",
                             }}
                         >
@@ -73,6 +130,8 @@ const HeartBot = () => {
                         </div>
                     ))}
                 </div>
+
+                {/* Input Field */}
                 <form
                     style={{
                         display: "flex",
