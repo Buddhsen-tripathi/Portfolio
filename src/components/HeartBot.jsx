@@ -20,7 +20,7 @@ const HeartBot = () => {
             setRantMessages([...rantMessages, userMessage]);
         } else {
             // Call API for Interactive Mode
-            fetch("http://localhost:8000/api/message", {
+            fetch("https://heartbotbe-production.up.railway.app/api/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include", // Include cookies for session management
