@@ -14,7 +14,7 @@ const HeartBot = () => {
         setMessages(newMessages);
 
         try {
-            const response = await fetch("https://heartbotbe-production.up.railway.app/api/message", {
+            const response = await fetch("https://heartbotbe-production.up.railway.app:8080/api/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include", // Include cookies for session management
