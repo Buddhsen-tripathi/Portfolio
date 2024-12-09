@@ -35,7 +35,7 @@ const Navbar = () => {
     };
 
     // Check if we're on the blogs page
-    const isBlogPage = location.pathname === '/blogs' || '2025-birthday-rankings';
+    const isBlogPage = location.pathname === '/blogs';
 
     return (
         <div className='fixed top-0 left-0 w-full bg-opacity-70 backdrop-blur-md z-50'>

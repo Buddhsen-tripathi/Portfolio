@@ -10,6 +10,7 @@ import RecentBlogs from './components/RecentBlogs';
 import { Analytics } from "@vercel/analytics/react";
 import FunXProjects from './components/FunXProjects'
 import BirthdayRankings from './components/2025BirthdayRankings.jsx'
+import HeartBot from './components/HeartBot.jsx';
 
 function App() {
   const handleWelcomeFinish = () => {
@@ -34,6 +35,7 @@ function App() {
         />
         <Route path="/blogs" element={<BlogPage />} />
         <Route path="/2025-birthday-rankings" element={<BirthdayRankings />} />
+        <Route path='/heartbot' element={<HeartBot/>}/>
       </Routes>
       <Footer />
       <Analytics />
