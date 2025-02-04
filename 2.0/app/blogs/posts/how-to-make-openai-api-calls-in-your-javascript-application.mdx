@@ -1,0 +1,97 @@
+---
+title: "How to Make OpenAI API Calls in Your JavaScript Application"
+excerpt: "Learn how to make OpenAI API calls in your JavaScript application using the `openai-api-helper` npm package in this step-by-step guide"
+date: "2024-07-22"
+slug: how-to-make-openai-api-calls-in-your-javascript-application
+
+---
+
+OpenAI provides a robust API that allows developers to leverage its state-of-the-art language models for various applications. However, interacting with APIs can sometimes be cumbersome, especially when handling authentication, constructing HTTP requests, and parsing responses.
+
+This tutorial will guide you through making OpenAI API calls in a JavaScript application using a simple npm package called `openai-api-helper`.
+
+You’ll learn how to install the `openai-api-helper` package, set it up in your JavaScript application, and make your first API call to OpenAI.
+
+You can find more details on the `openai-api-helper` package here:
+
+* <u>[Github](https://github.com/Buddhsen-tripathi/openai-api-helper)</u>
+    
+Before we begin, ensure you have the following:
+
+1. Nodejs should be installed.   
+2. A valid OpenAI API key. You can obtain this by signing up for an API key on the [OpenAI website](https://beta.openai.com/signup/).
+    
+
+<h3 class="text-2xl font-semibold text-primary my-4">Installing the `openai-api-helper` npm Package </h3>
+
+To begin, you need to install the `openai-api-helper` package from npm. This package provides an easy-to-use interface for making requests.
+
+Open your terminal and run the following command to install the `openai-api-helper` package:
+
+```bash
+npm install openai-api-helper
+```
+
+Ensure that your project is initialized with `package.json`. If you haven’t already done so, you can initialize it with:
+
+```bash
+npm init -y
+```
+
+<h3 class="text-2xl font-semibold text-primary my-4">Usage </h3>
+
+Now that you’ve installed the package, let’s write some code to make an API call to OpenAI. The following example demonstrates how to use the `openai-api-helper` package to interact with the OpenAI API.
+
+**Create a JavaScript File**
+    
+    Create a new file named `app.js` (or any name you prefer) in your project directory.
+    
+**Write the Code**
+    
+    Add the following code to `app.js`:
+    
+    ```javascript
+    const OpenAIHelper = require('openai-api-helper');
+    
+    async function main() {
+        // Replace 'YOUR_OPENAI_API_KEY' with your actual OpenAI API key
+        const apiKey = 'YOUR_OPENAI_API_KEY';
+        const model = 'gpt-4';  // Specify the model you want to use
+        const prompt = 'What is the capital of France?';
+    
+        // Initialize the OpenAIHelper with your API key
+        const openai = new OpenAIHelper(apiKey);
+    
+        try {
+            // Make the API call
+            const response = await openai.call(model, prompt);
+            // Log the response from OpenAI
+            console.log('Response from OpenAI:', response);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+    
+    main();
+    ```
+
+**Run Your Code**
+    
+    Execute the `app.js` file using Node.js:
+    
+    ```bash
+    node app.js
+    ```
+    
+
+You should see the response from OpenAI printed in your terminal.
+
+<h3 class="text-2xl font-semibold text-primary my-4">Example Output </h3>
+
+![Terimal Output displaying results](/blog-images/rungpt.png)
+
+Congrats! You've just made OpenAI API call from your Js Application.
+
+Feel free to explore further and experiment with different prompts and models to fully harness the capabilities of OpenAI’s API.
+
+If you have any questions or run into issues, don’t hesitate to reach out to me on socials or check out the documentation for more detailed information.
