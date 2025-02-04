@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { birthdayRankings, defaultRanking } from "./rankings";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import AdComponent from "@/components/AdComponent";
 
 interface Ranking {
     date: string;
@@ -95,7 +94,6 @@ const BirthdayRankings = () => {
                             </div>
                         </div>
                     )}
-                    <AdComponent/>
                 </div>
             </div>
         </div>
