@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getAllBlogPosts } from '@/app/blogs/utils'
+import { BsArrowRight } from 'react-icons/bs'
 
 export default async function FeaturedPosts() {
   // Await the asynchronous function call to fetch blog posts
@@ -23,6 +24,14 @@ export default async function FeaturedPosts() {
             </div>
           </div>
         ))}
+        <div className="flex justify-center w-full">
+          <Link href="/blogs" className="w-full">
+            <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2">
+              <span>View more</span>
+              <BsArrowRight className="inline-block" />
+            </div>
+          </Link>
+        </div>
       </div>
     </section>
   )

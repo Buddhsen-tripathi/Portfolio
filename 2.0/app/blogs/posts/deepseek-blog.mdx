@@ -1,0 +1,117 @@
+---
+title: "Making API Calls with DeepSeek vs. OpenAI: Key Differences"
+excerpt: "Learn how to make DeepSeek API calls in your JavaScript application using the openai npm package in this step-by-step guide"
+date: "2025-02-04"
+slug: how-to-make-deepseek-api-calls-in-your-javascript-application
+
+---
+
+DeepSeek and OpenAI offer powerful AI models, but their API implementations have key differences. In this guide, we’ll compare how to make API calls to both and highlight the differences.
+
+<h2 class="text-2xl font-semibold text-primary my-4">Setting Up API Access </h2>
+
+**OpenAI**  
+1. Sign up on [OpenAI’s website](https://openai.com).  
+2. Generate an API key from the OpenAI dashboard.  
+3. Use the key in your requests.  
+
+**DeepSeek**  
+1. Sign up at [DeepSeek](https://deepseek.com).  
+2. Generate an API key from the DeepSeek platform.
+3. Use the key in your requests.  
+
+<h2 class="text-2xl font-semibold text-primary my-4">Making API Calls: DeepSeek vs. OpenAI </h2>
+
+Install the OpenAI npm package using this command.  
+```sh
+npm install openai
+```
+
+**OpenAI API Call Example**  
+
+```javascript
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, //replace it with your openai api key
+});
+async function getOpenAIResponse(prompt){
+    try {
+        const chatCompletion = await openai.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        model: 'gpt-4', // Specify model to use
+    });
+
+    console.log("OpenAI Response:", chatCompletion.choices[0].message.content);
+    } catch (error) {
+        console.error("Error with OpenAI API:", error); 
+    }
+}
+```
+
+- We **import** the `openai` package and initialize it with an API key from environment variables.  
+- The `getOpenAIResponse` function takes a **prompt** and sends a request to OpenAI’s `chat.completions.create()` endpoint.  
+- It **specifies the model** (`gpt-4`) and returns the AI's response.  
+- Errors are caught and logged to the console. 
+
+**OpenAI API Output**
+```javascript
+getOpenAIResponse("What is quantum computing?");
+```
+<img src="/blog-images/openaires.png" className="m-4" alt="OpenAI API response to a prompt" width="750" height="600" />
+
+**DeepSeek API Call Example**  
+
+```javascript
+import OpenAI from "openai";
+
+const deepseek = new OpenAI({
+  baseURL: "https://api.deepseek.com/v1",
+  apiKey: process.env.DEEPSEEK_API_KEY, //replace it with your deepseek api key
+});
+
+async function getDeepSeekResponse(prompt) {
+  try {
+    const chatCompletion = await deepseek.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "deepseek-chat",
+    });
+
+    console.log("DeepSeek Response:", chatCompletion.choices[0].message.content);
+  } catch (error) {
+    console.error("Error with DeepSeek API:", error);
+  }
+}
+```
+
+- The `openai` package is used again, but **we override `baseURL`** to point to DeepSeek's API.  
+- The function structure is **identical** to OpenAI’s.  
+- Instead of `"gpt-4"`, we use DeepSeek’s `"deepseek-chat"` model.  
+- **Why override `baseURL`?** Because DeepSeek mimics OpenAI’s API format, so we use the same `openai` library.
+
+**DeepSeek API Output**
+```javascript
+getDeepSeekResponse("What is quantum computing?");
+```
+<img src="/blog-images/deepseekres.png" className="m-4" alt="DeepSeek API response to a prompt" width="750" height="600" />
+
+<h2 class="text-2xl font-semibold text-primary my-4">Key Differences </h2> 
+
+| Feature         |            OpenAI API             |             DeepSeek API             |  
+|---------------|--------------------------------|--------------------------------|  
+| **Endpoint**       | `https://api.openai.com/v1/chat/completions`  | `https://api.deepseek.com/v1/chat/completions`  |  
+| **Authentication** | API Key via `apiKey`        | API Key via `apiKey` with `baseURL` override |  
+| **Request Format** | JSON with `messages` list  | JSON with `messages` list  |  
+| **Model Options**  | `gpt-4`, `gpt-3.5-turbo`, etc.  | `deepseek-chat`  |  
+| **Cost & Rate Limits** | Varies based on model & usage | Typically lower cost alternative |  
+
+<h2 class="text-2xl font-semibold text-primary my-4">Which One to Use? </h2> 
+
+If you’re looking for **cutting-edge AI models** with better reasoning, OpenAI is your best bet. But if you want a **cheaper alternative** that works almost the same way, DeepSeek is a great choice.  
+
+Both APIs use a **similar format**, so switching between them is easy, just change the base URL and model name. If you're building an app, you can even add a toggle to switch between the two.  
+
+At the end of the day, it's your choice which one to use.
+---
+
+This guide should help you get started with DeepSeek and OpenAI in your JavaScript applications. Stay tuned for more tech content and tutorials. Feel free to connect with me on my socials and provide feedback.
