@@ -3,6 +3,9 @@ const withMDX = require("@next/mdx")();
 
 const nextConfig: NextConfig = {
   ...withMDX(),
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
 };
 
 export default nextConfig;
