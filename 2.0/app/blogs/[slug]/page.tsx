@@ -61,6 +61,9 @@ export default async function BlogPost({ params }: { params: paramsType }) {
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Blog
       </Link>
+      <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
+      <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
+      </>
       <h1 className="text-3xl font-bold">{data.title}</h1>
       <p className="text-muted-foreground">{data.date}</p>
 
