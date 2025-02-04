@@ -7,8 +7,11 @@ export default async function BlogPage() {
 
   return (
     <div className="container max-w-4xl py-8 space-y-8">
-      <Link 
-        href="/" 
+      <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
+        <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
+      </>
+      <Link
+        href="/"
         className="inline-flex items-center text-sm text-muted-foreground hover:text-primary"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
@@ -22,7 +25,7 @@ export default async function BlogPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {blogPosts.map((post) => (
-          <article 
+          <article
             key={post.slug}
             className="p-6 bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow"
           >
