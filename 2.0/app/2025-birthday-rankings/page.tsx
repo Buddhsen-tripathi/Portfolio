@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { birthdayRankings, defaultRanking } from "./rankings";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import AdComponent from "@/components/AdComponent";
 
 interface Ranking {
     date: string;
@@ -94,20 +95,7 @@ const BirthdayRankings = () => {
                             </div>
                         </div>
                     )}
-                    <>
-                        <script type="text/javascript">
-                            atOptions = [
-                            'key': '2eeeeff5455b3188ce40853c09315767',
-                            'format': 'iframe',
-                            'height': 250,
-                            'width': 300,
-                            'params': { } // Ensure there's no trailing comma here
-                            ];
-                        </script>
-
-                        <script type="text/javascript" src="//www.highperformanceformat.com/2eeeeff5455b3188ce40853c09315767/invoke.js"></script>
-
-                    </>
+                    <AdComponent/>
                 </div>
             </div>
         </div>
