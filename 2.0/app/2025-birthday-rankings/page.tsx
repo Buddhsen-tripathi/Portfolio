@@ -55,43 +55,60 @@ const BirthdayRankings = () => {
                     Back to Home
                 </Link>
             </div>
+            <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
+                <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
+            </>
             <div className="flex justify-center items-center bg-background">
-            <div className="max-w-xl w-full bg-card text-card-foreground rounded-lg shadow-xl p-6" ref={screenshotRef}>
-                <h1 className="text-3xl font-bold text-center text-primary mb-8">2025 Lucky Birthday Rankings 🎉</h1>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <input
-                        type="text"
-                        placeholder="Enter your birthday (MM/DD)"
-                        value={birthday}
-                        onChange={handleInputChange}
-                        className="p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                        disabled={inputDisabled}
-                    />
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-300"
-                    >
-                        Find My Ranking
-                    </button>
-                </form>
+                <div className="max-w-xl w-full bg-card text-card-foreground rounded-lg shadow-xl p-6" ref={screenshotRef}>
+                    <h1 className="text-3xl font-bold text-center text-primary mb-8">2025 Lucky Birthday Rankings 🎉</h1>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <input
+                            type="text"
+                            placeholder="Enter your birthday (MM/DD)"
+                            value={birthday}
+                            onChange={handleInputChange}
+                            className="p-3 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                            disabled={inputDisabled}
+                        />
+                        <button
+                            type="submit"
+                            className="bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-300"
+                        >
+                            Find My Ranking
+                        </button>
+                    </form>
 
-                {result && (
-                    <div className="mt-6 bg-secondary p-4 rounded-md shadow-md">
-                        <h2 className="text-xl font-semibold text-primary text-center">
-                            Your Ranking: {result.ranking}
-                        </h2>
-                        <div className="flex justify-center mt-4">
-                            <button
-                                onClick={getTwitterShareLink}
-                                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md transition duration-300"
-                            >
-                                Share on X (Twitter)
-                            </button>
+                    {result && (
+                        <div className="mt-6 bg-secondary p-4 rounded-md shadow-md">
+                            <h2 className="text-xl font-semibold text-primary text-center">
+                                Your Ranking: {result.ranking}
+                            </h2>
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    onClick={getTwitterShareLink}
+                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-md transition duration-300"
+                                >
+                                    Share on X (Twitter)
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )}
+                    <>
+                        <script type="text/javascript">
+                            atOptions = [
+                            'key': '2eeeeff5455b3188ce40853c09315767',
+                            'format': 'iframe',
+                            'height': 250,
+                            'width': 300,
+                            'params': { } // Ensure there's no trailing comma here
+                            ];
+                        </script>
+
+                        <script type="text/javascript" src="//www.highperformanceformat.com/2eeeeff5455b3188ce40853c09315767/invoke.js"></script>
+
+                    </>
+                </div>
             </div>
         </div>
     );
