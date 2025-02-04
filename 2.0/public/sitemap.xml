@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.buddhsentripathi.com/</loc>
+    <lastmod>2024-02-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.buddhsentripathi.com/blogs</loc>
+    <lastmod>2024-02-04</lastmod>
+  </url>
+  <url>
+    <loc>https://www.buddhsentripathi.com/blogs/creating-a-simple-chatgpt-wrapper-web-application</loc>
+    <lastmod>2024-07-15</lastmod>
+  </url>
+  <url>
+    <loc>https://www.buddhsentripathi.com/blogs/how-to-make-openai-api-calls-in-your-javascript-application</loc>
+    <lastmod>2024-07-22</lastmod>
+  </url>
+</urlset>
