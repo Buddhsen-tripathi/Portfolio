@@ -90,7 +90,7 @@ export default function FeaturedProjects() {
       {isHomePage && (
         <div className="mt-4 flex justify-center w-full">
           <Link href="/projects" className="w-full">
-            <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2">
+          <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2 dark:hover:bg-primary-foreground dark:hover:text-primary">
               <span>View more</span>
               <BsArrowRight className="inline-block" />
             </div>

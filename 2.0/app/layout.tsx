@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import './globals.css'
+import ScrollProgress from '@/components/ScrollProgress'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +25,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
+        > <ScrollProgress />
           <Navbar />
           <main className="flex-grow">
             <div className="max-w-[1000px] mx-auto px-4 py-12">
