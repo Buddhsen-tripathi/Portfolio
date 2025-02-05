@@ -59,7 +59,7 @@ export default async function BlogPost({ params }: { params: paramsType }) {
     <div className="space-y-8">
       <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Blog
+        Back to Blogs
       </Link>
       <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
       <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>

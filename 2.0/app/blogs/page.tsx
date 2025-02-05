@@ -7,9 +7,6 @@ export default async function BlogPage() {
 
   return (
     <div className="container max-w-4xl py-8 space-y-8">
-      <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
-        <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
-      </>
       <Link
         href="/"
         className="inline-flex items-center text-sm text-muted-foreground hover:text-primary"
@@ -17,7 +14,9 @@ export default async function BlogPage() {
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Home
       </Link>
-
+      <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
+        <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
+      </>
       <header className="space-y-2">
         <h1 className="text-4xl font-bold">Blogs</h1>
         <p className="text-muted-foreground">Latest articles and tutorials</p>
