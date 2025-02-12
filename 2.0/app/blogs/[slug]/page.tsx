@@ -7,10 +7,13 @@ import matter from 'gray-matter'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import remarkfrontmatter from 'remark-frontmatter'
+import SEO from '@/components/SEO'
 
 interface BlogPostData {
   title: string
+  excerpt: string
   date: string
+  slug: string
 }
 
 // Fetch the list of slugs (paths to blog posts)
@@ -43,7 +46,7 @@ async function getBlogPost(slug: string) {
     console.error('Error reading file:', filePath)
     return {
       content: '',
-      data: { title: 'Post Not Found', date: '' },
+      data: { title: 'Post Not Found', date: '', excerpt: '', slug},
     }
   }
 }
@@ -57,6 +60,11 @@ export default async function BlogPost({ params }: { params: paramsType }) {
 
   return (
     <div className="space-y-8">
+      <SEO 
+        title={`${data.title} | Buddhsen Tripathi`} 
+        description={data.excerpt}
+        url={`https://buddhsentripathi.com/blogs/${data.slug}`} 
+      />
       <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Blogs

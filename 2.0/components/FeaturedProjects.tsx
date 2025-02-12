@@ -2,7 +2,7 @@
 const projects = [
   {
     title: "DeepFind.Me",
-    image: "/dfme.jpg",
+    image: "/dfme.webp",
     description: "Deepfind.me is an educational platform dedicated to Open Source Intelligence (OSINT). The website provides tools and resources to help users understand the implications of their digital footprint and how to manage their online presence.",
     github: null,
     demo: "https://deepfind.me",
@@ -10,7 +10,7 @@ const projects = [
   },
   {
     title: "openai-api-helper",
-    image: "/openai-helper.jpg",
+    image: "/openai-helper.webp",
     description: "Straightforward npm package designed to simplify making calls to the OpenAI API for various text-based prompts and responses.",
     github: "https://github.com/Buddhsen-tripathi/openai-api-helper",
     demo: "https://www.npmjs.com/package/openai-api-helper",
@@ -18,7 +18,7 @@ const projects = [
   },
   {
     title: "SmartText Enhancer",
-    image: "/sme.jpg",
+    image: "/sme.webp",
     description: "Productivity-focused Chrome extension that uses AI to summarize content and check spelling and grammar.",
     github: null,
     demo: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm",
@@ -30,7 +30,7 @@ const projects = [
 const funnyProjects = [
   {
     title: "Japanese Lucky Birthday Rankings 2025",
-    image: "/2025b.png",
+    image: "/2025b.webp",
     description: "Simple tool which ranks your birthday based on the Japanese Luck Calendar 2025.",
     github: null,
     demo: "https://www.buddhsentripathi.com/2025-birthday-rankings",
@@ -50,7 +50,7 @@ export default function FeaturedProjects() {
 
   return (
     <section>
-      <h2 className="text-2xl font-bold mb-6">Projects</h2>
+      <h1 className="text-3xl font-bold mb-6">Projects</h1>
       <div className="space-y-8">
         {projects.slice(0, isHomePage ? 2 : projects.length).map((project) => (
           <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg">
@@ -100,7 +100,7 @@ export default function FeaturedProjects() {
 
       {/* Funny X Projects Section */}
       {!isHomePage && (<section className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Funny 𝕏 Projects</h2>
+        <h2 className="text-3xl font-bold mb-6">Funny 𝕏 Projects</h2>
         <div className="space-y-8">
           {funnyProjects.map((project) => (
             <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg">

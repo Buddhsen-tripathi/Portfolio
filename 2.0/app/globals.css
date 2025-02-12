@@ -96,3 +96,25 @@
     @apply text-base leading-relaxed;
   }
 }
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes scroll-right {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 10s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}
+
+.animate-scroll-right {
+  animation: scroll-right 10s linear infinite;
+  display: flex;
+  white-space: nowrap;
+}

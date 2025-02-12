@@ -46,7 +46,7 @@ const ScrollProgress = () => {
         className="h-full transition-all duration-300"
         style={{
           width: `${scrollPercentage}%`,
-          backgroundColor: "hsl(169, 100%, 46%)",
+          backgroundColor: "#4299e1",
           transition: "width 0.2s ease-out, opacity 0.5s ease-in-out",
         }}
       ></div>
