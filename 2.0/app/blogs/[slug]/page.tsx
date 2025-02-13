@@ -7,7 +7,6 @@ import matter from 'gray-matter'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import remarkfrontmatter from 'remark-frontmatter'
-import SEO from '@/components/SEO'
 
 interface BlogPostData {
   title: string
@@ -60,11 +59,11 @@ export default async function BlogPost({ params }: { params: paramsType }) {
 
   return (
     <div className="space-y-8">
-      <SEO 
-        title={`${data.title} | Buddhsen Tripathi`} 
-        description={data.excerpt}
-        url={`https://buddhsentripathi.com/blogs/${data.slug}`} 
-      />
+      <meta name="title" content={`${data.title} - Buddhsen Tripathi`} />
+      <meta name="description" content={`${data.excerpt}`} />
+      <meta property="og:url" content={`https://buddhsentripathi.com/blogs/${data.slug}`} />
+      <meta property="og:image" content="https://buddhsentripathi.com/default-image-blogs.webp" />
+      <title>{`${data.title} - Buddhsen Tripathi`}</title>
       <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back to Blogs

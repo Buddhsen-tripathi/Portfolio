@@ -1,19 +1,17 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { getAllBlogPosts } from './utils'
-import SEO from '@/components/SEO'
 
 export default async function BlogPage() {
   const blogPosts = await getAllBlogPosts()
 
   return (
     <div className="container max-w-4xl py-8 space-y-8">
-      <SEO
-        title="Blogs | Buddhsen Tripathi"
-        description="Read the latest articles and tutorials on technology, programming, and more."
-        url="https://buddhsentripathi.com/blogs"
-        image='https://buddhsentripathi.com/default-image-blogs.webp'
-      />
+      <meta name="title" content="Blogs - Buddhsen Tripathi" />
+      <meta name="description" content="Read the latest articles and tutorials on technology, programming, and more." />
+      <meta property="og:url" content="https://buddhsentripathi.com/blogs" />
+      <meta property="og:image" content="https://buddhsentripathi.com/default-image-blogs.webp" />
+      <title>Blogs - Buddhsen Tripathi</title>
       <Link
         href="/"
         className="inline-flex items-center text-sm text-muted-foreground hover:text-primary"
