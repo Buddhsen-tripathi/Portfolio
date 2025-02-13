@@ -9,6 +9,11 @@ export type BlogPost = {
   excerpt: string
 }
 
+function convertDateFormat(dateStr: string): string {
+  const [dd, mm, yyyy] = dateStr.split("-").map(Number);
+  return `${yyyy}-${mm.toString().padStart(2, "0")}-${dd.toString().padStart(2, "0")}`;
+}
+
 export function getAllBlogPosts(): BlogPost[] {
   const postsDirectory = path.join(process.cwd(), 'app/blogs/posts')
   const filenames = fs.readdirSync(postsDirectory)
@@ -27,5 +32,10 @@ export function getAllBlogPosts(): BlogPost[] {
         excerpt: data.excerpt,
       }
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort((a, b) => {
+      // Convert dates for sorting
+      const dateA = new Date(convertDateFormat(a.date)).getTime();
+      const dateB = new Date(convertDateFormat(b.date)).getTime();
+      return dateB - dateA;
+    });
 }
