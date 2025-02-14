@@ -1,0 +1,147 @@
+---
+title: "Goodbye Create React App: What It Means for React Developers"
+excerpt: "Create React App (CRA) is officially deprecated. Learn why React is shifting towards frameworks like Next.js, Vite, and React Router v7, how to migrate your projects, and what this change means for React developers in 2025."
+date: "15-02-2025" 
+slug: create-react-app-deprecated
+
+---
+
+**February 14, 2025, marks the end of an era** - React's official team announced the **deprecation of Create React App (CRA)**, urging developers to migrate to **modern frameworks** like **Next.js, React Router v7, or Expo**.
+
+This move isn't surprising, given CRA’s stagnation and the rise of **faster, more optimized build tools** like **Vite**. However, the decision has sparked **mixed reactions** across the developer community.
+
+In this post, we'll cover:
+
+- **Why CRA is being deprecated**
+- **How the React community is reacting**
+- **What you should do next as a React developer**
+
+---
+
+<h2 class="text-2xl font-semibold text-primary my-4">Why Is Create React App Being Deprecated? </h2>
+
+When CRA launched in **2016**, it was a game-changer. It eliminated complex configurations and provided an easy way to bootstrap React apps. However, **frontend development has evolved**, and CRA has struggled to keep up.
+
+Here are some key reasons for its deprecation:
+
+### 1. **Performance Bottlenecks**
+CRA's reliance on **Webpack** made it **slow**, especially compared to modern tools like **Vite**. The **slow startup times and inefficient builds** led many developers to seek alternatives.
+
+### 2. **Lack of Built-in Features**
+Unlike modern frameworks, CRA lacked **essential features** like:
+
+- **File-based routing** 📂
+- **Server-side rendering (SSR)** 🖥️
+- **Code splitting and optimization** ⚡
+- **Efficient data fetching** 🔄
+
+Developers had to **manually configure these**, defeating CRA’s original purpose.
+
+### 3️. **No Active Maintainers**
+React's team confirmed that **CRA has no active maintainers**. Instead of reviving it, they decided to **push developers toward better solutions**.
+
+### 4. **Frameworks Already Solve These Problems**
+Modern frameworks like **Next.js, Remix, and Expo** provide a **complete development experience**, including routing, data fetching, and performance optimizations.
+
+With **React officially endorsing frameworks**, it no longer makes sense to maintain CRA.
+
+---
+
+<h2 class="text-2xl font-semibold text-primary my-4">Community Reaction: Shock, Relief, and Frustration </h2>
+
+The React developer community has **mixed reactions** to the announcement:
+
+### 😱 **"Wait, I still use CRA!"**
+Many **beginners and small teams** still use CRA because of its **simplicity**. Some developers are frustrated because they now have to **migrate** their projects.
+
+### 😌 **"Finally, it's dead!"**
+Others have **welcomed the move**, seeing it as an opportunity to **move forward with better tooling**.
+
+### 🤔 **"What should I use now?"**
+Many devs are asking: **What’s the best alternative?** The answer depends on your project:
+
+- **For new projects** → Use **Next.js, React Router v7, or Expo**.
+- **For existing CRA projects** → Migrate to **Vite** for a similar experience.
+
+---
+
+<h2 class="text-2xl font-semibold text-primary my-4">What Should You Do Next? </h2>
+
+If you’re currently using CRA, here’s your **game plan**:
+
+### 1. **For New React Projects** → Use a Framework
+React now **officially recommends frameworks** instead of standalone build tools. Your best options:
+
+- **Next.js** → Best for **full-stack applications, SSR, and API routes**.
+- **React Router v7** → Best for **client-side routing and SPAs**.
+- **Expo (with Expo Router)** → Best for **React Native and cross-platform projects**.
+
+Use the **new CLI commands** to get started:
+
+```bash
+# Create a new Next.js app
+npx create-next-app my-app
+
+# Create a new React Router v7 app
+npx create-react-router-app my-app
+```
+
+---
+
+### 2. **For Existing CRA Projects** → Migrate to Vite
+If you have an **existing CRA app**, the best alternative is **Vite**. It offers:
+
+✅ **Faster build times**  
+✅ **Better developer experience**  
+✅ **Improved performance**  
+
+To migrate from CRA to Vite:
+
+1️. **Install Vite**:
+
+```bash
+npm create vite@latest my-app --template react
+```
+
+2️. **Move your `src` and `public` folders** into the new project.  
+3️. **Update dependencies** in `package.json`.  
+4️. **Test your app** to ensure everything works smoothly.  
+
+> Bonus: Vite is **officially recommended** by React as a base for custom frameworks.
+
+---
+
+### 3. **Explore Other Options**
+If you're interested in **learning React deeply**, you can build a **custom setup** using:
+
+- **Vite + React Router**
+- **Parcel**
+- **Custom Webpack setup** (if you're a masochist 😆)
+
+React has **new docs** for **rolling your own framework** <span class="text-blue-500">[here](https://react.dev/learn/creating-a-react-app).</span>
+
+---
+
+<h2 class="text-2xl font-semibold text-primary my-4">The Future of React Development </h2>
+
+This is a **major shift in the React ecosystem**. By deprecating CRA, React is **fully embracing frameworks**, bringing React **closer to the developer experience of Vue (Nuxt), Svelte (SvelteKit), and Solid (SolidStart).**
+
+Expect:
+
+- More **framework-first** tools from React.  
+- A **decline in standalone React setups**.  
+- **Vite becoming the de facto build tool** for non-framework apps.  
+
+---
+
+<h2 class="text-2xl font-semibold text-primary my-4">Final Thoughts </h2>
+
+The **death of Create React App** might seem like a big change, but it's **for the better**. It **pushes React development forward**, encourages **better tooling**, and ultimately results in **faster, more scalable apps**.
+
+**If you’re a React developer**, now is the perfect time to **upgrade your workflow** and embrace **framework-based development**.
+
+The React ecosystem is evolving, are you keeping up? <br/>
+Read more about the change <span class="text-blue-500">[here](https://react.dev/blog/2025/02/14/sunsetting-create-react-app).</span>
+
+Stay tuned for more tech content and tutorials. Hit me up on my socials and let me know what you think, I’m always up for a good tech convo.
+---
