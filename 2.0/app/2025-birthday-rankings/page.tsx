@@ -42,7 +42,7 @@ const BirthdayRankings = () => {
 
     const getTwitterShareLink = async () => {
         if (!result) return;
-        const tweet = `I just found out my 2025 Birthday Ranking is ${result.ranking} 🎉 Try it yourself: deepfind.me/2025-birthday-rankings`;
+        const tweet = `I just found out my 2025 Birthday Ranking is ${result.ranking} 🎉 Try it yourself: buddhsentripathi.com/2025-birthday-rankings`;
         const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}`;
         window.open(twitterShareURL, "_blank");
     };

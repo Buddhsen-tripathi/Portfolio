@@ -1,11 +1,17 @@
 import type { NextConfig } from "next";
-const withMDX = require("@next/mdx")();
+import withMDX from "@next/mdx";
 
-const nextConfig: NextConfig = {
-  ...withMDX(),
+const nextConfig: NextConfig = withMDX({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [],
+  },
+})({
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   eslint: {
     ignoreDuringBuilds: true,
-  }
-};
+  },
+});
 
 export default nextConfig;

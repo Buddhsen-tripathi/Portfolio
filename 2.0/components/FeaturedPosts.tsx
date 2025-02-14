@@ -11,7 +11,7 @@ export default async function FeaturedPosts() {
       <h2 className="text-3xl font-bold mb-4">Recent Blogs</h2>
       <div className="space-y-8">
         {blogPosts.slice(0, 2).map((post) => (
-          <div key={post.slug} className="bg-card rounded-lg overflow-hidden shadow-md">
+          <div key={post.slug} className="bg-card rounded-lg overflow-hidden shadow-md hover:bg-primary/10">
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
               <p className="mb-4 text-muted-foreground">{post.excerpt}</p>

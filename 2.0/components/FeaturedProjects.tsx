@@ -3,9 +3,9 @@ const projects = [
   {
     title: "DeepFind.Me",
     image: "/dfme.webp",
-    description: "Deepfind.me is an educational platform dedicated to Open Source Intelligence (OSINT). The website provides tools and resources to help users understand the implications of their digital footprint and how to manage their online presence.",
+    description: "Deepfind.me is an educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
     github: null,
-    demo: "https://deepfind.me",
+    demo: "https://deepfind.me?ref=buddhsen-tripathi",
     technologies: ["Next.Js", "NestJs", "TypeScript", "Supabase", "AWS", "OpenAI API"],
   },
   {
@@ -53,8 +53,8 @@ export default function FeaturedProjects() {
       <h1 className="text-3xl font-bold mb-6">Projects</h1>
       <div className="space-y-8">
         {projects.slice(0, isHomePage ? 2 : projects.length).map((project) => (
-          <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg">
-            <div className="md:w-2/5 w-full h-44 md:h-56 relative mt-4">
+          <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/10">
+            <div className="md:w-2/5 w-full h-full relative">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -103,8 +103,8 @@ export default function FeaturedProjects() {
         <h2 className="text-3xl font-bold mb-6">Funny 𝕏 Projects</h2>
         <div className="space-y-8">
           {funnyProjects.map((project) => (
-            <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg">
-              <div className="md:w-2/5 w-full h-44 md:h-56 relative mt-4">
+            <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/10">
+              <div className="md:w-2/5 w-full h-full relative">
                 <Image
                   src={project.image}
                   alt={project.title}
