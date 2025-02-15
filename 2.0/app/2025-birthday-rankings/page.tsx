@@ -55,9 +55,6 @@ const BirthdayRankings = () => {
                     Back to Home
                 </Link>
             </div>
-            <><script async data-cfasync="false" src="//pl25765154.profitablecpmrate.com/a039feec78d06c378ec11b81ec2e1253/invoke.js"></script>
-                <div id="container-a039feec78d06c378ec11b81ec2e1253"></div>
-            </>
             <div className="flex justify-center items-center bg-background">
                 <div className="max-w-xl w-full bg-card text-card-foreground rounded-lg shadow-xl p-6" ref={screenshotRef}>
                     <h1 className="text-3xl font-bold text-center text-primary mb-8">2025 Lucky Birthday Rankings 🎉</h1>

@@ -31,7 +31,10 @@ export default function Navbar() {
           <a href='https://www.google.com/search?q=time' target='_blank'><span className="hidden sm:inline">Local time</span>
           <span className="inline sm:hidden">LT</span> : {format(currentTime, 'HH:mm')}</a>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-5">
+        <Link href="/" className={`hover:text-primary ${pathname === '/' ? 'text-primary' : ''}`}>
+            Home
+          </Link>
           <Link href="/projects" className={`hover:text-primary ${pathname === '/projects' ? 'text-primary' : ''}`}>
             Projects
           </Link>
