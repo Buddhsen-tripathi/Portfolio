@@ -97,13 +97,42 @@ getDeepSeekResponse("What is quantum computing?");
 
 <h2 class="text-2xl font-semibold text-primary my-4">Key Differences </h2> 
 
-| Feature         |            OpenAI API             |             DeepSeek API             |  
-|---------------|--------------------------------|--------------------------------|  
-| **Endpoint**       | `https://api.openai.com/v1/chat/completions`  | `https://api.deepseek.com/v1/chat/completions`  |  
-| **Authentication** | API Key via `apiKey`        | API Key via `apiKey` with `baseURL` override |  
-| **Request Format** | JSON with `messages` list  | JSON with `messages` list  |  
-| **Model Options**  | `gpt-4`, `gpt-3.5-turbo`, etc.  | `deepseek-chat`  |  
-| **Cost & Rate Limits** | Varies based on model & usage | Typically lower cost alternative |  
+<table style={{ width: "100%", borderSpacing: "10px" }}>
+  <thead>
+    <tr>
+      <th style={{ textAlign: "center" }}>Feature</th>
+      <th style={{ textAlign: "center" }}>OpenAI API</th>
+      <th style={{ textAlign: "center" }}>DeepSeek API</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ textAlign: "left" }}><strong>Endpoint</strong></td>
+      <td style={{ textAlign: "left" }}><code>https://api.openai.com/v1/chat/completions</code></td>
+      <td style={{ textAlign: "left" }}><code>https://api.deepseek.com/v1/chat/completions</code></td>
+    </tr>
+    <tr>
+      <td style={{ textAlign: "left" }}><strong>Authentication</strong></td>
+      <td style={{ textAlign: "left" }}>API Key via <code>apiKey</code></td>
+      <td style={{ textAlign: "left" }}>API Key via <code>apiKey</code> with <code>baseURL</code> override</td>
+    </tr>
+    <tr>
+      <td style={{ textAlign: "left" }}><strong>Request Format</strong></td>
+      <td style={{ textAlign: "left" }}>JSON with <code>messages</code> list</td>
+      <td style={{ textAlign: "left" }}>JSON with <code>messages</code> list</td>
+    </tr>
+    <tr>
+      <td style={{ textAlign: "left" }}><strong>Model Options</strong></td>
+      <td style={{ textAlign: "left" }}><code>gpt-4</code>, <code>gpt-3.5-turbo</code>, etc.</td>
+      <td style={{ textAlign: "left" }}><code>deepseek-chat</code></td>
+    </tr>
+    <tr>
+      <td style={{ textAlign: "left" }}><strong>Cost & Rate Limits</strong></td>
+      <td style={{ textAlign: "left" }}>Varies based on model & usage</td>
+      <td style={{ textAlign: "left" }}>Typically lower cost alternative</td>
+    </tr>
+  </tbody>
+</table>
 
 <h2 class="text-2xl font-semibold text-primary my-4">Which One to Use? </h2> 
 
