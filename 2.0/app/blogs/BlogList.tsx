@@ -13,12 +13,11 @@ interface BlogPost {
 
 export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
 
   const filteredPosts = blogPosts.filter((post: { title: string; excerpt: string }) =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
   return (
     <div className="space-y-6">
@@ -38,26 +37,23 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
       <div className="grid gap-6 md:grid-cols-2">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
-            <article
-              key={post.slug}
-              className="p-6 bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow hover:bg-primary/10"
-            >
-              <div className="space-y-4 h-full flex flex-col">
-                <div>
-                  <h2 className="text-xl font-semibold">{post.title}</h2>
-                  <time className="text-sm text-muted-foreground">{post.date}</time>
+            <Link key={post.slug} href={`/blogs/${post.slug}`} className="block h-full">
+              <article className="p-6 bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow hover:bg-primary/10 cursor-pointer flex flex-col h-full">
+                <div className="space-y-4 flex-grow">
+                  <div>
+                    <h2 className="text-xl font-semibold">{post.title}</h2>
+                    <time className="text-sm text-muted-foreground">{post.date}</time>
+                  </div>
+                  <p className="text-muted-foreground">{post.excerpt}</p>
                 </div>
-                <p className="text-muted-foreground flex-grow">{post.excerpt}</p>
-                <Link href={`/blogs/${post.slug}`} className="text-primary hover:underline self-start">
-                  Read more →
-                </Link>
-              </div>
-            </article>
+                <span className="text-primary hover:underline self-start">Read more →</span>
+              </article>
+            </Link>
           ))
         ) : (
           <p className="text-center text-muted-foreground">No matching blog posts found.</p>
         )}
       </div>
     </div>
-  )
+  );
 }
