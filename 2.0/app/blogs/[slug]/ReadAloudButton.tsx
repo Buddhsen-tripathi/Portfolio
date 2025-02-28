@@ -23,18 +23,25 @@ export default function ReadAloudButton({ content }: { content: string }) {
     cleanedContentRef.current = cleanText(content)
   }, [content])
   
-  // Load all available voices, excluding Google ones
+  // Load all available voices, but filter for English ones only
   useEffect(() => {
     if (!isClient) return
 
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices()
-      // Filter out voices with "Google" in the name
-      const nonGoogleVoices = availableVoices.filter(voice => !voice.name.toLowerCase().includes('google'))
-      setVoices(nonGoogleVoices)
-      if (nonGoogleVoices.length > 0) {
+      
+      // Filter for English voices only (lang starts with 'en-')
+      // Also filter out Google voices as in the original code
+      const englishVoices = availableVoices.filter(voice => 
+        voice.lang.startsWith('en-') && 
+        !voice.name.toLowerCase().includes('google')
+      )
+      
+      setVoices(englishVoices)
+      
+      if (englishVoices.length > 0) {
         // Prefer the default voice if available, otherwise first in list
-        const defaultVoice = nonGoogleVoices.find(voice => voice.default) || nonGoogleVoices[0]
+        const defaultVoice = englishVoices.find(voice => voice.default) || englishVoices[0]
         setSelectedVoice(defaultVoice.name)
       }
     }
