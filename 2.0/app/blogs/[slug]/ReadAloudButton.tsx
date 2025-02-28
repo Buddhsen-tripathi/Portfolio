@@ -10,14 +10,23 @@ export default function ReadAloudButton({ content }: { content: string }) {
   const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
   const [speedRate, setSpeedRate] = useState(1.0)
   const [isControlsOpen, setIsControlsOpen] = useState(false)
+  const [isClient, setIsClient] = useState(false)
   
   // Track current position in text
   const currentPositionRef = useRef(0)
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
   const cleanedContentRef = useRef('')
   
+  // First, set up a flag to confirm we're on the client side
+  useEffect(() => {
+    setIsClient(true)
+    cleanedContentRef.current = cleanText(content)
+  }, [content])
+  
   // Load all available voices, excluding Google ones
   useEffect(() => {
+    if (!isClient) return
+
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices()
       // Filter out voices with "Google" in the name
@@ -38,10 +47,12 @@ export default function ReadAloudButton({ content }: { content: string }) {
       window.speechSynthesis.cancel()
       window.speechSynthesis.onvoiceschanged = null
     }
-  }, [])
+  }, [isClient])
 
   // Close controls when clicking outside
   useEffect(() => {
+    if (!isClient) return
+    
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (isControlsOpen && !target.closest('.read-aloud-controls')) {
@@ -53,12 +64,7 @@ export default function ReadAloudButton({ content }: { content: string }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isControlsOpen]);
-
-  // Clean markdown and HTML from content and store it
-  useEffect(() => {
-    cleanedContentRef.current = cleanText(content)
-  }, [content])
+  }, [isControlsOpen, isClient]);
 
   const cleanText = (text: string) => {
     return text
@@ -73,6 +79,8 @@ export default function ReadAloudButton({ content }: { content: string }) {
 
   // Create speech utterance with current settings
   const createUtterance = (text: string) => {
+    if (!isClient) return null
+    
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.rate = speedRate
 
@@ -105,6 +113,8 @@ export default function ReadAloudButton({ content }: { content: string }) {
   }
 
   const startSpeaking = (fromPosition = 0) => {
+    if (!isClient) return
+    
     // Cancel any ongoing speech
     window.speechSynthesis.cancel()
     
@@ -114,13 +124,17 @@ export default function ReadAloudButton({ content }: { content: string }) {
     if (textToSpeak.length === 0) return
     
     utteranceRef.current = createUtterance(textToSpeak)
-    window.speechSynthesis.speak(utteranceRef.current)
+    if (utteranceRef.current) {
+      window.speechSynthesis.speak(utteranceRef.current)
+    }
     
     setIsSpeaking(true)
     setIsPaused(false)
   }
 
   const handleReadAloud = () => {
+    if (!isClient) return
+    
     if (isSpeaking && !isPaused) {
       // Pause speech
       window.speechSynthesis.pause()
@@ -141,6 +155,8 @@ export default function ReadAloudButton({ content }: { content: string }) {
   }
   
   const stopReading = () => {
+    if (!isClient) return
+    
     window.speechSynthesis.cancel()
     setIsSpeaking(false)
     setIsPaused(false)
@@ -151,7 +167,7 @@ export default function ReadAloudButton({ content }: { content: string }) {
     setSpeedRate(newRate)
     
     // If currently speaking, restart from current position with new rate
-    if (isSpeaking) {
+    if (isClient && isSpeaking) {
       startSpeaking(currentPositionRef.current)
     }
   }
@@ -165,6 +181,9 @@ export default function ReadAloudButton({ content }: { content: string }) {
     { value: 2.0, label: '2x' }
   ]
   
+  // Check if speech synthesis is available
+  const isSpeechSynthesisAvailable = isClient && 'speechSynthesis' in window
+  
   return (
     <div className="relative">
       {/* Main controls - always visible */}
@@ -172,8 +191,8 @@ export default function ReadAloudButton({ content }: { content: string }) {
         <button
           onClick={handleReadAloud}
           className="flex items-center gap-2 px-4 py-1 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-          disabled={!('speechSynthesis' in window) || voices.length === 0}
-          title={!('speechSynthesis' in window) ? 'Text-to-speech not supported in this browser' : 'Select a voice and click to hear the post'}
+          disabled={!isSpeechSynthesisAvailable || voices.length === 0}
+          title={!isSpeechSynthesisAvailable ? 'Text-to-speech not supported in this browser' : 'Select a voice and click to hear the post'}
         >
           {isPaused ? (
             <Play className="w-4 h-4" />
@@ -190,7 +209,7 @@ export default function ReadAloudButton({ content }: { content: string }) {
         {isSpeaking && (
           <button
             onClick={stopReading}
-            className="flex items-center gap-2 px-4 py-1 rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="flex items-center justify-center gap-2 px-4 py-1 rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             <Square className="w-4 h-4" />
             <span className="sm:inline hidden">Stop</span>
