@@ -7,6 +7,7 @@ import matter from 'gray-matter'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import remarkfrontmatter from 'remark-frontmatter'
+import ReadAloudButton from './ReadAloudButton' // Import the client component
 
 interface BlogPostData {
   title: string
@@ -45,7 +46,7 @@ async function getBlogPost(slug: string) {
     console.error('Error reading file:', filePath)
     return {
       content: '',
-      data: { title: 'Post Not Found', date: '', excerpt: '', slug},
+      data: { title: 'Post Not Found', date: '', excerpt: '', slug },
     }
   }
 }
@@ -64,10 +65,15 @@ export default async function BlogPost({ params }: { params: paramsType }) {
       <meta property="og:url" content={`https://buddhsentripathi.com/blogs/${data.slug}`} />
       <meta property="og:image" content="https://buddhsentripathi.com/default-image-blogs.webp" />
       <title>{`${data.title} - Buddhsen Tripathi`}</title>
-      <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Blogs
-      </Link>
+      
+      <div className="flex justify-between items-center">
+        <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Blogs
+        </Link>
+        <ReadAloudButton content={content} />
+      </div>
+      
       <h1 className="text-3xl font-bold">{data.title}</h1>
       <p className="text-muted-foreground">{data.date}</p>
 
