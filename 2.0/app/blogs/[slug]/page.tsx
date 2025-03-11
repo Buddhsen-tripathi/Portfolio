@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm'
 import remarkfrontmatter from 'remark-frontmatter'
 import RelatedBlogs from '@/components/RelatedBlogs'
 import BackToTopButton from '@/components/BacktoTopButton'
+import ReadAloudButton from './ReadAloudButton'
 
 interface BlogPostData {
   title: string
