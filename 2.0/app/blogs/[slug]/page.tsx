@@ -7,6 +7,7 @@ import matter from 'gray-matter'
 import rehypeHighlight from 'rehype-highlight'
 import remarkGfm from 'remark-gfm'
 import remarkfrontmatter from 'remark-frontmatter'
+import RelatedBlogs from '@/components/RelatedBlogs'
 
 interface BlogPostData {
   title: string
@@ -81,6 +82,9 @@ export default async function BlogPost({ params }: { params: paramsType }) {
           },
         }}
       />
+
+      {/* Related Blogs component */}
+      <RelatedBlogs currentSlug={(await params).slug} currentTitle={data.title} />
     </div>
   )
 }
