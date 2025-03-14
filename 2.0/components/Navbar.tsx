@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { format } from 'date-fns'
+import { toZonedTime, format as formatTz } from 'date-fns-tz'
 import { Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -24,15 +24,21 @@ export default function Navbar() {
     return null
   }
 
+  const timeZone = 'Asia/Kolkata'
+  const zonedTime = toZonedTime(currentTime, timeZone)
+  const formattedTime = formatTz(zonedTime, 'HH:mm')
+
   return (
     <nav className="border-none">
       <div className="max-w-[1500px] mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-lg font-semibold">
-          <a href='https://www.google.com/search?q=time' target='_blank'><span className="hidden sm:inline">Local time</span>
-          <span className="inline sm:hidden">LT</span> : {format(currentTime, 'HH:mm')}</a>
+          <a href='https://www.google.com/search?q=time' target='_blank'>
+            <span className="hidden sm:inline">Local time</span>
+            <span className="inline sm:hidden">LT</span> : {formattedTime}
+          </a>
         </div>
         <div className="flex items-center space-x-5">
-        <Link href="/" className={`hover:text-primary ${pathname === '/' ? 'text-primary' : ''}`}>
+          <Link href="/" className={`hover:text-primary ${pathname === '/' ? 'text-primary' : ''}`}>
             Home
           </Link>
           <Link href="/projects" className={`hover:text-primary ${pathname === '/projects' ? 'text-primary' : ''}`}>
