@@ -44,7 +44,11 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
                     <h2 className="text-xl font-semibold">{post.title}</h2>
                     <time className="text-sm text-muted-foreground">{post.date}</time>
                   </div>
-                  <p className="text-muted-foreground">{post.excerpt}</p>
+                  <p className="text-muted-foreground">
+                    {post.excerpt.length > 150
+                      ? `${post.excerpt.substring(0, 150)}...`
+                      : post.excerpt}
+                  </p>
                 </div>
                 <span className="text-primary hover:underline self-start">Read more →</span>
               </article>
