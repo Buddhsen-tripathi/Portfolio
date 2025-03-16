@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 
-interface BlogPost {
+export interface BlogPost {
   title: string;
   excerpt: string;
   slug: string;
