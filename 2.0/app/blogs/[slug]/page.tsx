@@ -10,7 +10,7 @@ import remarkfrontmatter from 'remark-frontmatter'
 import RelatedBlogs from '@/components/RelatedBlogs'
 import BackToTopButton from '@/components/BacktoTopButton'
 import ReadAloudButton from './ReadAloudButton'
-import ViewCounter from '@/components/ViewCounter' 
+import ViewCounter from '@/components/ViewCounter'
 
 interface BlogPostData {
   title: string
@@ -68,7 +68,7 @@ export default async function BlogPost({ params }: { params: paramsType }) {
       <meta property="og:url" content={`https://buddhsentripathi.com/blogs/${data.slug}`} />
       <meta property="og:image" content="https://buddhsentripathi.com/default-image-blogs.webp" />
       <title>{`${data.title} - Buddhsen Tripathi`}</title>
-      
+
       <div className="flex justify-between items-center">
         <Link href="/blogs" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -76,10 +76,13 @@ export default async function BlogPost({ params }: { params: paramsType }) {
         </Link>
         <ReadAloudButton content={content} />
       </div>
-      
-      <h1 className="text-3xl font-bold">{data.title}</h1>
-      <p className="text-muted-foreground">{data.date}</p>
 
+      <h1 className="text-3xl font-bold">{data.title}</h1>
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <span>{data.date}</span>
+        <span>•</span>
+        <ViewCounter slug={data.slug} readOnly={false} />
+      </div>
       {/* Render the MDX content */}
       <MDXRemote
         source={content}
@@ -93,7 +96,6 @@ export default async function BlogPost({ params }: { params: paramsType }) {
 
       {/* Related Blogs component */}
       <RelatedBlogs currentSlug={(await params).slug} currentTitle={data.title} />
-      <ViewCounter slug={(await params).slug} />
 
       {/* Back to Top button */}
       <BackToTopButton />

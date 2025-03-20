@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
+import ViewCounter from '@/components/ViewCounter';
 
 export interface BlogPost {
   title: string;
@@ -43,6 +44,8 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
                   <div>
                     <h2 className="text-xl font-semibold">{post.title}</h2>
                     <time className="text-sm text-muted-foreground">{post.date}</time>
+                    <span className="text-muted-foreground p-2">•</span>
+                    <span className="text-muted-foreground"><ViewCounter slug={post.slug} readOnly={true} /></span>
                   </div>
                   <p className="text-muted-foreground">
                     {post.excerpt.length > 150

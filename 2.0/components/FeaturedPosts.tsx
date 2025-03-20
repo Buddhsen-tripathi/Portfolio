@@ -3,6 +3,7 @@ import { getAllBlogPosts } from '@/app/blogs/utils';
 import { BsArrowRight } from 'react-icons/bs';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import ViewCounter from './ViewCounter';
 
 export default async function FeaturedPosts() {
   const blogPosts = await getAllBlogPosts();
@@ -15,29 +16,35 @@ export default async function FeaturedPosts() {
       <h2 className="text-3xl font-bold mb-4">Recent Blogs</h2>
       <div className="space-y-8">
         {blogPosts.slice(0, 2).map((post) => {
-          const views = viewsData?.find((v) => v.slug === post.slug)?.count || 0;
           return (
-            <div key={post.slug} className="bg-card rounded-lg overflow-hidden shadow-md hover:bg-primary/10">
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-                <p className="mb-4 text-muted-foreground">{post.excerpt}</p>
-                <div className="flex items-center justify-between">
-                  {/* Left side: date and views in a row */}
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm text-muted-foreground">{post.date}</span>
-                    <span className="text-sm text-muted-foreground">{views} views</span>
+            <Link
+              key={post.slug}
+              href={`/blogs/${post.slug}`}
+              className="block group"
+            >
+              <div className="bg-card rounded-lg overflow-hidden shadow-md group-hover:bg-primary/10 transition-all">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                  <p className="text-muted-foreground">
+                    {post.excerpt.length > 200
+                      ? `${post.excerpt.substring(0, 200)}...`
+                      : post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4 pt-2">
+                      <span className="text-sm text-muted-foreground">{post.date}</span>
+                      <span className="text-muted-foreground">•</span>
+                      <span className="text-sm text-muted-foreground">
+                        <ViewCounter slug={post.slug} readOnly={true} />
+                      </span>
+                    </div>
+                    <span className="text-primary group-hover:underline ml-4">
+                      Read more →
+                    </span>
                   </div>
-
-                  {/* Right side: "Read more" link */}
-                  <Link
-                    href={`/blogs/${post.slug}`}
-                    className="text-primary hover:underline ml-4"
-                  >
-                    Read more →
-                  </Link>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

@@ -1,6 +1,27 @@
-// app/api/views/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
+
+export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const slug = searchParams.get('slug');
+    
+    if (!slug) {
+        return NextResponse.json({ error: 'No slug provided' }, { status: 400 });
+    }
+
+    const { data, error } = await supabase
+        .from('views')
+        .select('count')
+        .eq('slug', slug)
+        .single();
+
+    if (error) {
+        console.error("Fetch Error:", error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ views: data?.count || 0 });
+}
 
 export async function POST(req: NextRequest) {
     const { slug } = await req.json();
@@ -8,25 +29,26 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'No slug provided' }, { status: 400 });
     }
 
-    console.log("Slug received:", slug);
+    // Call the RPC function to handle both insert and increment
+    const { error: incrementError } = await supabase
+        .rpc('increment_view_count', { post_slug: slug });
 
-    // First ensure slug exists (upsert logic)
-    const { error: upsertError } = await supabase
+    if (incrementError) {
+        console.error("View Count Error:", incrementError);
+        return NextResponse.json({ error: incrementError.message }, { status: 500 });
+    }
+
+    // Fetch the updated count
+    const { data, error: fetchError } = await supabase
         .from('views')
-        .upsert({ slug, count: 1 }, { onConflict: 'slug' });
+        .select('count')
+        .eq('slug', slug)
+        .single();
 
-    if (upsertError) {
-        console.error("Upsert Error:", upsertError);
-        return NextResponse.json({ error: upsertError.message }, { status: 500 });
+    if (fetchError) {
+        console.error("Fetch Error:", fetchError);
+        return NextResponse.json({ error: fetchError.message }, { status: 500 });
     }
 
-    // Increment the count after upsert
-    const { error: rpcError } = await supabase.rpc('increment_view_count', { post_slug: slug });
-
-    if (rpcError) {
-        console.error("RPC Error:", rpcError);
-        return NextResponse.json({ error: rpcError.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ message: 'View logged successfully' });
+    return NextResponse.json({ views: data?.count || 0 });
 }
