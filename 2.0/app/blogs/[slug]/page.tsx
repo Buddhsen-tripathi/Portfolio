@@ -10,6 +10,7 @@ import remarkfrontmatter from 'remark-frontmatter'
 import RelatedBlogs from '@/components/RelatedBlogs'
 import BackToTopButton from '@/components/BacktoTopButton'
 import ReadAloudButton from './ReadAloudButton'
+import ViewCounter from '@/components/ViewCounter' 
 
 interface BlogPostData {
   title: string
@@ -92,6 +93,7 @@ export default async function BlogPost({ params }: { params: paramsType }) {
 
       {/* Related Blogs component */}
       <RelatedBlogs currentSlug={(await params).slug} currentTitle={data.title} />
+      <ViewCounter slug={(await params).slug} />
 
       {/* Back to Top button */}
       <BackToTopButton />
