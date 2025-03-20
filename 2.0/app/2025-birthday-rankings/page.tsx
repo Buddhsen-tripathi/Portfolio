@@ -55,7 +55,7 @@ const BirthdayRankings = () => {
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Projects
                 </Link>
-                <div className="text-sm text-muted-foreground flex items-center gap-2 hidden">
+                <div className="text-sm text-muted-foreground items-center gap-2 hidden">
                     <ViewCounter slug="2025-birthday-rankings" />
                 </div>
             </div>
