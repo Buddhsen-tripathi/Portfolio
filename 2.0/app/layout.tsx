@@ -9,7 +9,28 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Buddhsen Tripathi',
-  description: 'Web developer portfolio showcasing projects and skills',
+  description: 'Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+  authors: [{ name: 'Buddhsen Tripathi' }],
+  creator: 'Buddhsen Tripathi',
+  metadataBase: new URL('https://buddhsentripathi.com'),
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://buddhsentripathi.com',
+    title: 'Buddhsen Tripathi - Web Developer',
+    description: 'Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+    siteName: 'Buddhsen Tripathi Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Buddhsen Tripathi - Web Developer',
+    description: 'Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+    creator: '@_TripathiJi',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({

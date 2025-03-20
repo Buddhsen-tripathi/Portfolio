@@ -22,7 +22,7 @@ const projects = [
     description: "Productivity-focused Chrome extension that uses AI to summarize content and check spelling and grammar.",
     github: null,
     demo: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm",
-    technologies: [ "JavaScript", "HTML", "CSS", "Express", "OpenAI API"],
+    technologies: ["JavaScript", "HTML", "CSS", "Express", "OpenAI API"],
   }
   ,
 ];
@@ -90,7 +90,7 @@ export default function FeaturedProjects() {
       {isHomePage && (
         <div className="mt-4 flex justify-center w-full">
           <Link href="/projects" className="w-full">
-          <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2 dark:hover:bg-primary-foreground dark:hover:text-primary">
+            <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2 dark:hover:bg-primary-foreground dark:hover:text-primary">
               <span>View more</span>
               <BsArrowRight className="inline-block" />
             </div>
@@ -100,7 +100,13 @@ export default function FeaturedProjects() {
 
       {/* Funny X Projects Section */}
       {!isHomePage && (<section className="mt-12">
-        <h2 className="text-3xl font-bold mb-6">Funny 𝕏 Projects</h2>
+        <h2 className="text-3xl font-bold mb-6">𝕏 Projects</h2>
+        <h3
+          className="text-lg font-semibold mb-4"
+          aria-label="I make random projects to engage my Twitter/X community"
+        >
+          Random projects to engage my 𝕏 community
+        </h3>
         <div className="space-y-8">
           {funnyProjects.map((project) => (
             <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/10">
@@ -118,7 +124,7 @@ export default function FeaturedProjects() {
                 <p className="mb-4 mt-4">{project.description}</p>
                 <div className="flex space-x-4">
                   <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    <BsArrowUpRight className="inline-block mr-1"/> Live Demo
+                    <BsArrowUpRight className="inline-block mr-1" /> Live Demo
                   </a>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
