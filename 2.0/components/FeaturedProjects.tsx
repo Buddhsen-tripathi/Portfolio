@@ -35,6 +35,7 @@ const funnyProjects = [
     github: null,
     demo: "https://www.buddhsentripathi.com/2025-birthday-rankings",
     technologies: [],
+    path:"2025-birthday-rankings"
   },
 ];
 
@@ -43,6 +44,7 @@ import Link from 'next/link'
 import { SiGithub } from "react-icons/si";
 import { BsArrowUpRight, BsArrowRight } from "react-icons/bs";
 import { usePathname } from 'next/navigation'
+import ViewCounter from './ViewCounter';
 
 export default function FeaturedProjects() {
   const pathname = usePathname()
@@ -122,6 +124,7 @@ export default function FeaturedProjects() {
               <div className="md:w-3/5 p-4">
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="mb-4 mt-4">{project.description}</p>
+                <p className="mb-4 mt-4"><ViewCounter slug={project.path} readOnly={true} /></p>
                 <div className="flex space-x-4">
                   <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                     <BsArrowUpRight className="inline-block mr-1" /> Live Demo

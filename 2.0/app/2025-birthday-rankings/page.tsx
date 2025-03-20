@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { birthdayRankings, defaultRanking } from "./rankings";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import ViewCounter from "@/components/ViewCounter";
 
 interface Ranking {
     date: string;
@@ -50,10 +51,13 @@ const BirthdayRankings = () => {
     return (
         <div className="space-y-8">
             <div className="">
-                <Link href="/" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
+                <Link href="/projects" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary">
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Home
+                    Back to Projects
                 </Link>
+                <div className="text-sm text-muted-foreground flex items-center gap-2 hidden">
+                    <ViewCounter slug="2025-birthday-rankings" />
+                </div>
             </div>
             <div className="flex justify-center items-center bg-background">
                 <div className="max-w-xl w-full bg-card text-card-foreground rounded-lg shadow-xl p-6" ref={screenshotRef}>

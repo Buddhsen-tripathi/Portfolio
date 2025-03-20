@@ -1,44 +1,83 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
 
 export default function ViewCounter({ slug, readOnly = false }: { slug: string, readOnly?: boolean }) {
-  const [views, setViews] = useState<number>(0)
-  const pathname = usePathname()
+  const [views, setViews] = useState<number | null>(null)
 
   useEffect(() => {
     const sessionKey = `viewed-${slug}`
     const hasViewed = sessionStorage.getItem(sessionKey)
-    const isBlogPost = pathname.startsWith('/blogs/') && pathname !== '/blogs'
 
-    const handleViews = async () => {
+    const fetchViews = async () => {
       try {
-        // If readOnly or already viewed, just fetch the count
-        if (readOnly || hasViewed || !isBlogPost) {
-          const response = await fetch(`/api/views?slug=${slug}`)
-          if (!response.ok) throw new Error('Failed to fetch views')
-          const data = await response.json()
-          setViews(data.views)
-        } else {
-          // Increment views if not viewed in current session
-          const response = await fetch('/api/views', {
+        const res = await fetch(`/api/views?slug=${slug}`)
+        const data = await res.json()
+        
+        if (!res.ok) {
+          // If no entry exists, create it
+          const createRes = await fetch('/api/views', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ slug }),
           })
-          if (!response.ok) throw new Error('Failed to increment views')
-          const data = await response.json()
-          setViews(data.views)
-          sessionStorage.setItem(sessionKey, 'true')
+          const createData = await createRes.json()
+          if (createRes.ok) {
+            setViews(createData.views)
+            return
+          }
+          throw new Error(data.error || 'Failed to fetch views')
         }
+        
+        setViews(data.views)
       } catch (error) {
-        console.error('Error handling views:', error)
+        console.error('Error fetching views:', error)
+        // Try to create entry if fetch fails
+        try {
+          const createRes = await fetch('/api/views', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug }),
+          })
+          const createData = await createRes.json()
+          if (createRes.ok) {
+            setViews(createData.views)
+            return
+          }
+        } catch (createError) {
+          console.error('Error creating view entry:', createError)
+          setViews(0)
+        }
       }
     }
 
-    handleViews()
-  }, [slug, pathname, readOnly])
+    const incrementViews = async () => {
+      try {
+        const res = await fetch('/api/views', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug }),
+        })
+        const data = await res.json()
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to increment views')
+        }
+        
+        setViews(data.views)
+        sessionStorage.setItem(sessionKey, 'true')
+      } catch (error) {
+        console.error('Error incrementing views:', error)
+        setViews(0)
+      }
+    }
 
-  return <span>{views} views</span>
+    if (readOnly || hasViewed) {
+      fetchViews()
+    } else {
+      incrementViews()
+    }
+  }, [slug, readOnly])
+
+  return <span>{views !== null ? `${views} views` : 'Loading...'}</span>
 }
