@@ -42,7 +42,7 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
               <article className="p-6 bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow hover:bg-primary/10 cursor-pointer flex flex-col h-full">
                 <div className="space-y-4 flex-grow">
                   <div>
-                    <h2 className="text-xl font-semibold">{post.title}</h2>
+                    <h2 className="text-xl font-semibold pb-1">{post.title}</h2>
                     <time className="text-sm text-muted-foreground">{post.date}</time>
                     <span className="text-muted-foreground p-2">•</span>
                     <span className="text-muted-foreground"><ViewCounter slug={post.slug} readOnly={true} /></span>
@@ -53,7 +53,7 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
                       : post.excerpt}
                   </p>
                 </div>
-                <span className="text-primary hover:underline self-start">Read more →</span>
+                <span className="text-primary hover:underline self-start pt-1">Read more →</span>
               </article>
             </Link>
           ))
