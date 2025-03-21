@@ -37,6 +37,15 @@ const funnyProjects = [
     technologies: [],
     path:"2025-birthday-rankings"
   },
+  {
+    title: "Code Runner",
+    image: "/code-runner.webp",
+    description: "A fast-paced game where you dodge bugs and climb the leaderboard. Sharpen your reflexes and aim for the top.",
+    github: null,
+    demo: "https://www.buddhsentripathi.com/code-runner",
+    technologies: [],
+    path:"code-runner"
+  },
 ];
 
 import Image from 'next/image'

@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ViewCounter from '@/components/ViewCounter';
 
-const GAME_WIDTH = 350;
-const GAME_HEIGHT = 550;
+const GAME_WIDTH = 390;
+const GAME_HEIGHT = 580;
 
 interface Player {
   x: number;
@@ -277,11 +277,11 @@ export default function CodeRunner() {
   return (
     <div className="container mx-auto py-4 space-y-4">
       <div className="flex items-center justify-between">
-        <Link href="/" className="flex items-center text-sm text-gray-500 hover:text-blue-600">
+        <Link href="/projects" className="flex items-center text-sm text-gray-500 hover:text-blue-600">
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
+          Back to Projects
         </Link>
-        <div><ViewCounter slug='bug-dodge' readOnly={false}/></div>
+        <div><ViewCounter slug='code-runner' readOnly={false}/></div>
       </div>
 
       <div className="flex flex-col items-center gap-4">
