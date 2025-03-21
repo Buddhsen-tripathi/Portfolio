@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 
-const ALLOWED_ORIGINS = process.env.NEXT_PUBLIC_BASE_URL || ' ';
+const ALLOWED_ORIGINS = (process.env.NEXT_PUBLIC_BASE_URL || '').split(',');
 const RATE_LIMIT = 10; // max 10 requests
 const WINDOW_MS = 60 * 1000; // per minute
 

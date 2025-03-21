@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ViewCounter from '@/components/ViewCounter';
 
-const GAME_WIDTH = 400;
-const GAME_HEIGHT = 600;
+const GAME_WIDTH = 350;
+const GAME_HEIGHT = 550;
 
 interface Player {
   x: number;
@@ -22,6 +22,7 @@ interface Bug {
   width: number;
   height: number;
   speed: number;
+  type: string;
   dodged?: boolean;
 }
 
@@ -40,6 +41,7 @@ export default function CodeRunner() {
   const [highScore, setHighScore] = useState(0);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const scoreRef = useRef(0);
+  const timeAlive = useRef(0);
 
   useEffect(() => {
     const savedName = localStorage.getItem('codeRunnerName');
@@ -63,6 +65,7 @@ export default function CodeRunner() {
 
     let animationFrameId: number;
     let bugTimer: NodeJS.Timeout;
+    let bossTimer: NodeJS.Timeout;
     let gameActive = true;
     let lastScoreTime = Date.now();
 
@@ -79,13 +82,27 @@ export default function CodeRunner() {
     window.addEventListener('keydown', (e) => (keys[e.key] = true));
     window.addEventListener('keyup', (e) => (keys[e.key] = false));
 
+    const getBugType = (): Bug => {
+      const rand = Math.random();
+      if (rand < 0.4) {
+        return { type: 'basic', speed: 2 + timeAlive.current * 0.02, width: 30, height: 30 } as Bug;
+      } else if (rand < 0.6) {
+        return { type: 'fast', speed: 4 + timeAlive.current * 0.03, width: 25, height: 25 } as Bug;
+      } else if (rand < 0.75) {
+        return { type: 'tank', speed: 1.5 + timeAlive.current * 0.015, width: 40, height: 40 } as Bug;
+      } else if (rand < 0.9) {
+        return { type: 'spider', speed: 2.5 + timeAlive.current * 0.02, width: 30, height: 30 } as Bug;
+      } else {
+        return { type: 'kamikaze', speed: 6 + timeAlive.current * 0.04, width: 20, height: 20 } as Bug;
+      }
+    };
+
     const gameLoop = () => {
       if (!gameActive) return;
 
       ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
       ctx.fillStyle = '#1a1a1a';
       ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
       ctx.font = '40px Arial';
       ctx.fillText('👨‍💻', player.x, player.y);
 
@@ -94,7 +111,12 @@ export default function CodeRunner() {
 
       bugs.forEach((bug, index) => {
         bug.y += bug.speed;
-        ctx.fillText('🐞', bug.x, bug.y);
+        const emoji = bug.type === 'basic' ? '💾'      // basic bug - floppy disk, old tech vibes
+        : bug.type === 'fast' ? '⚙️'      // fast bug - gears, moving parts
+        : bug.type === 'tank' ? '🖥️'     // tank bug - heavy computer/server
+        : bug.type === 'spider' ? '🧬'
+             : '❓';
+        ctx.fillText(emoji, bug.x, bug.y);
 
         if (
           player.x < bug.x + bug.width &&
@@ -105,14 +127,13 @@ export default function CodeRunner() {
           gameActive = false;
           cancelAnimationFrame(animationFrameId);
           clearInterval(bugTimer);
-          console.log('Collision detected, score before end:', scoreRef.current);
+          clearInterval(bossTimer);
           setGameOver(true);
           if (scoreRef.current > highScore) {
             setHighScore(scoreRef.current);
             localStorage.setItem('codeRunnerHighScore', scoreRef.current.toString());
           }
           setScore(scoreRef.current);
-          console.log('Game over, sending score:', scoreRef.current);
           storeScore(name, scoreRef.current);
           return;
         }
@@ -121,7 +142,6 @@ export default function CodeRunner() {
           bug.dodged = true;
           scoreRef.current += 5;
           setScore(scoreRef.current);
-          console.log('Bug dodged, score +5, now:', scoreRef.current);
         }
 
         if (bug.y > GAME_HEIGHT) {
@@ -132,8 +152,8 @@ export default function CodeRunner() {
       const now = Date.now();
       if (now - lastScoreTime >= 1000) {
         scoreRef.current += 1;
+        timeAlive.current += 1;
         setScore(scoreRef.current);
-        console.log('Time bonus, score +1, now:', scoreRef.current);
         lastScoreTime = now;
       }
 
@@ -144,23 +164,41 @@ export default function CodeRunner() {
 
     const spawnBug = () => {
       if (!gameActive) return;
+      const base = getBugType();
       const bug: Bug = {
-        x: Math.random() * (GAME_WIDTH - 30),
-        y: -30,
-        width: 30,
-        height: 30,
-        speed: 2 + Math.random() * 2,
+        x: Math.random() * (GAME_WIDTH - base.width),
+        y: -base.height,
+        width: base.width,
+        height: base.height,
+        speed: base.speed,
+        type: base.type,
+        dodged: false,
+      };
+      bugs.push(bug);
+    };
+
+    const spawnBossBug = () => {
+      if (!gameActive) return;
+      const bug: Bug = {
+        x: Math.random() * (GAME_WIDTH - 50),
+        y: -50,
+        width: 50,
+        height: 50,
+        speed: 5 + timeAlive.current * 0.02,
+        type: 'boss',
         dodged: false,
       };
       bugs.push(bug);
     };
 
     gameLoop();
-    bugTimer = setInterval(spawnBug, 1500);
+    bugTimer = setInterval(spawnBug, Math.max(400, 1500 - timeAlive.current * 10));
+    bossTimer = setInterval(spawnBossBug, 20000);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       clearInterval(bugTimer);
+      clearInterval(bossTimer);
     };
   };
 
