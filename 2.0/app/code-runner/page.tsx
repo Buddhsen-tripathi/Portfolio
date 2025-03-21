@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ViewCounter from '@/components/ViewCounter';
 
-const GAME_WIDTH = 390;
+const GAME_WIDTH = 375;
 const GAME_HEIGHT = 580;
 
 interface Player {
@@ -34,6 +34,7 @@ interface LeaderboardEntry {
 
 export default function CodeRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [name, setName] = useState('');
   const [inputName, setInputName] = useState('');
   const [score, setScore] = useState(0);
@@ -42,6 +43,7 @@ export default function CodeRunner() {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const scoreRef = useRef(0);
   const timeAlive = useRef(0);
+  const touchX = useRef<number | null>(null);
 
   useEffect(() => {
     const savedName = localStorage.getItem('codeRunnerName');
@@ -79,8 +81,22 @@ export default function CodeRunner() {
     let bugs: Bug[] = [];
     const keys: { [key: string]: boolean } = {};
 
+    // Keyboard controls
     window.addEventListener('keydown', (e) => (keys[e.key] = true));
     window.addEventListener('keyup', (e) => (keys[e.key] = false));
+
+    // Touch controls
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      touchX.current = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+    });
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      touchX.current = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+    });
+    canvas.addEventListener('touchend', () => {
+      touchX.current = null;
+    });
 
     const getBugType = (): Bug => {
       const rand = Math.random();
@@ -106,16 +122,25 @@ export default function CodeRunner() {
       ctx.font = '40px Arial';
       ctx.fillText('👨‍💻', player.x, player.y);
 
+      // Handle keyboard movement
       if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed;
       if (keys['ArrowRight'] && player.x < GAME_WIDTH - player.width) player.x += player.speed;
+
+      // Handle touch movement
+      if (touchX.current !== null) {
+        const targetX = touchX.current - player.width / 2;
+        if (targetX > 0 && targetX < GAME_WIDTH - player.width) {
+          player.x += (targetX - player.x) * 0.2; // Smooth movement
+        }
+      }
 
       bugs.forEach((bug, index) => {
         bug.y += bug.speed;
         const emoji = bug.type === 'basic' ? '💾'      // basic bug - floppy disk, old tech vibes
-        : bug.type === 'fast' ? '⚙️'      // fast bug - gears, moving parts
-        : bug.type === 'tank' ? '🖥️'     // tank bug - heavy computer/server
-        : bug.type === 'spider' ? '🧬'
-             : '❓';
+          : bug.type === 'fast' ? '⚙️'      // fast bug - gears, moving parts
+          : bug.type === 'tank' ? '🖥️'     // tank bug - heavy computer/server
+          : bug.type === 'spider' ? '🧬'
+          : '❓';
         ctx.fillText(emoji, bug.x, bug.y);
 
         if (
@@ -199,6 +224,11 @@ export default function CodeRunner() {
       cancelAnimationFrame(animationFrameId);
       clearInterval(bugTimer);
       clearInterval(bossTimer);
+      window.removeEventListener('keydown', () => {});
+      window.removeEventListener('keyup', () => {});
+      canvas.removeEventListener('touchstart', () => {});
+      canvas.removeEventListener('touchmove', () => {});
+      canvas.removeEventListener('touchend', () => {});
     };
   };
 
@@ -255,13 +285,13 @@ export default function CodeRunner() {
 
   if (!name) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4 pb-16">
-        <h1 className="text-2xl font-bold">Code Runner - Enter Your Name</h1>
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 px-4">
+        <h1 className="text-2xl font-bold text-center">Code Runner - Enter Your Name</h1>
         <input
           type="text"
           value={inputName}
           onChange={(e) => setInputName(e.target.value)}
-          className="border rounded px-4 py-2"
+          className="border rounded px-4 py-2 w-full max-w-xs"
           placeholder="Your coder alias"
         />
         <button
@@ -275,7 +305,7 @@ export default function CodeRunner() {
   }
 
   return (
-    <div className="container mx-auto py-4 space-y-4">
+    <div className="container mx-auto py-4 space-y-4 px-4">
       <div className="flex items-center justify-between">
         <Link href="/projects" className="flex items-center text-sm text-gray-500 hover:text-blue-600">
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -284,23 +314,31 @@ export default function CodeRunner() {
         <div><ViewCounter slug='code-runner' readOnly={false}/></div>
       </div>
 
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4 w-full">
         <h1 className="text-3xl font-bold">Code Runner</h1>
         <p className="text-sm text-gray-500">Welcome, {name}!</p>
         <div className="flex gap-4">
           <p>Score: {score}</p>
           <p>High Score: {highScore}</p>
         </div>
-        <canvas
-          ref={canvasRef}
-          width={GAME_WIDTH}
-          height={GAME_HEIGHT}
-          className="border border-gray-300 rounded-lg"
-        />
+        <div 
+          ref={containerRef}
+          className="w-full max-w-[390px]"
+          style={{ 
+            aspectRatio: `${GAME_WIDTH}/${GAME_HEIGHT}`,
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            width={GAME_WIDTH}
+            height={GAME_HEIGHT}
+            className="border border-gray-300 rounded-lg w-full h-full touch-none"
+          />
+        </div>
         {gameOver && (
           <div className="space-y-4">
             <p className="text-xl font-bold text-center">Game Over!</p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={() => {
                   setGameOver(false);
@@ -315,8 +353,8 @@ export default function CodeRunner() {
             </div>
           </div>
         )}
-        <div className="text-sm text-gray-500">
-          Use left/right arrow keys to dodge bugs
+        <div className="text-sm text-gray-500 text-center">
+          Use arrow keys or touch to dodge bugs
         </div>
 
         <div className="w-full max-w-md mt-8">
