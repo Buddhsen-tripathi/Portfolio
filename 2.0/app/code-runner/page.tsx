@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import ViewCounter from '@/components/ViewCounter';
+import Head from 'next/head';
 
 const GAME_WIDTH = 375;
 const GAME_HEIGHT = 580;
@@ -138,9 +139,9 @@ export default function CodeRunner() {
         bug.y += bug.speed;
         const emoji = bug.type === 'basic' ? '💾'      // basic bug - floppy disk, old tech vibes
           : bug.type === 'fast' ? '⚙️'      // fast bug - gears, moving parts
-          : bug.type === 'tank' ? '🖥️'     // tank bug - heavy computer/server
-          : bug.type === 'spider' ? '🧬'
-          : '❓';
+            : bug.type === 'tank' ? '🖥️'     // tank bug - heavy computer/server
+              : bug.type === 'spider' ? '🧬'
+                : '❓';
         ctx.fillText(emoji, bug.x, bug.y);
 
         if (
@@ -224,11 +225,11 @@ export default function CodeRunner() {
       cancelAnimationFrame(animationFrameId);
       clearInterval(bugTimer);
       clearInterval(bossTimer);
-      window.removeEventListener('keydown', () => {});
-      window.removeEventListener('keyup', () => {});
-      canvas.removeEventListener('touchstart', () => {});
-      canvas.removeEventListener('touchmove', () => {});
-      canvas.removeEventListener('touchend', () => {});
+      window.removeEventListener('keydown', () => { });
+      window.removeEventListener('keyup', () => { });
+      canvas.removeEventListener('touchstart', () => { });
+      canvas.removeEventListener('touchmove', () => { });
+      canvas.removeEventListener('touchend', () => { });
     };
   };
 
@@ -237,7 +238,7 @@ export default function CodeRunner() {
       console.log('Checking score before POST:', { name, score });
       if (score === 0) {
         console.log('Score is 0, skipping leaderboard entry');
-        fetchLeaderboard(); 
+        fetchLeaderboard();
         return;
       }
 
@@ -306,12 +307,40 @@ export default function CodeRunner() {
 
   return (
     <div className="container mx-auto py-4 space-y-4 px-4">
+
+      {/* Meta tags for SEO */}
+        <title>Code Runner - Dodge the Bugs Game | Buddhsen Tripathi</title>
+        <meta name="description" content="Play Code Runner, a fun game where you dodge coding bugs and compete for high scores. Test your reflexes and climb the leaderboard!" />
+        
+        {/* Open Graph tags for social sharing */}
+        <meta property="og:title" content="Code Runner - Dodge the Bugs Game" />
+        <meta property="og:description" content="Challenge yourself in this addictive coding-themed game. Dodge bugs, score points, and compete with other players!" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://buddhsentripathi.com/code-runner" />
+        <meta property="og:image" content="https://buddhsentripathi.com/code-runner.webp" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Code Runner - Dodge the Bugs Game" />
+        <meta name="twitter:description" content="Challenge yourself in this addictive coding-themed game. Dodge bugs, score points, and compete with other players!" />
+        <meta name="twitter:image" content="https://buddhsentripathi.com/code-runner.webp" />
+        
+        {/* Additional SEO tags */}
+        <meta name="keywords" content="code runner, coding game, bug dodging game, programming game, web game, browser game, leaderboard game" />
+        <meta name="author" content="Buddhsen Tripathi" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://buddhsentripathi.com/code-runner" />
+        
+        {/* Mobile optimization */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="theme-color" content="#1a1a1a" />
+
       <div className="flex items-center justify-between">
         <Link href="/projects" className="flex items-center text-sm text-gray-500 hover:text-blue-600">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Projects
         </Link>
-        <div><ViewCounter slug='code-runner' readOnly={false}/></div>
+        <div><ViewCounter slug='code-runner' readOnly={false} /></div>
       </div>
 
       <div className="flex flex-col items-center gap-4 w-full">
@@ -321,10 +350,10 @@ export default function CodeRunner() {
           <p>Score: {score}</p>
           <p>High Score: {highScore}</p>
         </div>
-        <div 
+        <div
           ref={containerRef}
           className="w-full max-w-[390px]"
-          style={{ 
+          style={{
             aspectRatio: `${GAME_WIDTH}/${GAME_HEIGHT}`,
           }}
         >
