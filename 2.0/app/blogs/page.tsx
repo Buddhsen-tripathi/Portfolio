@@ -21,8 +21,8 @@ export default async function BlogPage() {
       </Link>
 
       <header className="space-y-2">
-        <h1 className="text-4xl font-bold">Blogs</h1>
-        <p className="text-muted-foreground">Latest articles and tutorials</p>
+        <h1 className="text-4xl font-bold">Blogs </h1>
+        <p className="text-muted-foreground">Latest articles and tutorials </p>
       </header>
 
       {/* Pass blog posts to client component */}

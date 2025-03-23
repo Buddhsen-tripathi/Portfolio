@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Buddhsen Tripathi',
-  description: 'Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+  description: 'Full Stack Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
   authors: [{ name: 'Buddhsen Tripathi' }],
   creator: 'Buddhsen Tripathi',
   metadataBase: new URL('https://buddhsentripathi.com'),
@@ -18,13 +18,13 @@ export const metadata = {
     locale: 'en_US',
     url: 'https://buddhsentripathi.com',
     title: 'Buddhsen Tripathi - Web Developer',
-    description: 'Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+    description: 'Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
     siteName: 'Buddhsen Tripathi Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Buddhsen Tripathi - Web Developer',
-    description: 'Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development',
+    description: 'Full stack Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
     creator: '@_TripathiJi',
   },
   robots: {
