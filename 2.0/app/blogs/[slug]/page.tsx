@@ -11,6 +11,7 @@ import RelatedBlogs from '@/components/RelatedBlogs'
 import BackToTopButton from '@/components/BacktoTopButton'
 import ReadAloudButton from './ReadAloudButton'
 import ViewCounter from '@/components/ViewCounter'
+import { getReadingTime } from '@/lib/utils'
 
 interface BlogPostData {
   title: string
@@ -82,6 +83,8 @@ export default async function BlogPost({ params }: { params: paramsType }) {
         <span>{data.date}</span>
         <span>•</span>
         <ViewCounter slug={data.slug} readOnly={false} />
+        <span>•</span>
+        <span>{getReadingTime(content)} mins read</span>
       </div>
       {/* Render the MDX content */}
       <MDXRemote
