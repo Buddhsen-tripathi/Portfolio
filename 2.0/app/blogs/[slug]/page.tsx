@@ -84,7 +84,7 @@ export default async function BlogPost({ params }: { params: paramsType }) {
         <span>•</span>
         <ViewCounter slug={data.slug} readOnly={false} />
         <span>•</span>
-        <span>{getReadingTime(content)} mins read</span>
+        <span>{getReadingTime(content)} min read</span>
       </div>
       {/* Render the MDX content */}
       <MDXRemote
