@@ -48,7 +48,7 @@ export default function LinkedinfyMyPostPage() {
           Back to Projects
         </Link>
         <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-          <ViewCounter slug="linkedinfy" readOnly={false} />
+          <ViewCounter slug="linkedinfy-my-post" readOnly={false} />
         </div>
       </nav>
       <h1 className="text-3xl font-bold text-center mb-6 mt-16">Linkedinfy My Post</h1>
