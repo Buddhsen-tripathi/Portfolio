@@ -35,7 +35,7 @@ export default function NewsletterSubscription() {
     }
 
     return (
-        <div className="group block p-6 border rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-white dark:bg-black dark:border-gray-700 shadow-gray-200 dark:shadow-gray-800">
+        <div className="group block p-6 border rounded-lg shadow-md hover:shadow-lg transition-shadow bg-white dark:bg-black dark:border-gray-700 shadow-gray-200 dark:shadow-gray-800">
             <h2 className="text-2xl font-bold mb-4 dark:text-white">Never Miss a <span className='text-red-600'>Blog</span></h2>
             <p className="mb-4 text-sm text-muted-foreground dark:text-gray-400">
                 It’s <span className='text-green-600'>free!</span> Get notified instantly whenever a new post drops. Stay updated, stay ahead.
