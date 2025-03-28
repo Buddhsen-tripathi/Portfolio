@@ -62,9 +62,9 @@ export default function FeaturedProjects() {
   return (
     <section>
       <h1 className="text-3xl font-bold mb-6">Projects</h1>
-      <div className="space-y-8">
+      <div className="space-y-4">
         {projects.slice(0, isHomePage ? 2 : projects.length).map((project) => (
-          <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/10">
+          <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/5 border dark:border-gray-700 shadow-gray-200 dark:shadow-gray-800">
             <div className="md:w-2/5 w-full h-full relative">
               <Image
                 src={project.image}
@@ -101,7 +101,7 @@ export default function FeaturedProjects() {
       {isHomePage && (
         <div className="mt-4 flex justify-center w-full">
           <Link href="/projects" className="w-full">
-            <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 flex items-center justify-center gap-2 dark:hover:bg-primary-foreground dark:hover:text-primary">
+            <div className="w-full bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg transition-all py-3 border dark:border-gray-700 shadow-gray-200 dark:shadow-gray-800 flex items-center justify-center gap-2 dark:hover:bg-primary/5 dark:hover:text-primary">
               <span>View more</span>
               <BsArrowRight className="inline-block" />
             </div>
@@ -118,9 +118,9 @@ export default function FeaturedProjects() {
         >
           Random projects to engage my 𝕏 community
         </h3>
-        <div className="space-y-8">
+        <div className="space-y-4">
           {funnyProjects.map((project) => (
-            <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/10">
+            <div key={project.title} className="flex flex-col md:flex-row gap-6 bg-card rounded-lg overflow-hidden shadow-md transition-all hover:shadow-lg hover:bg-primary/5 border dark:border-gray-700 shadow-gray-200 dark:shadow-gray-800">
               <div className="md:w-2/5 w-full h-full relative">
                 <Image
                   src={project.image}

@@ -39,7 +39,7 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <Link key={post.slug} href={`/blogs/${post.slug}`} className="block h-full">
-              <article className="p-6 bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow hover:bg-primary/10 cursor-pointer flex flex-col h-full">
+              <article className="p-6 bg-card rounded-lg shadow-sm border hover:shadow-md transition-shadow hover:bg-primary/10 cursor-pointer flex flex-col h-full">
                 <div className="space-y-4 flex-grow">
                   <div>
                     <h2 className="text-xl font-semibold pb-1">{post.title}</h2>
