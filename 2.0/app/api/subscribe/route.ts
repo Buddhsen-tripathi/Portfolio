@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Insert the email as a new subscription
+    // Insert the email as a new subscription email
     const { data, error } = await supabaseAdmin
       .from('newsletter_subscribers')
       .insert([{ email: lowerEmail }])
