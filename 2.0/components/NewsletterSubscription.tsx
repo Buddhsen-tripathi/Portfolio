@@ -46,7 +46,7 @@ export default function NewsletterSubscription() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Your email address"
-                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-900 dark:text-white"
+                    className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-950 dark:text-white"
                     required
                 />
                 <div className="flex items-center gap-8 mt-4">

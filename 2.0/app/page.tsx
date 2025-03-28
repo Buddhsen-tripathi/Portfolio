@@ -3,6 +3,7 @@ import Skills from '@/components/Skills'
 import FeaturedProjects from '@/components/FeaturedProjects'
 import FeaturedPosts from '@/components/FeaturedPosts'
 import Contact from '@/components/Contact'
+import NewsletterSubscription from '@/components/NewsletterSubscription'
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Skills />
       <FeaturedProjects />
       <FeaturedPosts />
+      <NewsletterSubscription />
       <Contact />
     </div>
   )
