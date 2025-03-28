@@ -29,14 +29,14 @@ const projects = [
 
 const funnyProjects = [
   {
-    title: "Japanese Lucky Birthday Rankings 2025",
-    image: "/2025b.webp",
-    description: "Simple tool which ranks your birthday based on the Japanese Luck Calendar 2025.",
+    title: "Linkedinfy My Post",
+    image: "/linkedinfy.webp",
+    description: "Transform your posts into high-engagement LinkedIn content in seconds. Optimize, refine, and stand out effortlessly.",
     github: null,
-    demo: "https://www.buddhsentripathi.com/2025-birthday-rankings",
+    demo: "https://www.buddhsentripathi.com/linkedinfy-my-post",
     technologies: [],
-    path:"2025-birthday-rankings"
-  },
+    path: "linkedinfy-my-post"
+},
   {
     title: "Code Runner",
     image: "/code-runner.webp",
@@ -45,6 +45,15 @@ const funnyProjects = [
     demo: "https://www.buddhsentripathi.com/code-runner",
     technologies: [],
     path:"code-runner"
+  },
+  {
+    title: "Japanese Lucky Birthday Rankings 2025",
+    image: "/2025b.webp",
+    description: "Simple tool which ranks your birthday based on the Japanese Luck Calendar 2025.",
+    github: null,
+    demo: "https://www.buddhsentripathi.com/2025-birthday-rankings",
+    technologies: [],
+    path:"2025-birthday-rankings"
   },
 ];
 
@@ -116,7 +125,7 @@ export default function FeaturedProjects() {
           className="text-lg font-semibold mb-4"
           aria-label="I make random projects to engage my Twitter/X community"
         >
-          Random projects to engage my 𝕏 community
+          Random projects to engage my 𝕏 community (<a href="https://x.com/intent/follow?screen_name=_TripathiJi" className='text-blue-500'>@_TripathiJi</a>)
         </h3>
         <div className="space-y-4">
           {funnyProjects.map((project) => (
