@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 import ViewCounter from '@/components/ViewCounter';
+import NewsletterSubscription from '@/components/NewsletterSubscription';
 
 export interface BlogPost {
   title: string;
@@ -61,6 +62,7 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
           <p className="text-center text-muted-foreground">No matching blog posts found.</p>
         )}
       </div>
+      <NewsletterSubscription/>
     </div>
   );
 }
