@@ -12,6 +12,7 @@ import BackToTopButton from '@/components/BacktoTopButton'
 import ReadAloudButton from './ReadAloudButton'
 import ViewCounter from '@/components/ViewCounter'
 import { getReadingTime } from '@/lib/utils'
+import NewsletterSubscription from '@/components/NewsletterSubscription'
 
 interface BlogPostData {
   title: string
@@ -96,6 +97,11 @@ export default async function BlogPost({ params }: { params: paramsType }) {
           },
         }}
       />
+
+      {/* Newsletter subscription component */}
+      <NewsletterSubscription />
+
+      <hr className="my-8 border-t border-gray-300 dark:border-gray-700" />
 
       {/* Related Blogs component */}
       <RelatedBlogs currentSlug={(await params).slug} currentTitle={data.title} />
