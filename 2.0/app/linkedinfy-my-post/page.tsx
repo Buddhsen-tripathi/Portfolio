@@ -28,7 +28,7 @@ export default function LinkedinfyMyPostPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error || 'Something went wrong.')
+        setError(data.error || 'Something broke.')
       } else {
         setOutput(data.linkedinPost)
       }
@@ -76,7 +76,7 @@ export default function LinkedinfyMyPostPage() {
       </div>
       
       {error && (
-        <p className="mt-4 text-center text-red-600 font-medium">{error}</p>
+        <p className="mt-4 text-center text-red-500 font-medium">{error}</p>
       )}
 
       {output && (
