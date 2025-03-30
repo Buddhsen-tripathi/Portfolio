@@ -15,7 +15,7 @@ export default function Hero() {
       <div className="flex flex-col items-center md:items-start space-y-4">
         <h1 className="text-4xl font-bold">Buddhsen Tripathi</h1>
         <p className="max-w-2xl text-center md:text-left text-muted-foreground">
-          Hello! I'm a passionate web developer with expertise in React, Next.js, and TypeScript.<br/>
+          Hello! I'm a passionate full-stack web developer with expertise in React, Next.js, Java and TypeScript.<br/>
           I love creating responsive and user-friendly web applications. With a keen eye for design
           and a strong foundation in modern web technologies, I strive to deliver high-quality
           solutions that meet both user needs and business goals.
