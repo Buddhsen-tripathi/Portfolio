@@ -145,7 +145,7 @@ export default function FeaturedProjects() {
                 <p className="mb-4 mt-4"><ViewCounter slug={project.path} readOnly={true} /></p>
                 <div className="flex space-x-4">
                   <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    <BsArrowUpRight className="inline-block mr-1" /> Live Demo
+                    <BsArrowUpRight className="inline-block mr-1" /> Live
                   </a>
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
