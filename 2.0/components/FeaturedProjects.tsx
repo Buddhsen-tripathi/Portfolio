@@ -4,7 +4,7 @@ const projects = [
     title: "DeepFind.Me",
     image: "/dfme.webp",
     description: "Deepfind.me is an educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
-    github: "https://github.com/Buddhsen-tripathi/DeepFindMe",
+    github: null,
     demo: "https://deepfind.me?ref=buddhsen-tripathi",
     technologies: ["Next.Js", "NestJs", "TypeScript", "Supabase", "AWS", "OpenAI API"],
   },
@@ -24,7 +24,6 @@ const projects = [
     demo: "https://chromewebstore.google.com/detail/smarttext-enhancer/chmpfoicecijpgmgcpnfhakmeaofmipm",
     technologies: ["JavaScript", "HTML", "CSS", "Express", "OpenAI API"],
   }
-  ,
 ];
 
 const funnyProjects = [
