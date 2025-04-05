@@ -7,7 +7,7 @@ export default function Footer() {
           © 2025 Buddhsen Tripathi. All rights reserved.
         </div>
         <div className="flex space-x-4">
-          <a href="https://twitter.com/_TripathiJi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+          <a href="https://twitter.com/btr1pathi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
             Twitter
           </a>
           <a href="https://topmate.io/buddhsentripathi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">

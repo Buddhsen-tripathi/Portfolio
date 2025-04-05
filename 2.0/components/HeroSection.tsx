@@ -27,7 +27,7 @@ export default function Hero() {
           <a href="https://linkedin.com/in/buddhsen-tripathi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
             <SiLinkedin className="w-6 h-6" />
           </a>
-          <a href="https://twitter.com/_TripathiJi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+          <a href="https://twitter.com/btr1pathi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
             <SiX className="w-6 h-6" />
           </a>
           <a href="https://leetcode.com/u/buddhsen" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">

@@ -125,7 +125,7 @@ export default function FeaturedProjects() {
           className="text-lg font-semibold mb-4"
           aria-label="I make random projects to engage my Twitter/X community"
         >
-          Random projects to engage my 𝕏 community (<a href="https://x.com/intent/follow?screen_name=_TripathiJi" className='text-blue-500'>@_TripathiJi</a>)
+          Random projects to engage my 𝕏 community (<a href="https://x.com/intent/follow?screen_name=btr1pathi" className='text-blue-500'>@btr1pathi</a>)
         </h3>
         <div className="space-y-4">
           {funnyProjects.map((project) => (

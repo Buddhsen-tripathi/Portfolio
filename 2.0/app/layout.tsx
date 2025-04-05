@@ -25,7 +25,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Buddhsen Tripathi - Web Developer',
     description: 'Full stack Web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
-    creator: '@_TripathiJi',
+    creator: '@btr1pathi',
   },
   robots: {
     index: true,

@@ -18,7 +18,7 @@ export default function Contact() {
             Email Me
           </a>
           <a 
-            href="https://x.com/intent/follow?screen_name=_TripathiJi" 
+            href="https://x.com/intent/follow?screen_name=btr1pathi" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-primary bg-primary/20 hover:bg-primary/40 transition-colors"
