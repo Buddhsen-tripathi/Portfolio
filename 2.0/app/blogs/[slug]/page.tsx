@@ -13,6 +13,7 @@ import ReadAloudButton from './ReadAloudButton'
 import ViewCounter from '@/components/ViewCounter'
 import { getReadingTime } from '@/lib/utils'
 import NewsletterSubscription from '@/components/NewsletterSubscription'
+import SocialShare from '../SocialShare'
 
 interface BlogPostData {
   title: string
@@ -95,6 +96,9 @@ export default async function BlogPost({ params }: { params: paramsType }) {
             rehypePlugins: [rehypeHighlight],
             remarkPlugins: [remarkGfm, remarkfrontmatter],
           },
+        }}
+        components={{
+          SocialShare: SocialShare
         }}
       />
 
