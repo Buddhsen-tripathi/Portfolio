@@ -6,12 +6,12 @@ slug: how-to-make-deepseek-api-calls-in-your-javascript-application
 
 ---
 
-DeepSeek and OpenAI offer powerful AI models, but their API implementations have key differences. In this guide, we’ll compare how to make API calls to both and highlight the differences.
+DeepSeek and OpenAI offer powerful AI models, but their API implementations have key differences. In this guide, we'll compare how to make API calls to both and highlight the differences.
 
 <h2 class="text-2xl font-semibold text-primary my-4">Setting Up API Access </h2>
 
 **OpenAI**  
-1. Sign up on [OpenAI’s website](https://openai.com).  
+1. Sign up on [OpenAI's website](https://openai.com).  
 2. Generate an API key from the OpenAI dashboard.  
 3. Use the key in your requests.  
 
@@ -50,7 +50,7 @@ async function getOpenAIResponse(prompt){
 ```
 
 - We **import** the `openai` package and initialize it with an API key from environment variables.  
-- The `getOpenAIResponse` function takes a **prompt** and sends a request to OpenAI’s `chat.completions.create()` endpoint.  
+- The `getOpenAIResponse` function takes a **prompt** and sends a request to OpenAI's `chat.completions.create()` endpoint.  
 - It **specifies the model** (`gpt-4`) and returns the AI's response.  
 - Errors are caught and logged to the console. 
 
@@ -85,9 +85,9 @@ async function getDeepSeekResponse(prompt) {
 ```
 
 - The `openai` package is used again, but **we override `baseURL`** to point to DeepSeek's API.  
-- The function structure is **identical** to OpenAI’s.  
-- Instead of `"gpt-4"`, we use DeepSeek’s `"deepseek-chat"` model.  
-- **Why override `baseURL`?** Because DeepSeek mimics OpenAI’s API format, so we use the same `openai` library.
+- The function structure is **identical** to OpenAI's.  
+- Instead of `"gpt-4"`, we use DeepSeek's `"deepseek-chat"` model.  
+- **Why override `baseURL`?** Because DeepSeek mimics OpenAI's API format, so we use the same `openai` library.
 
 **DeepSeek API Output**
 ```javascript
@@ -136,12 +136,19 @@ getDeepSeekResponse("What is quantum computing?");
 
 <h2 class="text-2xl font-semibold text-primary my-4">Which One to Use? </h2> 
 
-If you’re looking for **cutting-edge AI models** with better reasoning, OpenAI is your best bet. But if you want a **cheaper alternative** that works almost the same way, DeepSeek is a great choice.  
+If you're looking for **cutting-edge AI models** with better reasoning, OpenAI is your best bet. But if you want a **cheaper alternative** that works almost the same way, DeepSeek is a great choice.  
 
 Both APIs use a **similar format**, so switching between them is easy, just change the base URL and model name. If you're building an app, you can even add a toggle to switch between the two.  
 
 At the end of the day, it's your choice which one to use.
 
 This guide should help you get started with DeepSeek and OpenAI in your JavaScript applications. Stay tuned for more tech content and tutorials. Feel free to connect with me on my socials and provide feedback.
+
+<div className="engagement-section py-6 border-t mt-8">
+  <SocialShare 
+    url="https://buddhsentripathi.com/how-to-make-deepseek-api-calls-in-your-javascript-application" 
+    title="How to Make DeepSeek API Calls in Your JavaScript Application - " 
+  />
+</div>
 
 ---
