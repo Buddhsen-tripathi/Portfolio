@@ -1,6 +1,6 @@
 ---
 title: "Introduction to AI Agents: How to Build a Simple AI Agent Using Python and GPT-4"
-excerpt: "Learn what AI agents are, how they work, and the different types used in real-world applications. Follow this step-by-step tutorial to build your first AI agent in Python—an intelligent wardrobe assistant powered by weather data and OpenAI’s GPT-4 API."
+excerpt: "Learn what AI agents are, how they work, and the different types used in real-world applications. Follow this step-by-step tutorial to build your first AI agent in Python—an intelligent wardrobe assistant powered by weather data and OpenAI's GPT-4 API."
 date: "16-03-2025"
 slug: introduction-to-ai-agents-python-gpt4
 ---
@@ -15,11 +15,11 @@ According to resources like <span className="text-blue-500">[What are AI Agents?
 
 <h2 class="text-xl font-semibold text-primary my-4">How They Work?</h2>
 
-- **Perception**: They gather data from their surroundings, like a user’s voice command, sensor readings, or online weather stats.
+- **Perception**: They gather data from their surroundings, like a user's voice command, sensor readings, or online weather stats.
 - **Reasoning**: They process that data using logic, rules, or algorithms—sometimes even learning from past experiences—to figure out what to do next.
-- **Action**: They execute a task, whether it’s adjusting a setting, answering a question, or suggesting an outfit.
+- **Action**: They execute a task, whether it's adjusting a setting, answering a question, or suggesting an outfit.
 
-These agents power everything from chatbots handling customer support to Netflix’s recommendation engine, silently improving everyday digital interactions.
+These agents power everything from chatbots handling customer support to Netflix's recommendation engine, silently improving everyday digital interactions.
 
 ---
 
@@ -27,9 +27,9 @@ These agents power everything from chatbots handling customer support to Netflix
 
 AI agents come in various flavors, each suited to different tasks:
 
-- **Simple Reflex Agents**: These follow basic “if-then” rules. For example, if the temperature drops below 20°C, suggest a jacket.
-- **Model-Based Reflex Agents**: These keep a mental model of the world. Imagine an agent that remembers yesterday’s weather to guess if you’ll need an umbrella today.
-- **Goal-Based Agents**: These aim for specific outcomes, like ensuring you’re comfortable in any weather, even if it means juggling multiple factors like rain and wind.
+- **Simple Reflex Agents**: These follow basic "if-then" rules. For example, if the temperature drops below 20°C, suggest a jacket.
+- **Model-Based Reflex Agents**: These keep a mental model of the world. Imagine an agent that remembers yesterday's weather to guess if you'll need an umbrella today.
+- **Goal-Based Agents**: These aim for specific outcomes, like ensuring you're comfortable in any weather, even if it means juggling multiple factors like rain and wind.
 - **Utility-Based Agents**: These optimize for the best result, maybe suggesting the coziest outfit based on your preferences.
 - **Learning Agents**: The smartest of the bunch, these improve over time. Picture an agent that learns you hate coats and swaps them for hoodies, as noted in <span className="text-blue-500">[AI Agents: 5 Key Types Explained With Examples](https://unstop.com/blog/types-of-agents-in-artificial-intelligence)</span>.
 
@@ -47,7 +47,7 @@ AI agents are everywhere, often hiding in plain sight:
 
 Tired of repetitive tasks? AI agents can lift that burden. Automating tasks like checking the weather or scheduling meetings saves time, reduces errors, and enhances convenience. For instance, instead of flipping through apps to see if it will rain, an AI agent can fetch the forecast and suggest a raincoat—before you even ask.
 
-The benefits don’t stop there. These agents can integrate with smart devices—imagine one tweaking your thermostat based on the day’s weather. It’s about working smarter, not harder, and that’s why we’re building one today.
+The benefits don't stop there. These agents can integrate with smart devices—imagine one tweaking your thermostat based on the day's weather. It's about working smarter, not harder, and that's why we're building one today.
 
 ---
 
@@ -55,18 +55,18 @@ The benefits don’t stop there. These agents can integrate with smart devices�
 
 <h3 class="text-xl font-semibold text-primary my-4">Design the Agent</h3>
 
-Before we code, let’s outline what our agent should do:
+Before we code, let's outline what our agent should do:
 
-- **Understand You**: Recognize user phrases like “What to wear?” or “What should I wear today?”
-- **Get Your Location**: Prompt for city and country code (e.g., “London,uk”).
+- **Understand You**: Recognize user phrases like "What to wear?" or "What should I wear today?"
+- **Get Your Location**: Prompt for city and country code (e.g., "London,uk").
 - **Fetch Weather Data**: Use OpenWeatherMap API to get current weather conditions.
 - **Make Suggestions**: Apply practical clothing rules based on the data.
 
 **Clothing suggestion logic:**
-- Below 10°C: “Heavy coat, gloves, and boots.”
-- 10–20°C: “Light jacket or sweater.”
-- Above 20°C: “T-shirt and shorts.”
-- If it’s raining: Add “Bring a raincoat or umbrella.”
+- Below 10°C: "Heavy coat, gloves, and boots."
+- 10–20°C: "Light jacket or sweater."
+- Above 20°C: "T-shirt and shorts."
+- If it's raining: Add "Bring a raincoat or umbrella."
 
 These rules are inspired by the <span className="text-blue-500">[Simple Guide on What to Wear in 30, 40, 50, 60, 70, and 80 Degree Weather](https://the-weather-station.com/what-to-wear-in-30-40-50-60-70-80-weather/)</span>.
 
@@ -75,7 +75,7 @@ These rules are inspired by the <span className="text-blue-500">[Simple Guide on
 We will use Python for its simplicity and the `requests` library to interact with external APIs. 
 
 **Setup Steps:**
-1. Install dependencies: ```pip install requests openai```
+1. Install dependencies: `pip install requests openai`
 2. Get a free API key from [OpenWeatherMap](https://openweathermap.org/api).
 3. Replace `"YOUR_OPENWEATHERMAP_KEY"` and `"YOUR_OPENAI_KEY"` in the script.
 4. Run the code.
@@ -125,7 +125,7 @@ def ask_chatgpt(temperature, condition, location, openai_api_key):
         raise
 
 def main():
-    print("Hi! I’m your weather wardrobe assistant. What can I help you with?")
+    print("Hi! I'm your weather wardrobe assistant. What can I help you with?")
     user_input = input().lower()
     if "what to wear" in user_input or "what should i wear" in user_input:
         print("Great! Where are you? Enter your city and country code (e.g., 'Tokyo,jp'): ")
@@ -137,7 +137,7 @@ def main():
             temperature, condition = get_weather(location, weather_api_key)
             print(f"[INFO] Weather fetched successfully: {temperature:.1f}°C, {condition}")
             suggestion = ask_chatgpt(temperature, condition, location, openai_api_key)
-            print(f"For {location}, it’s {temperature:.1f}°C with {condition}. {suggestion}")
+            print(f"For {location}, it's {temperature:.1f}°C with {condition}. {suggestion}")
         except Exception as e:
             print(f"[ERROR] Something went wrong: {e}")
     else:
@@ -152,18 +152,18 @@ if __name__ == "__main__":
 <h2 class="text-2xl font-semibold text-primary my-4">Real-World Examples</h2>
 
 **Example 1:**  
-**Input**: “What should I wear today?” → Location: “New York,us”  
+**Input**: "What should I wear today?" → Location: "New York,us"  
 **Weather**: 7.7°C, Mist  
-**Output**: “For New york,US, it’s 7.7°C with Mist. For a day with mist and a temperature of 7.7°C in New York, it's best to wear layers. Consider a long-sleeved shirt or sweater, a warm jacket, and perhaps a scarf. Wear long pants, and consider a hat and gloves if you tend to feel cold. Waterproof or water-resistant footwear is also advisable due to the mist.”
+**Output**: "For New york,US, it's 7.7°C with Mist. For a day with mist and a temperature of 7.7°C in New York, it's best to wear layers. Consider a long-sleeved shirt or sweater, a warm jacket, and perhaps a scarf. Wear long pants, and consider a hat and gloves if you tend to feel cold. Waterproof or water-resistant footwear is also advisable due to the mist."
 
 <div style={{ display: 'flex', justifyContent: 'center' }}>
   <img src="/blog-images/ai-agent-ex-2.webp" className="m-4" alt="Weather AI agent example 2" width="800" height="400" />
 </div>
 
 **Example 2:**  
-**Input**: “What to wear?” → Location: “Hyderabad,In”  
+**Input**: "What to wear?" → Location: "Hyderabad,In"  
 **Weather**: 25.7°C, Clear  
-**Output**: “For hyderabad,in, it’s 25.7°C with Clear. For a clear day in Hyderabad with a temperature of 25.7°C, it's best to wear light, breathable clothing. Opt for a T-shirt or a light top, comfortable pants or shorts, and a pair of sunglasses. You might want to carry a light jacket or a shawl for the evening in case it gets cooler.”
+**Output**: "For hyderabad,in, it's 25.7°C with Clear. For a clear day in Hyderabad with a temperature of 25.7°C, it's best to wear light, breathable clothing. Opt for a T-shirt or a light top, comfortable pants or shorts, and a pair of sunglasses. You might want to carry a light jacket or a shawl for the evening in case it gets cooler."
 
 <div style={{ display: 'flex', justifyContent: 'center' }}>
   <img src="/blog-images/ai-agent-ex-1.webp" className="m-4" alt="Weather AI agent example 1" width="800" height="400" />
@@ -176,20 +176,20 @@ These examples show how the agent adapts to different climates and conditions, m
 <h2 class="text-2xl font-semibold text-primary my-4">Test and Tweak</h2>
 
 Test with:
-- Cold days (e.g., “Moscow,ru” in winter)
-- Hot, rainy days (e.g., “Bangkok,th”)
-- Invalid locations (e.g., “Narnia”) to verify error handling.
+- Cold days (e.g., "Moscow,ru" in winter)
+- Hot, rainy days (e.g., "Bangkok,th")
+- Invalid locations (e.g., "Narnia") to verify error handling.
 
 Want to level up? Add:
-- Wind-based checks (“Wear a scarf if windy”)
-- UV alerts (“Bring sunglasses on sunny days”)
-- Personalization (“Skip jackets, I prefer hoodies”)
+- Wind-based checks ("Wear a scarf if windy")
+- UV alerts ("Bring sunglasses on sunny days")
+- Personalization ("Skip jackets, I prefer hoodies")
 
 ---
 
 <h2 class="text-2xl font-semibold text-primary my-4">Taking It Further</h2>
 
-Here’s how to take this agent to the next level:
+Here's how to take this agent to the next level:
 - **Smarter Chat**: Integrate NLP libraries like `nltk` to handle diverse user queries.
 - **Preference Learning**: Let your agent learn your clothing preferences over time.
 - **Integrations**: Connect it to smart speakers, messaging apps, or home automation systems.
@@ -200,10 +200,18 @@ Would you like me to also generate a downloadable "starter project repo" with RE
 
 <h2 class="text-2xl font-semibold text-primary my-4">Why This Matters</h2>
 
-Building this agent isn’t just about skipping a weather check—it’s about unlocking AI’s potential. It’s proof that with a few lines of code, you can automate the mundane and focus on what matters. Plus, it’s fun! You’ve now got a tool that blends tech and practicality, backed by solid sources like <span className="text-blue-500">[Weather API - OpenWeatherMap](https://openweathermap.org/api)</span>.
+Building this agent isn't just about skipping a weather check—it's about unlocking AI's potential. It's proof that with a few lines of code, you can automate the mundane and focus on what matters. Plus, it's fun! You've now got a tool that blends tech and practicality, backed by solid sources like <span className="text-blue-500">[Weather API - OpenWeatherMap](https://openweathermap.org/api)</span>.
 
 So, fire up your editor, grab that API key, and let your AI agent dress you for success. What task will you automate next?
 
-Stay tuned for more tech content and tutorials. Hit me up on my socials and let me know what you think, I’m always up for a good tech convo.
+Stay tuned for more tech content and tutorials. Hit me up on my socials and let me know what you think, I'm always up for a good tech convo.
+
+
+<div className="engagement-section py-6 border-t mt-8">
+  <SocialShare 
+    url="https://buddhsentripathi.com/introduction-to-ai-agents-python-gpt4" 
+    title="Introduction to AI Agents with Python and GPT-4 - " 
+  />
+</div>
 
 ---
