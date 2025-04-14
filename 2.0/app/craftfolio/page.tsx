@@ -5,6 +5,9 @@ import ResumeForm from "@/components/resume-maker/ResumeForm";
 import ResumePreview from "@/components/resume-maker/ResumePreview";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import ViewCounter from "@/components/ViewCounter";
 
 export interface PersonalInfo {
   fullName: string;
@@ -96,7 +99,7 @@ const defaultResumeData: ResumeData = {
   certifications: [],
 };
 
-export default function ResumeMaker() {
+export default function Craftfolio() {
   const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData);
   const [template, setTemplate] = useState<"modern" | "classic" | "minimal" | "professional">("professional");
   const [sections, setSections] = useState<Section[]>(defaultSections);
@@ -150,8 +153,8 @@ export default function ResumeMaker() {
   };
 
   const toggleSectionVisibility = (sectionId: string) => {
-    setSections(sections.map(section => 
-      section.id === sectionId 
+    setSections(sections.map(section =>
+      section.id === sectionId
         ? { ...section, visible: !section.visible }
         : section
     ));
@@ -159,7 +162,19 @@ export default function ResumeMaker() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-4">Resume Builder</h1>
+      <div className="w-full flex items-center justify-between mb-6 pb-4">
+        <div className="flex items-center space-x-4">
+          <Link href="/projects" className="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Projects
+          </Link>
+        </div>
+        <div className="flex items-center space-x-4">
+          <ViewCounter slug="craftfolio" readOnly={false} />
+        </div>
+      </div>
+      <h1 className="text-3xl font-bold text-center text-primary mb-4">CraftFolio</h1>
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-white text-center mb-4">Create your ideal resume with no coding required and full customization</h3>
       <div className="flex flex-col gap-8">
         {/* Template Selection */}
         <div className="flex flex-wrap items-center gap-4">
@@ -200,7 +215,7 @@ export default function ResumeMaker() {
               suggestion={suggestion}
               error={error}
             />
-            
+
             {/* Customize Sections Panel */}
             {showCustomizePanel && (
               <div className="border rounded-lg p-4 space-y-4 bg-gray-50">

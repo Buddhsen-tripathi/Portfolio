@@ -1,4 +1,4 @@
-import { ResumeData } from "@/app/resume-maker/page";
+import { ResumeData } from "@/app/craftfolio/page";
 
 const RESUME_STORAGE_KEY = "resume_data";
 

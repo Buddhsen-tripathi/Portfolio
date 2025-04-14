@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ResumeData } from "@/app/resume-maker/page";
+import { ResumeData } from "@/app/craftfolio/page";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import html2canvas from "html2canvas";
