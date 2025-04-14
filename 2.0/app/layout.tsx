@@ -20,6 +20,13 @@ export const metadata = {
     title: 'Buddhsen Tripathi',
     description: 'Full stack web developer portfolio showcasing projects and skills in Next.js, React, TypeScript, and full-stack development and technical blogs',
     siteName: 'Buddhsen Tripathi Portfolio',
+    images: [
+      {
+        url: '/default-image.webp',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
