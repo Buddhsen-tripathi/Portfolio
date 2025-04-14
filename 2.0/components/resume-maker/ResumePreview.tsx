@@ -18,25 +18,16 @@ export default function ResumePreview({ resumeData, template, onExportPDF }: Res
 
   const handleExportPDF = async () => {
     if (resumeRef.current) {
-      const canvas = await html2canvas(resumeRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-      
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      });
-      
-      const imgWidth = 210; // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save(`${resumeData.personalInfo.fullName || "resume"}.pdf`);
+      const canvas = await html2canvas(resumeRef.current);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${resumeData.personalInfo.fullName || 'resume'}.pdf`);
     }
+    onExportPDF();
   };
 
   // Format date from YYYY-MM to Month Year

@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 import ResumeForm from "@/components/resume-maker/ResumeForm";
 import ResumePreview from "@/components/resume-maker/ResumePreview";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Download } from "lucide-react";
+import { saveResumeData, loadResumeData } from "@/lib/storage";
 
 // Define the resume data structure
 export interface ResumeData {
@@ -79,15 +74,56 @@ const initialResumeData: ResumeData = {
 
 export default function ResumeMaker() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
-  const [activeTemplate, setActiveTemplate] = useState<"modern" | "classic" | "minimal" | "professional">("professional");
+  const [activeTemplate, setActiveTemplate] = useState<"modern" | "classic" | "minimal" | "professional">("modern");
   const [pdfFileName, setPdfFileName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [suggestion, setSuggestion] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleResumeDataChange = (newData: ResumeData) => {
-    setResumeData(newData);
+  // Load saved data on component mount
+  useEffect(() => {
+    const savedData = loadResumeData();
+    if (savedData) {
+      setResumeData(savedData);
+    }
+  }, []);
+
+  const handleResumeDataChange = (data: ResumeData) => {
+    setResumeData(data);
+    saveResumeData(data);
+  };
+
+  const handleGetSuggestion = async (section: string, content: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      setSuggestion(null);
+
+      const response = await fetch("/api/resume-suggestions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ section, currentContent: content }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to get suggestions");
+      }
+
+      const data = await response.json();
+      setSuggestion(data.suggestion);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error getting suggestion:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleExportPDF = () => {
-    // This will be handled by the ResumePreview component
+    setPdfFileName(`${resumeData.personalInfo.fullName || 'resume'}.pdf`);
   };
 
   return (
@@ -95,53 +131,21 @@ export default function ResumeMaker() {
       <h1 className="text-3xl font-bold mb-8">Resume Maker</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <Card>
-            <CardContent className="p-6">
-              <ResumeForm resumeData={resumeData} onResumeDataChange={handleResumeDataChange} />
-            </CardContent>
-          </Card>
+          <ResumeForm
+            resumeData={resumeData}
+            onResumeDataChange={handleResumeDataChange}
+            onGetSuggestion={handleGetSuggestion}
+            isLoading={isLoading}
+            suggestion={suggestion}
+            error={error}
+          />
         </div>
         <div>
-          <Card>
-            <CardContent className="p-6">
-              <Tabs defaultValue="professional" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
-                  <TabsTrigger value="professional">Professional</TabsTrigger>
-                  <TabsTrigger value="modern">Modern</TabsTrigger>
-                  <TabsTrigger value="classic">Classic</TabsTrigger>
-                  <TabsTrigger value="minimal">Minimal</TabsTrigger>
-                </TabsList>
-                <TabsContent value="professional">
-                  <ResumePreview
-                    resumeData={resumeData}
-                    template="professional"
-                    onExportPDF={handleExportPDF}
-                  />
-                </TabsContent>
-                <TabsContent value="modern">
-                  <ResumePreview
-                    resumeData={resumeData}
-                    template="modern"
-                    onExportPDF={handleExportPDF}
-                  />
-                </TabsContent>
-                <TabsContent value="classic">
-                  <ResumePreview
-                    resumeData={resumeData}
-                    template="classic"
-                    onExportPDF={handleExportPDF}
-                  />
-                </TabsContent>
-                <TabsContent value="minimal">
-                  <ResumePreview
-                    resumeData={resumeData}
-                    template="minimal"
-                    onExportPDF={handleExportPDF}
-                  />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
+          <ResumePreview
+            resumeData={resumeData}
+            template={activeTemplate}
+            onExportPDF={handleExportPDF}
+          />
         </div>
       </div>
     </div>

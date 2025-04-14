@@ -5,18 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Plus, Trash2, Wand2 } from "lucide-react";
 import { ResumeData } from "@/app/resume-maker/page";
-import { Plus, Trash2 } from "lucide-react";
 
 interface ResumeFormProps {
   resumeData: ResumeData;
   onResumeDataChange: (data: ResumeData) => void;
+  onGetSuggestion: (section: string, content: string) => Promise<void>;
+  isLoading: boolean;
+  suggestion: string | null;
+  error: string | null;
 }
 
-export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFormProps) {
+export default function ResumeForm({
+  resumeData,
+  onResumeDataChange,
+  onGetSuggestion,
+  isLoading,
+  suggestion,
+  error,
+}: ResumeFormProps) {
   const [activeSection, setActiveSection] = useState<string>("personal");
 
-  const handlePersonalInfoChange = (field: string, value: string) => {
+  const handlePersonalInfoChange = (field: keyof ResumeData["personalInfo"], value: string) => {
     onResumeDataChange({
       ...resumeData,
       personalInfo: {
@@ -33,74 +44,27 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
     });
   };
 
-  const handleExperienceChange = (id: string, field: string, value: string | boolean) => {
+  const handleExperienceChange = (index: number, field: string, value: string | boolean) => {
+    const newExperience = [...resumeData.experience];
+    newExperience[index] = {
+      ...newExperience[index],
+      [field]: value,
+    };
     onResumeDataChange({
       ...resumeData,
-      experience: resumeData.experience.map((exp) =>
-        exp.id === id ? { ...exp, [field]: value } : exp
-      ),
+      experience: newExperience,
     });
   };
 
-  const addExperience = () => {
-    const newId = (resumeData.experience.length + 1).toString();
+  const handleEducationChange = (index: number, field: string, value: string | boolean) => {
+    const newEducation = [...resumeData.education];
+    newEducation[index] = {
+      ...newEducation[index],
+      [field]: value,
+    };
     onResumeDataChange({
       ...resumeData,
-      experience: [
-        ...resumeData.experience,
-        {
-          id: newId,
-          company: "",
-          position: "",
-          startDate: "",
-          endDate: "",
-          current: false,
-          description: "",
-        },
-      ],
-    });
-  };
-
-  const removeExperience = (id: string) => {
-    onResumeDataChange({
-      ...resumeData,
-      experience: resumeData.experience.filter((exp) => exp.id !== id),
-    });
-  };
-
-  const handleEducationChange = (id: string, field: string, value: string | boolean) => {
-    onResumeDataChange({
-      ...resumeData,
-      education: resumeData.education.map((edu) =>
-        edu.id === id ? { ...edu, [field]: value } : edu
-      ),
-    });
-  };
-
-  const addEducation = () => {
-    const newId = (resumeData.education.length + 1).toString();
-    onResumeDataChange({
-      ...resumeData,
-      education: [
-        ...resumeData.education,
-        {
-          id: newId,
-          institution: "",
-          degree: "",
-          field: "",
-          startDate: "",
-          endDate: "",
-          current: false,
-          gpa: "",
-        },
-      ],
-    });
-  };
-
-  const removeEducation = (id: string) => {
-    onResumeDataChange({
-      ...resumeData,
-      education: resumeData.education.filter((edu) => edu.id !== id),
+      education: newEducation,
     });
   };
 
@@ -111,23 +75,90 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
     });
   };
 
-  const handleProjectsChange = (id: string, field: string, value: string) => {
+  const handleProjectsChange = (index: number, field: string, value: string) => {
+    const newProjects = [...resumeData.projects];
+    newProjects[index] = {
+      ...newProjects[index],
+      [field]: value,
+    };
     onResumeDataChange({
       ...resumeData,
-      projects: resumeData.projects.map((proj) =>
-        proj.id === id ? { ...proj, [field]: value } : proj
-      ),
+      projects: newProjects,
+    });
+  };
+
+  const handleCertificationsChange = (index: number, field: string, value: string) => {
+    const newCertifications = [...resumeData.certifications];
+    newCertifications[index] = {
+      ...newCertifications[index],
+      [field]: value,
+    };
+    onResumeDataChange({
+      ...resumeData,
+      certifications: newCertifications,
+    });
+  };
+
+  const addExperience = () => {
+    onResumeDataChange({
+      ...resumeData,
+      experience: [
+        ...resumeData.experience,
+        {
+          id: Date.now().toString(),
+          position: "",
+          company: "",
+          startDate: "",
+          endDate: "",
+          current: false,
+          description: "",
+        },
+      ],
+    });
+  };
+
+  const removeExperience = (index: number) => {
+    const newExperience = resumeData.experience.filter((_, i) => i !== index);
+    onResumeDataChange({
+      ...resumeData,
+      experience: newExperience,
+    });
+  };
+
+  const addEducation = () => {
+    onResumeDataChange({
+      ...resumeData,
+      education: [
+        ...resumeData.education,
+        {
+          id: Date.now().toString(),
+          degree: "",
+          field: "",
+          institution: "",
+          startDate: "",
+          endDate: "",
+          current: false,
+          gpa: "",
+        },
+      ],
+    });
+  };
+
+  const removeEducation = (index: number) => {
+    const newEducation = resumeData.education.filter((_, i) => i !== index);
+    onResumeDataChange({
+      ...resumeData,
+      education: newEducation,
     });
   };
 
   const addProject = () => {
-    const newId = (resumeData.projects.length + 1).toString();
     onResumeDataChange({
       ...resumeData,
       projects: [
         ...resumeData.projects,
         {
-          id: newId,
+          id: Date.now().toString(),
           name: "",
           description: "",
           technologies: "",
@@ -137,30 +168,21 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
     });
   };
 
-  const removeProject = (id: string) => {
+  const removeProject = (index: number) => {
+    const newProjects = resumeData.projects.filter((_, i) => i !== index);
     onResumeDataChange({
       ...resumeData,
-      projects: resumeData.projects.filter((proj) => proj.id !== id),
-    });
-  };
-
-  const handleCertificationsChange = (id: string, field: string, value: string) => {
-    onResumeDataChange({
-      ...resumeData,
-      certifications: resumeData.certifications.map((cert) =>
-        cert.id === id ? { ...cert, [field]: value } : cert
-      ),
+      projects: newProjects,
     });
   };
 
   const addCertification = () => {
-    const newId = (resumeData.certifications.length + 1).toString();
     onResumeDataChange({
       ...resumeData,
       certifications: [
         ...resumeData.certifications,
         {
-          id: newId,
+          id: Date.now().toString(),
           name: "",
           issuer: "",
           date: "",
@@ -170,62 +192,90 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
     });
   };
 
-  const removeCertification = (id: string) => {
+  const removeCertification = (index: number) => {
+    const newCertifications = resumeData.certifications.filter((_, i) => i !== index);
     onResumeDataChange({
       ...resumeData,
-      certifications: resumeData.certifications.filter((cert) => cert.id !== id),
+      certifications: newCertifications,
     });
+  };
+
+  const handleGetSuggestion = async (section: string, content: string) => {
+    try {
+      if (!content || content.trim() === '') {
+        let contextPrompt = '';
+        
+        switch (section) {
+          case 'summary':
+            contextPrompt = 'Please provide a professional summary for a resume. The person has experience in software development and is looking for a role in web development.';
+            break;
+          case 'experience':
+            contextPrompt = 'Please provide a job description for a software developer role. Include responsibilities and achievements.';
+            break;
+          case 'education':
+            contextPrompt = 'Please provide education details for a computer science degree.';
+            break;
+          case 'skills':
+            contextPrompt = 'Please suggest relevant technical and soft skills for a web developer.';
+            break;
+          case 'projects':
+            contextPrompt = 'Please provide a project description for a web application. Include technologies used and outcomes.';
+            break;
+          default:
+            contextPrompt = 'Please provide content for this section of the resume.';
+        }
+        
+        await onGetSuggestion(section, contextPrompt);
+      } else {
+        await onGetSuggestion(section, content);
+      }
+    } catch (err) {
+      console.error("Error getting suggestion:", err);
+    }
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex space-x-2 overflow-x-auto pb-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           variant={activeSection === "personal" ? "default" : "outline"}
           onClick={() => setActiveSection("personal")}
-          className="whitespace-nowrap"
         >
           Personal Info
         </Button>
         <Button
           variant={activeSection === "summary" ? "default" : "outline"}
           onClick={() => setActiveSection("summary")}
-          className="whitespace-nowrap"
         >
           Summary
         </Button>
         <Button
           variant={activeSection === "experience" ? "default" : "outline"}
           onClick={() => setActiveSection("experience")}
-          className="whitespace-nowrap"
         >
           Experience
         </Button>
         <Button
           variant={activeSection === "education" ? "default" : "outline"}
           onClick={() => setActiveSection("education")}
-          className="whitespace-nowrap"
         >
           Education
         </Button>
         <Button
           variant={activeSection === "skills" ? "default" : "outline"}
           onClick={() => setActiveSection("skills")}
-          className="whitespace-nowrap"
         >
           Skills
         </Button>
         <Button
           variant={activeSection === "projects" ? "default" : "outline"}
           onClick={() => setActiveSection("projects")}
-          className="whitespace-nowrap"
         >
           Projects
         </Button>
         <Button
           variant={activeSection === "certifications" ? "default" : "outline"}
           onClick={() => setActiveSection("certifications")}
-          className="whitespace-nowrap"
         >
           Certifications
         </Button>
@@ -233,14 +283,13 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
 
       {activeSection === "personal" && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="fullName">Full Name</Label>
               <Input
                 id="fullName"
                 value={resumeData.personalInfo.fullName}
                 onChange={(e) => handlePersonalInfoChange("fullName", e.target.value)}
-                placeholder="John Doe"
               />
             </div>
             <div className="space-y-2">
@@ -250,7 +299,6 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
                 type="email"
                 value={resumeData.personalInfo.email}
                 onChange={(e) => handlePersonalInfoChange("email", e.target.value)}
-                placeholder="john.doe@example.com"
               />
             </div>
             <div className="space-y-2">
@@ -259,7 +307,6 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
                 id="phone"
                 value={resumeData.personalInfo.phone}
                 onChange={(e) => handlePersonalInfoChange("phone", e.target.value)}
-                placeholder="+1 (123) 456-7890"
               />
             </div>
             <div className="space-y-2">
@@ -268,34 +315,30 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
                 id="location"
                 value={resumeData.personalInfo.location}
                 onChange={(e) => handlePersonalInfoChange("location", e.target.value)}
-                placeholder="New York, NY"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="website">Website (optional)</Label>
+              <Label htmlFor="website">Website</Label>
               <Input
                 id="website"
                 value={resumeData.personalInfo.website}
                 onChange={(e) => handlePersonalInfoChange("website", e.target.value)}
-                placeholder="https://johndoe.com"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="linkedin">LinkedIn (optional)</Label>
+              <Label htmlFor="linkedin">LinkedIn</Label>
               <Input
                 id="linkedin"
                 value={resumeData.personalInfo.linkedin}
                 onChange={(e) => handlePersonalInfoChange("linkedin", e.target.value)}
-                placeholder="https://linkedin.com/in/johndoe"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="github">GitHub (optional)</Label>
+              <Label htmlFor="github">GitHub</Label>
               <Input
                 id="github"
                 value={resumeData.personalInfo.github}
                 onChange={(e) => handlePersonalInfoChange("github", e.target.value)}
-                placeholder="https://github.com/johndoe"
               />
             </div>
           </div>
@@ -305,191 +348,221 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
       {activeSection === "summary" && (
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="summary">Professional Summary</Label>
+            <div className="flex justify-between items-center">
+              <Label htmlFor="summary">Professional Summary</Label>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleGetSuggestion("summary", resumeData.summary)}
+                disabled={isLoading}
+              >
+                <Wand2 className="h-4 w-4 mr-2" />
+                Get AI Suggestions
+              </Button>
+            </div>
             <Textarea
               id="summary"
               value={resumeData.summary}
               onChange={(e) => handleSummaryChange(e.target.value)}
-              placeholder="A brief summary of your professional background and career objectives..."
-              className="min-h-[150px]"
+              rows={4}
             />
+            {error && (
+              <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
+                {error}
+              </div>
+            )}
+            {suggestion && (
+              <div className="p-4 text-sm bg-blue-50 rounded-md">
+                <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
+                <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {activeSection === "experience" && (
-        <div className="space-y-6">
-          {resumeData.experience.map((exp) => (
-            <div key={exp.id} className="space-y-4 p-4 border rounded-md">
+        <div className="space-y-4">
+          {resumeData.experience.map((exp, index) => (
+            <div key={exp.id} className="space-y-4 p-4 border rounded-lg">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Experience {exp.id}</h3>
+                <h3 className="font-semibold">Experience {index + 1}</h3>
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeExperience(exp.id)}
-                  className="h-8 w-8"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeExperience(index)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`company-${exp.id}`}>Company</Label>
+                  <Label htmlFor={`position-${index}`}>Position</Label>
                   <Input
-                    id={`company-${exp.id}`}
-                    value={exp.company}
-                    onChange={(e) => handleExperienceChange(exp.id, "company", e.target.value)}
-                    placeholder="Company Name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`position-${exp.id}`}>Position</Label>
-                  <Input
-                    id={`position-${exp.id}`}
+                    id={`position-${index}`}
                     value={exp.position}
-                    onChange={(e) => handleExperienceChange(exp.id, "position", e.target.value)}
-                    placeholder="Job Title"
+                    onChange={(e) => handleExperienceChange(index, "position", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`startDate-${exp.id}`}>Start Date</Label>
+                  <Label htmlFor={`company-${index}`}>Company</Label>
                   <Input
-                    id={`startDate-${exp.id}`}
+                    id={`company-${index}`}
+                    value={exp.company}
+                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor={`startDate-${index}`}>Start Date</Label>
+                  <Input
+                    id={`startDate-${index}`}
                     type="month"
                     value={exp.startDate}
-                    onChange={(e) => handleExperienceChange(exp.id, "startDate", e.target.value)}
+                    onChange={(e) => handleExperienceChange(index, "startDate", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`endDate-${exp.id}`}>End Date</Label>
+                  <Label htmlFor={`endDate-${index}`}>End Date</Label>
                   <Input
-                    id={`endDate-${exp.id}`}
+                    id={`endDate-${index}`}
                     type="month"
                     value={exp.endDate}
-                    onChange={(e) => handleExperienceChange(exp.id, "endDate", e.target.value)}
+                    onChange={(e) => handleExperienceChange(index, "endDate", e.target.value)}
                     disabled={exp.current}
                   />
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
+                <div className="col-span-2">
+                  <Label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      id={`current-${exp.id}`}
                       checked={exp.current}
-                      onChange={(e) => handleExperienceChange(exp.id, "current", e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300"
+                      onChange={(e) => handleExperienceChange(index, "current", e.target.checked)}
                     />
-                    <Label htmlFor={`current-${exp.id}`}>I currently work here</Label>
-                  </div>
+                    <span>I currently work here</span>
+                  </Label>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor={`description-${exp.id}`}>Description</Label>
-                <Textarea
-                  id={`description-${exp.id}`}
-                  value={exp.description}
-                  onChange={(e) => handleExperienceChange(exp.id, "description", e.target.value)}
-                  placeholder="Describe your responsibilities and achievements..."
-                  className="min-h-[100px]"
-                />
+                <div className="col-span-2 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor={`description-${index}`}>Description</Label>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleGetSuggestion("experience", exp.description)}
+                      disabled={isLoading}
+                    >
+                      <Wand2 className="h-4 w-4 mr-2" />
+                      Get AI Suggestions
+                    </Button>
+                  </div>
+                  <Textarea
+                    id={`description-${index}`}
+                    value={exp.description}
+                    onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
+                    rows={4}
+                  />
+                  {error && (
+                    <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
+                      {error}
+                    </div>
+                  )}
+                  {suggestion && (
+                    <div className="p-4 text-sm bg-blue-50 rounded-md">
+                      <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
+                      <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
-          <Button onClick={addExperience} className="w-full">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button onClick={addExperience} variant="outline">
+            <Plus className="h-4 w-4 mr-2" />
             Add Experience
           </Button>
         </div>
       )}
 
       {activeSection === "education" && (
-        <div className="space-y-6">
-          {resumeData.education.map((edu) => (
-            <div key={edu.id} className="space-y-4 p-4 border rounded-md">
+        <div className="space-y-4">
+          {resumeData.education.map((edu, index) => (
+            <div key={edu.id} className="space-y-4 p-4 border rounded-lg">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Education {edu.id}</h3>
+                <h3 className="font-semibold">Education {index + 1}</h3>
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeEducation(edu.id)}
-                  className="h-8 w-8"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeEducation(index)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`institution-${edu.id}`}>Institution</Label>
+                  <Label htmlFor={`degree-${index}`}>Degree</Label>
                   <Input
-                    id={`institution-${edu.id}`}
-                    value={edu.institution}
-                    onChange={(e) => handleEducationChange(edu.id, "institution", e.target.value)}
-                    placeholder="University Name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`degree-${edu.id}`}>Degree</Label>
-                  <Input
-                    id={`degree-${edu.id}`}
+                    id={`degree-${index}`}
                     value={edu.degree}
-                    onChange={(e) => handleEducationChange(edu.id, "degree", e.target.value)}
-                    placeholder="Bachelor of Science"
+                    onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`field-${edu.id}`}>Field of Study</Label>
+                  <Label htmlFor={`field-${index}`}>Field of Study</Label>
                   <Input
-                    id={`field-${edu.id}`}
+                    id={`field-${index}`}
                     value={edu.field}
-                    onChange={(e) => handleEducationChange(edu.id, "field", e.target.value)}
-                    placeholder="Computer Science"
+                    onChange={(e) => handleEducationChange(index, "field", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`gpa-${edu.id}`}>GPA (optional)</Label>
+                  <Label htmlFor={`institution-${index}`}>Institution</Label>
                   <Input
-                    id={`gpa-${edu.id}`}
+                    id={`institution-${index}`}
+                    value={edu.institution}
+                    onChange={(e) => handleEducationChange(index, "institution", e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor={`gpa-${index}`}>GPA</Label>
+                  <Input
+                    id={`gpa-${index}`}
                     value={edu.gpa}
-                    onChange={(e) => handleEducationChange(edu.id, "gpa", e.target.value)}
-                    placeholder="3.8"
+                    onChange={(e) => handleEducationChange(index, "gpa", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`edu-startDate-${edu.id}`}>Start Date</Label>
+                  <Label htmlFor={`startDate-${index}`}>Start Date</Label>
                   <Input
-                    id={`edu-startDate-${edu.id}`}
+                    id={`startDate-${index}`}
                     type="month"
                     value={edu.startDate}
-                    onChange={(e) => handleEducationChange(edu.id, "startDate", e.target.value)}
+                    onChange={(e) => handleEducationChange(index, "startDate", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`edu-endDate-${edu.id}`}>End Date</Label>
+                  <Label htmlFor={`endDate-${index}`}>End Date</Label>
                   <Input
-                    id={`edu-endDate-${edu.id}`}
+                    id={`endDate-${index}`}
                     type="month"
                     value={edu.endDate}
-                    onChange={(e) => handleEducationChange(edu.id, "endDate", e.target.value)}
+                    onChange={(e) => handleEducationChange(index, "endDate", e.target.value)}
                     disabled={edu.current}
                   />
                 </div>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
+                <div className="col-span-2">
+                  <Label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      id={`edu-current-${edu.id}`}
                       checked={edu.current}
-                      onChange={(e) => handleEducationChange(edu.id, "current", e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300"
+                      onChange={(e) => handleEducationChange(index, "current", e.target.checked)}
                     />
-                    <Label htmlFor={`edu-current-${edu.id}`}>I am currently studying here</Label>
-                  </div>
+                    <span>I am currently studying here</span>
+                  </Label>
                 </div>
               </div>
             </div>
           ))}
-          <Button onClick={addEducation} className="w-full">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button onClick={addEducation} variant="outline">
+            <Plus className="h-4 w-4 mr-2" />
             Add Education
           </Button>
         </div>
@@ -498,138 +571,172 @@ export default function ResumeForm({ resumeData, onResumeDataChange }: ResumeFor
       {activeSection === "skills" && (
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="skills">Skills (comma separated)</Label>
+            <div className="flex justify-between items-center">
+              <Label htmlFor="skills">Skills (comma-separated)</Label>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleGetSuggestion("skills", resumeData.skills.join(", "))}
+                disabled={isLoading}
+              >
+                <Wand2 className="h-4 w-4 mr-2" />
+                Get AI Suggestions
+              </Button>
+            </div>
             <Textarea
               id="skills"
               value={resumeData.skills.join(", ")}
               onChange={(e) => handleSkillsChange(e.target.value)}
-              placeholder="JavaScript, React, Node.js, TypeScript..."
-              className="min-h-[100px]"
+              rows={4}
             />
+            {error && (
+              <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
+                {error}
+              </div>
+            )}
+            {suggestion && (
+              <div className="p-4 text-sm bg-blue-50 rounded-md">
+                <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
+                <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {activeSection === "projects" && (
-        <div className="space-y-6">
-          {resumeData.projects.map((proj) => (
-            <div key={proj.id} className="space-y-4 p-4 border rounded-md">
+        <div className="space-y-4">
+          {resumeData.projects.map((proj, index) => (
+            <div key={proj.id} className="space-y-4 p-4 border rounded-lg">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Project {proj.id}</h3>
+                <h3 className="font-semibold">Project {index + 1}</h3>
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeProject(proj.id)}
-                  className="h-8 w-8"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeProject(index)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`project-name-${proj.id}`}>Project Name</Label>
+                  <Label htmlFor={`name-${index}`}>Project Name</Label>
                   <Input
-                    id={`project-name-${proj.id}`}
+                    id={`name-${index}`}
                     value={proj.name}
-                    onChange={(e) => handleProjectsChange(proj.id, "name", e.target.value)}
-                    placeholder="Project Name"
+                    onChange={(e) => handleProjectsChange(index, "name", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`project-technologies-${proj.id}`}>Technologies Used</Label>
+                  <Label htmlFor={`technologies-${index}`}>Technologies Used</Label>
                   <Input
-                    id={`project-technologies-${proj.id}`}
+                    id={`technologies-${index}`}
                     value={proj.technologies}
-                    onChange={(e) => handleProjectsChange(proj.id, "technologies", e.target.value)}
-                    placeholder="React, Node.js, MongoDB"
+                    onChange={(e) => handleProjectsChange(index, "technologies", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`project-link-${proj.id}`}>Project Link (optional)</Label>
+                  <Label htmlFor={`link-${index}`}>Project Link</Label>
                   <Input
-                    id={`project-link-${proj.id}`}
+                    id={`link-${index}`}
                     value={proj.link}
-                    onChange={(e) => handleProjectsChange(proj.id, "link", e.target.value)}
-                    placeholder="https://github.com/username/project"
+                    onChange={(e) => handleProjectsChange(index, "link", e.target.value)}
                   />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor={`project-description-${proj.id}`}>Description</Label>
-                <Textarea
-                  id={`project-description-${proj.id}`}
-                  value={proj.description}
-                  onChange={(e) => handleProjectsChange(proj.id, "description", e.target.value)}
-                  placeholder="Describe your project..."
-                  className="min-h-[100px]"
-                />
+                <div className="col-span-2 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <Label htmlFor={`description-${index}`}>Description</Label>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleGetSuggestion("projects", proj.description)}
+                      disabled={isLoading}
+                    >
+                      <Wand2 className="h-4 w-4 mr-2" />
+                      Get AI Suggestions
+                    </Button>
+                  </div>
+                  <Textarea
+                    id={`description-${index}`}
+                    value={proj.description}
+                    onChange={(e) => handleProjectsChange(index, "description", e.target.value)}
+                    rows={4}
+                  />
+                  {error && (
+                    <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
+                      {error}
+                    </div>
+                  )}
+                  {suggestion && (
+                    <div className="p-4 text-sm bg-blue-50 rounded-md">
+                      <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
+                      <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
-          <Button onClick={addProject} className="w-full">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button onClick={addProject} variant="outline">
+            <Plus className="h-4 w-4 mr-2" />
             Add Project
           </Button>
         </div>
       )}
 
       {activeSection === "certifications" && (
-        <div className="space-y-6">
-          {resumeData.certifications.map((cert) => (
-            <div key={cert.id} className="space-y-4 p-4 border rounded-md">
+        <div className="space-y-4">
+          {resumeData.certifications.map((cert, index) => (
+            <div key={cert.id} className="space-y-4 p-4 border rounded-lg">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">Certification {cert.id}</h3>
+                <h3 className="font-semibold">Certification {index + 1}</h3>
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeCertification(cert.id)}
-                  className="h-8 w-8"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => removeCertification(index)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`cert-name-${cert.id}`}>Certification Name</Label>
+                  <Label htmlFor={`name-${index}`}>Certification Name</Label>
                   <Input
-                    id={`cert-name-${cert.id}`}
+                    id={`name-${index}`}
                     value={cert.name}
-                    onChange={(e) => handleCertificationsChange(cert.id, "name", e.target.value)}
-                    placeholder="AWS Certified Solutions Architect"
+                    onChange={(e) => handleCertificationsChange(index, "name", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`cert-issuer-${cert.id}`}>Issuing Organization</Label>
+                  <Label htmlFor={`issuer-${index}`}>Issuing Organization</Label>
                   <Input
-                    id={`cert-issuer-${cert.id}`}
+                    id={`issuer-${index}`}
                     value={cert.issuer}
-                    onChange={(e) => handleCertificationsChange(cert.id, "issuer", e.target.value)}
-                    placeholder="Amazon Web Services"
+                    onChange={(e) => handleCertificationsChange(index, "issuer", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`cert-date-${cert.id}`}>Date Obtained</Label>
+                  <Label htmlFor={`date-${index}`}>Date</Label>
                   <Input
-                    id={`cert-date-${cert.id}`}
+                    id={`date-${index}`}
                     type="month"
                     value={cert.date}
-                    onChange={(e) => handleCertificationsChange(cert.id, "date", e.target.value)}
+                    onChange={(e) => handleCertificationsChange(index, "date", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`cert-link-${cert.id}`}>Certificate Link (optional)</Label>
+                  <Label htmlFor={`link-${index}`}>Certificate Link</Label>
                   <Input
-                    id={`cert-link-${cert.id}`}
+                    id={`link-${index}`}
                     value={cert.link}
-                    onChange={(e) => handleCertificationsChange(cert.id, "link", e.target.value)}
-                    placeholder="https://credential.net/..."
+                    onChange={(e) => handleCertificationsChange(index, "link", e.target.value)}
                   />
                 </div>
               </div>
             </div>
           ))}
-          <Button onClick={addCertification} className="w-full">
-            <Plus className="mr-2 h-4 w-4" />
+          <Button onClick={addCertification} variant="outline">
+            <Plus className="h-4 w-4 mr-2" />
             Add Certification
           </Button>
         </div>
