@@ -6,7 +6,6 @@ const apiKey = process.env.GEMINI_API_KEY;
 
 export async function POST(request: Request) {
   try {
-
     if (!apiKey) {
       console.error("GEMINI_API_KEY is not set in environment variables");
       return NextResponse.json(
@@ -28,19 +27,29 @@ export async function POST(request: Request) {
     // Create a prompt based on the section
     const prompt = generatePrompt(section, currentContent || "");
 
-    // Get the model
+    // Get the model - Updated to use the correct model name
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     // Generate content with proper error handling
     try {
       const result = await model.generateContent(prompt);
-      const response = await result.response;
+      
+      if (!result.response) {
+        throw new Error("No response received from the model");
+      }
+      
+      const response = result.response;
       const text = response.text();
+      
+      if (!text) {
+        throw new Error("Empty response from the model");
+      }
+      
       return NextResponse.json({ suggestion: text });
     } catch (modelError: any) {
       console.error("Model generation error:", modelError);
       return NextResponse.json(
-        { error: "Failed to generate content. Please try again later." },
+        { error: modelError?.message || "Failed to generate content. Please try again later." },
         { status: 500 }
       );
     }
@@ -48,7 +57,7 @@ export async function POST(request: Request) {
     console.error("Error generating suggestion:", error);
     
     // Handle specific error types
-    if (error.message && error.message.includes("403")) {
+    if (error.message?.includes("403")) {
       return NextResponse.json(
         { error: "API key is invalid or has insufficient permissions. Please contact the administrator." },
         { status: 403 }
@@ -89,4 +98,4 @@ function generatePrompt(section: string, currentContent: string): string {
     default:
       return basePrompt;
   }
-} 
+}
