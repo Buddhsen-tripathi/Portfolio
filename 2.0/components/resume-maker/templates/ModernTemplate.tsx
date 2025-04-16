@@ -17,7 +17,7 @@ export default function ModernTemplate({ resumeData, sections }: { resumeData: R
   return (
     <div className="font-sans text-black">
       {/* Header */}
-      <div className="mb-8 text-center">
+      <div className="mb-8 text-center" data-section-id="personal">
         <h1 className="text-[18pt] font-bold mb-2">{resumeData.personalInfo.fullName || "Your Name"}</h1>
         <div className="flex flex-wrap justify-center gap-4 text-[11pt] text-gray-600">
           {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
@@ -38,7 +38,7 @@ export default function ModernTemplate({ resumeData, sections }: { resumeData: R
       </div>
       {/* Sections */}
       {sections.map((section) => section.visible && (
-        <div key={section.id}>
+        <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">
               <h2 className="text-[14pt] font-semibold mb-2 border-b-2 border-blue-400 text-blue-700 uppercase tracking-wide">Professional Summary</h2>

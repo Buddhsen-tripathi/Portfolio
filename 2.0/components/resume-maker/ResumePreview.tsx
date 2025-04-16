@@ -39,23 +39,25 @@ const PAGE_HEIGHT = 1123; // px
 const PADDING_X = 32; // px
 const PADDING_Y = 48; // px
 
-// Helper to split content into pages for preview
-function splitContentIntoPages(content: HTMLElement, pageHeight: number): HTMLElement[] {
+// Helper to split sections into pages for preview
+function splitSectionsIntoPages(content: HTMLElement, pageHeight: number): HTMLElement[] {
   const pages: HTMLElement[] = [];
   let currentPage = document.createElement('div');
   currentPage.style.height = `${pageHeight}px`;
   let currentHeight = 0;
-  Array.from(content.children).forEach((child) => {
-    const childEl = child as HTMLElement;
-    const childHeight = childEl.offsetHeight;
-    if (currentHeight + childHeight > pageHeight && currentHeight > 0) {
+  // Only select direct children with data-section-id (atomic blocks)
+  const sections = Array.from(content.querySelectorAll('[data-section-id]'));
+  sections.forEach((section) => {
+    const sectionEl = section as HTMLElement;
+    const sectionHeight = sectionEl.offsetHeight;
+    if (currentHeight + sectionHeight > pageHeight && currentHeight > 0) {
       pages.push(currentPage);
       currentPage = document.createElement('div');
       currentPage.style.height = `${pageHeight}px`;
       currentHeight = 0;
     }
-    currentPage.appendChild(childEl.cloneNode(true));
-    currentHeight += childHeight;
+    currentPage.appendChild(sectionEl.cloneNode(true));
+    currentHeight += sectionHeight;
   });
   if (currentPage.childNodes.length > 0) {
     pages.push(currentPage);
@@ -68,30 +70,31 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
   const [exporting, setExporting] = useState(false);
   const [pageCount, setPageCount] = useState(1);
   const [pages, setPages] = useState<React.ReactNode[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [showAllPagesForExport, setShowAllPagesForExport] = useState(false);
 
   const TemplateComponent = templateMap[template] || ProfessionalTemplate;
 
-  // Split content into pages for preview
+  // Split content into pages for preview (by section)
   useEffect(() => {
     if (!contentRef.current) return;
-    // Temporarily render content to measure and split
     const tempContainer = document.createElement('div');
     tempContainer.style.width = `${PAGE_WIDTH - PADDING_X * 2}px`;
     tempContainer.style.position = 'absolute';
-    tempContainer.style.visibility = 'hidden';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '0';
+    tempContainer.style.visibility = 'visible';
     tempContainer.style.padding = `${PADDING_Y}px ${PADDING_X}px`;
     document.body.appendChild(tempContainer);
-    // Render the template into the temp container
-    // We need to render the actual DOM, so we use innerHTML
     tempContainer.innerHTML = contentRef.current.innerHTML;
-    // Split into pages
-    const splitPages = splitContentIntoPages(tempContainer, PAGE_HEIGHT - PADDING_Y * 2);
+    // Split by section blocks
+    const splitPages = splitSectionsIntoPages(tempContainer, PAGE_HEIGHT - PADDING_Y * 2);
     setPageCount(splitPages.length);
     setPages(
       splitPages.map((page, idx) => (
         <div
           key={idx}
-          className="resume-page a4-page mx-auto bg-white shadow-lg border border-gray-200 rounded-lg text-black print:shadow-none print:border-none"
+          className="resume-page a4-page mx-auto bg-white shadow-lg border-2 border-blue-300 rounded-lg text-black print:shadow-none print:border-none"
           style={{
             width: `${PAGE_WIDTH}px`,
             minHeight: `${PAGE_HEIGHT}px`,
@@ -104,21 +107,32 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
             pageBreakAfter: 'always',
             breakAfter: 'page',
             padding: `${PADDING_Y}px ${PADDING_X}px`,
+            background: '#f8fafc',
           }}
           dangerouslySetInnerHTML={{ __html: page.innerHTML }}
         />
       ))
     );
+    setCurrentPage(0); // Reset to first page on data/template change
     document.body.removeChild(tempContainer);
   }, [resumeData, template, sections]);
 
   // PDF export: render each page to canvas and add to PDF
   const handleExportPDF = async () => {
-    if (!contentRef.current) return;
+    setShowAllPagesForExport(true);
+    await new Promise((resolve) => setTimeout(resolve, 100)); // let DOM update
     setExporting(true);
     try {
-      // Render each page
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+      // Select the actually rendered .resume-page elements
       const pageDivs = Array.from(document.querySelectorAll('.resume-page')) as HTMLDivElement[];
+      if (!pageDivs.length) {
+        setExporting(false);
+        setShowAllPagesForExport(false);
+        return;
+      }
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "px",
@@ -142,15 +156,16 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
       onExportPDF();
     } finally {
       setExporting(false);
+      setShowAllPagesForExport(false);
     }
   };
 
   if (!showPreview) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <Tooltip content="Export your resume as a PDF">
+    <div className="space-y-4 print-resume-root">
+      <div className="flex justify-end gap-2 print:hidden">
+        <Tooltip content="Export your resume as a PDF (screenshot of what you see)">
           <Button onClick={handleExportPDF} className="flex items-center gap-2" disabled={exporting}>
             {exporting ? (
               <span className="animate-spin w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full"></span>
@@ -181,8 +196,45 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
           <TemplateComponent resumeData={resumeData} sections={sections} />
         </div>
       </div>
-      {/* Render split pages for preview */}
-      {pages}
+      {/* Render only the current page for preview */}
+      {pages.length > 0 && (
+        <div>
+          {pages.map((page, idx) => (
+            <div
+              key={idx}
+              style={
+                showAllPagesForExport || idx === currentPage
+                  ? { visibility: 'visible', position: 'relative', width: '100%' }
+                  : { display: 'none' }
+              }
+              className="resume-page-container"
+            >
+              {page}
+            </div>
+          ))}
+          <div className="flex justify-center items-center gap-4 mt-2 print:hidden">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </Button>
+            <span className="text-sm text-gray-600">
+              Page {currentPage + 1} of {pages.length}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, pages.length - 1))}
+              disabled={currentPage === pages.length - 1}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

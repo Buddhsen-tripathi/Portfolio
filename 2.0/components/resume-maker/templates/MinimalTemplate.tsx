@@ -17,7 +17,7 @@ export default function MinimalTemplate({ resumeData, sections }: { resumeData: 
   return (
     <div className="font-sans text-black">
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8" data-section-id="personal">
         <h1 className="text-[18pt] font-light mb-2">{resumeData.personalInfo.fullName || "Your Name"}</h1>
         <div className="flex flex-wrap gap-4 text-[11pt] text-gray-500">
           {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
@@ -38,7 +38,7 @@ export default function MinimalTemplate({ resumeData, sections }: { resumeData: 
       </div>
       {/* Sections */}
       {sections.map((section) => section.visible && (
-        <div key={section.id}>
+        <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">
               <h2 className="text-[14pt] font-light mb-2 uppercase tracking-wider text-gray-700">About</h2>

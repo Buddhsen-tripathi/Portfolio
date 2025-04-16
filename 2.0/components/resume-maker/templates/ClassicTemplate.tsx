@@ -17,7 +17,7 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
   return (
     <div className="font-serif text-black">
       {/* Header */}
-      <div className="mb-8 text-center border-b-2 border-black pb-4">
+      <div className="mb-8 text-center border-b-2 border-black pb-4" data-section-id="personal">
         <h1 className="text-[18pt] font-bold mb-2">{resumeData.personalInfo.fullName || "Your Name"}</h1>
         <div className="flex flex-wrap justify-center gap-4 text-[11pt]">
           {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
@@ -38,7 +38,7 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
       </div>
       {/* Sections */}
       {sections.map((section) => section.visible && (
-        <div key={section.id}>
+        <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">
               <h2 className="text-[14pt] font-bold mb-2 uppercase tracking-wide">PROFESSIONAL SUMMARY</h2>
