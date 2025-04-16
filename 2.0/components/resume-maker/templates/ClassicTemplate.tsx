@@ -1,5 +1,6 @@
 import { ResumeData } from "@/app/craftfolio/page";
 import { cn } from "@/lib/utils";
+import { SiGithub, SiLinkedin } from "react-icons/si";
 
 interface Section {
   id: string;
@@ -26,14 +27,20 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
         </div>
         <div className="flex flex-wrap justify-center gap-4 mt-2 text-[11pt]">
           {resumeData.personalInfo.website && (
-            <a href={resumeData.personalInfo.website} className="text-black hover:underline">Website</a>
+            <a href={resumeData.personalInfo.website} className="text-black hover:underline">{resumeData.personalInfo.website}</a>
           )}
-          {resumeData.personalInfo.linkedin && (
-            <a href={resumeData.personalInfo.linkedin} className="text-black hover:underline">LinkedIn</a>
-          )}
-          {resumeData.personalInfo.github && (
-            <a href={resumeData.personalInfo.github} className="text-black hover:underline">GitHub</a>
-          )}
+            {resumeData.personalInfo.linkedin && (
+            <a href={resumeData.personalInfo.linkedin} className="text-black hover:underline flex items-center gap-1">
+              <SiLinkedin />
+              <span>{resumeData.personalInfo.linkedin}</span>
+            </a>
+            )}
+            {resumeData.personalInfo.github && (
+            <a href={resumeData.personalInfo.github} className="text-black hover:underline flex items-center gap-1">
+              <SiGithub />
+              <span>{resumeData.personalInfo.github}</span>
+            </a>
+            )}
         </div>
       </div>
       {/* Sections */}
@@ -98,9 +105,6 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
                 <div key={proj.id} className="mb-4">
                   <div className="flex justify-between items-start">
                     <h3 className="text-[12pt] font-bold">{proj.name}</h3>
-                    {proj.link && (
-                      <a href={proj.link} className="text-[11pt] text-black hover:underline">View Project</a>
-                    )}
                   </div>
                   <p className="text-[11pt] italic mb-1">{proj.technologies}</p>
                   <p className="text-[11pt]">{proj.description}</p>
@@ -120,9 +124,6 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
                     </div>
                     <p className="text-[11pt]">{formatDate(cert.date)}</p>
                   </div>
-                  {cert.link && (
-                    <a href={cert.link} className="text-[11pt] text-black hover:underline">View Certificate</a>
-                  )}
                 </div>
               ))}
             </div>

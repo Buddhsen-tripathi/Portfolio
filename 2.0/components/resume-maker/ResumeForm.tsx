@@ -161,8 +161,7 @@ export default function ResumeForm({
           id: Date.now().toString(),
           name: "",
           description: "",
-          technologies: "",
-          link: "",
+          technologies: ""
         },
       ],
     });
@@ -185,8 +184,7 @@ export default function ResumeForm({
           id: Date.now().toString(),
           name: "",
           issuer: "",
-          date: "",
-          link: "",
+          date: ""
         },
       ],
     });
@@ -318,7 +316,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="website">Website</Label>
+              <Label htmlFor="website">Website (No https://)</Label>
               <Input
                 id="website"
                 value={resumeData.personalInfo.website}
@@ -326,7 +324,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="linkedin">LinkedIn</Label>
+              <Label htmlFor="linkedin">LinkedIn Username</Label>
               <Input
                 id="linkedin"
                 value={resumeData.personalInfo.linkedin}
@@ -334,7 +332,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="github">GitHub</Label>
+              <Label htmlFor="github">GitHub Username</Label>
               <Input
                 id="github"
                 value={resumeData.personalInfo.github}
@@ -635,14 +633,6 @@ export default function ResumeForm({
                     onChange={(e) => handleProjectsChange(index, "technologies", e.target.value)}
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`link-${index}`}>Project Link</Label>
-                  <Input
-                    id={`link-${index}`}
-                    value={proj.link}
-                    onChange={(e) => handleProjectsChange(index, "link", e.target.value)}
-                  />
-                </div>
                 <div className="col-span-2 space-y-2">
                   <div className="flex justify-between items-center">
                     <Label htmlFor={`description-${index}`}>Description</Label>
@@ -722,14 +712,6 @@ export default function ResumeForm({
                     type="month"
                     value={cert.date}
                     onChange={(e) => handleCertificationsChange(index, "date", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`link-${index}`}>Certificate Link</Label>
-                  <Input
-                    id={`link-${index}`}
-                    value={cert.link}
-                    onChange={(e) => handleCertificationsChange(index, "link", e.target.value)}
                   />
                 </div>
               </div>

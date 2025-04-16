@@ -39,29 +39,49 @@ const PAGE_HEIGHT = 1123; // px
 const PADDING_X = 32; // px
 const PADDING_Y = 48; // px
 
-// Helper to split sections into pages for preview
+// Helper to split sections into pages for preview with smarter page breaks
 function splitSectionsIntoPages(content: HTMLElement, pageHeight: number): HTMLElement[] {
   const pages: HTMLElement[] = [];
   let currentPage = document.createElement('div');
   currentPage.style.height = `${pageHeight}px`;
+  currentPage.style.position = 'relative';
+  currentPage.style.overflow = 'hidden';
   let currentHeight = 0;
+  
   // Only select direct children with data-section-id (atomic blocks)
   const sections = Array.from(content.querySelectorAll('[data-section-id]'));
+  
   sections.forEach((section) => {
     const sectionEl = section as HTMLElement;
     const sectionHeight = sectionEl.offsetHeight;
+    const sectionId = sectionEl.getAttribute('data-section-id');
+    
+    // Check if adding this section would overflow the page
     if (currentHeight + sectionHeight > pageHeight && currentHeight > 0) {
       pages.push(currentPage);
       currentPage = document.createElement('div');
       currentPage.style.height = `${pageHeight}px`;
+      currentPage.style.position = 'relative';
+      currentPage.style.overflow = 'hidden';
       currentHeight = 0;
     }
-    currentPage.appendChild(sectionEl.cloneNode(true));
+    
+    // Clone the section to avoid modifying the original
+    const clonedSection = sectionEl.cloneNode(true) as HTMLElement;
+    
+    // Add page-break-inside: avoid to critical sections
+    if (sectionId === "summary" || sectionId === "skills") {
+      clonedSection.style.pageBreakInside = 'avoid';
+    }
+    
+    currentPage.appendChild(clonedSection);
     currentHeight += sectionHeight;
   });
+  
   if (currentPage.childNodes.length > 0) {
     pages.push(currentPage);
   }
+  
   return pages;
 }
 
@@ -117,15 +137,18 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
     document.body.removeChild(tempContainer);
   }, [resumeData, template, sections]);
 
-  // PDF export: render each page to canvas and add to PDF
+  // PDF export: render each page to canvas and add to PDF with improved quality
   const handleExportPDF = async () => {
     setShowAllPagesForExport(true);
     await new Promise((resolve) => setTimeout(resolve, 100)); // let DOM update
     setExporting(true);
     try {
+      // Make sure fonts are loaded before rendering
       if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
+
       // Select the actually rendered .resume-page elements
       const pageDivs = Array.from(document.querySelectorAll('.resume-page')) as HTMLDivElement[];
       if (!pageDivs.length) {
@@ -133,26 +156,72 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
         setShowAllPagesForExport(false);
         return;
       }
+
+      // Create PDF with proper settings
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "px",
         format: [PAGE_WIDTH, PAGE_HEIGHT],
+        hotfixes: ["px_scaling"],
       });
+
+      // Process each page
       for (let i = 0; i < pageDivs.length; i++) {
-        const pageCanvas = await html2canvas(pageDivs[i], {
-          scale: 2,
+        // Apply fixes to ensure text is rendered as black
+        const pageDiv = pageDivs[i];
+        const textElements = pageDiv.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span');
+        textElements.forEach(el => {
+          if (window.getComputedStyle(el as HTMLElement).color !== 'rgb(0, 0, 0)') {
+            (el as HTMLElement).style.color = 'rgb(0, 0, 0)';
+          }
+        });
+
+        // Make sure links are preserved with blue color
+        const links = pageDiv.querySelectorAll('a');
+        links.forEach(link => {
+          link.style.color = '#2563eb'; // Blue color
+        });
+
+        // Render to canvas with optimized settings
+        const pageCanvas = await html2canvas(pageDiv, {
+          scale: 2.0, // Higher scale for better quality
           useCORS: true,
           logging: false,
           width: PAGE_WIDTH,
           height: PAGE_HEIGHT,
           windowWidth: PAGE_WIDTH,
           windowHeight: PAGE_HEIGHT,
+          backgroundColor: '#ffffff', // Ensure white background
+          imageTimeout: 1500,
+          onclone: (document) => {
+            // Fix font rendering in the cloned document
+            const style = document.createElement('style');
+            style.innerHTML = `
+              * {
+                font-family: Helvetica, Arial, sans-serif !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+              }
+            `;
+            document.head.appendChild(style);
+            return document;
+          }
         });
-        const imgData = pageCanvas.toDataURL("image/png");
+
+        // Add to PDF with proper quality settings
+        const imgData = pageCanvas.toDataURL("image/png", 1.0);
         if (i > 0) pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT], 'portrait');
-        pdf.addImage(imgData, "PNG", 0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+        pdf.addImage(imgData, "PNG", 0, 0, PAGE_WIDTH, PAGE_HEIGHT, undefined, 'FAST');
       }
-      pdf.save(`${resumeData.personalInfo.fullName || "resume"}.pdf`);
+
+      // Save PDF with proper filename
+      const firstName = resumeData.personalInfo.fullName?.split(' ')[0] || '';
+      const lastName = resumeData.personalInfo.fullName?.split(' ').slice(1).join(' ') || '';
+      const fileName = resumeData.personalInfo.fullName 
+        ? `${firstName}_${lastName}_Resume.pdf`
+        : "resume.pdf";
+
+      pdf.save(fileName);
       onExportPDF();
     } finally {
       setExporting(false);

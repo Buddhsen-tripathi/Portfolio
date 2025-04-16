@@ -45,7 +45,6 @@ export interface Project {
   name: string;
   description: string;
   technologies: string;
-  link: string;
 }
 
 export interface Certification {
@@ -53,7 +52,6 @@ export interface Certification {
   name: string;
   issuer: string;
   date: string;
-  link: string;
 }
 
 export interface ResumeData {
@@ -132,8 +130,7 @@ const defaultResumeData: ResumeData = {
       id: "default-proj-1",
       name: "E-commerce Platform",
       description: "Developed a full-stack e-commerce platform with React, Node.js, and MongoDB. Implemented secure payment processing and real-time inventory management.",
-      technologies: "React, Node.js, Express, MongoDB, Stripe API",
-      link: "https://github.com/johndoe/ecommerce",
+      technologies: "React, Node.js, Express, MongoDB, Stripe API"
     }
   ],
   certifications: [
@@ -141,8 +138,7 @@ const defaultResumeData: ResumeData = {
       id: "default-cert-1",
       name: "AWS Certified Solutions Architect",
       issuer: "Amazon Web Services",
-      date: "2023-06",
-      link: "https://aws.amazon.com/certification/",
+      date: "2023-06"
     }
   ],
 };
