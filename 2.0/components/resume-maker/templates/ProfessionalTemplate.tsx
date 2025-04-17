@@ -70,14 +70,14 @@ export default function ProfessionalTemplate({ resumeData, sections }: { resumeD
       {/* Header */}
       <div className="mb-8 border-b-2 border-gray-300 text-center" data-section-id="personal" style={{paddingBottom: '1.5rem'}}>
         <h1 className="text-[32px] font-bold mb-4" style={styles.heading}>{resumeData.personalInfo.fullName || "Your Name"}</h1>
-        <div className="flex flex-wrap justify-center gap-4 text-[12px] text-gray-600">
+        <div className="flex flex-wrap justify-center gap-4 text-[14px] text-gray-600">
           {resumeData.personalInfo.email && <span style={styles.dateText}>{resumeData.personalInfo.email}</span>}
           {resumeData.personalInfo.phone && <span style={styles.dateText}>{resumeData.personalInfo.phone}</span>}
           {resumeData.personalInfo.location && <span style={styles.dateText}>{resumeData.personalInfo.location}</span>}
         </div>
-        <div className="flex flex-wrap justify-center gap-4 mt-2 text-[12px]">
+        <div className="flex flex-wrap justify-center gap-4 mt-2 text-[14px]">
           {resumeData.personalInfo.website && (
-            <a href={resumeData.personalInfo.website} className="text-blue-600 hover:underline" style={styles.link}>{resumeData.personalInfo.website}</a>
+            <a href={resumeData.personalInfo.website} className="text-blue-600 hover:underline" style={styles.link}>Website</a>
           )}
           {resumeData.personalInfo.linkedin && (
             <a href={resumeData.personalInfo.linkedin} className="text-blue-600 hover:underline" style={styles.link}>LinkedIn</a>
@@ -93,13 +93,13 @@ export default function ProfessionalTemplate({ resumeData, sections }: { resumeD
         <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">
-              <h2 className="text-[20px] font-bold mb-4 uppercase tracking-wide" style={styles.subHeading}>Professional Summary</h2>
+              <h2 className="text-[20px] font-bold mb-4 uppercase tracking-wide" style={styles.subHeading}>Summary</h2>
               <p className="text-[13px] text-gray-700 font-normal" style={styles.normal}>{resumeData.summary}</p>
             </div>
           )}
           {section.id === "experience" && resumeData.experience.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-[20px] font-bold mb-4 uppercase tracking-wide" style={styles.subHeading}>Professional Experience</h2>
+              <h2 className="text-[20px] font-bold mb-4 uppercase tracking-wide" style={styles.subHeading}>Experience</h2>
               {resumeData.experience.map((exp) => (
                 <div key={exp.id} className="mb-4">
                   <div className="flex justify-between items-start">

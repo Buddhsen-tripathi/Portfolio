@@ -27,18 +27,16 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
         </div>
         <div className="flex flex-wrap justify-center gap-4 mt-2 text-[11pt]">
           {resumeData.personalInfo.website && (
-            <a href={resumeData.personalInfo.website} className="text-black hover:underline">{resumeData.personalInfo.website}</a>
+            <a href={resumeData.personalInfo.website} className="text-blue-700 hover:underline">Website</a>
           )}
             {resumeData.personalInfo.linkedin && (
-            <a href={resumeData.personalInfo.linkedin} className="text-black hover:underline flex items-center gap-1">
-              <SiLinkedin />
-              <span>{resumeData.personalInfo.linkedin}</span>
+            <a href={resumeData.personalInfo.linkedin} className="text-blue-700 hover:underline flex items-center gap-1">
+              <span>LinkedIn</span>
             </a>
             )}
             {resumeData.personalInfo.github && (
-            <a href={resumeData.personalInfo.github} className="text-black hover:underline flex items-center gap-1">
-              <SiGithub />
-              <span>{resumeData.personalInfo.github}</span>
+            <a href={resumeData.personalInfo.github} className="text-blue-700 hover:underline flex items-center gap-1">
+              <span>Github</span>
             </a>
             )}
         </div>
