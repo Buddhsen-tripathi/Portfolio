@@ -99,7 +99,7 @@ export function renderClassicTemplate(doc: PDFKit.PDFDocument, data: any, sectio
         align: 'left'
       }) + 14 + 8 + 24; // heading + mb-2 + mb-6
       ensureSpace(doc, summaryHeight);
-      section('Professional Summary');
+      section('Summary');
       doc.text(data.summary, doc.page.margins.left, doc.y, {
         width: contentWidth,
         align: 'left'

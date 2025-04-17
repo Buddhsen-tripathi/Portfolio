@@ -5,10 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { ResumeData } from "@/app/craftfolio/page";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
-import { Tooltip } from "@/components/ui/tooltip";
 import ProfessionalTemplate from "./templates/ProfessionalTemplate";
 import ClassicTemplate from "./templates/ClassicTemplate";
 
@@ -19,7 +16,7 @@ interface Section {
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
-  template: "classic" | "professional";
+  template: "professional"; //Add more templates as needed (classic etc)
   onExportPDF: () => void;
   sections: Section[];
   showPreview?: boolean;
@@ -34,6 +31,7 @@ const PAGE_WIDTH = 794; // px
 const PAGE_HEIGHT = 1123; // px
 const PADDING_X = 32; // px
 const PADDING_Y = 48; // px
+const EXTRA_BOTTOM_BUFFER = 32; // px, extra space to reserve at bottom
 
 // Helper to split sections into pages for preview with smarter page breaks
 function splitSectionsIntoPages(content: HTMLElement, pageHeight: number): HTMLElement[] {
@@ -49,7 +47,11 @@ function splitSectionsIntoPages(content: HTMLElement, pageHeight: number): HTMLE
   
   sections.forEach((section) => {
     const sectionEl = section as HTMLElement;
-    const sectionHeight = sectionEl.offsetHeight;
+    const style = window.getComputedStyle(sectionEl);
+    const mt = parseFloat(style.marginTop) || 0;
+    const mb = parseFloat(style.marginBottom) || 0;
+    const sectionHeight = sectionEl.offsetHeight + mt + mb;
+
     const sectionId = sectionEl.getAttribute('data-section-id');
     
     // Check if adding this section would overflow the page
@@ -104,7 +106,8 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
     document.body.appendChild(tempContainer);
     tempContainer.innerHTML = contentRef.current.innerHTML;
     // Split by section blocks
-    const splitPages = splitSectionsIntoPages(tempContainer, PAGE_HEIGHT - PADDING_Y * 2);
+    const availableHeight = PAGE_HEIGHT - PADDING_Y * 2 - EXTRA_BOTTOM_BUFFER;
+    const splitPages = splitSectionsIntoPages(tempContainer, availableHeight);
     setPageCount(splitPages.length);
     setPages(
       splitPages.map((page, idx) => (
@@ -123,7 +126,6 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
             pageBreakAfter: 'always',
             breakAfter: 'page',
             padding: `${PADDING_Y}px ${PADDING_X}px`,
-            background: '#f8fafc',
           }}
           dangerouslySetInnerHTML={{ __html: page.innerHTML }}
         />
@@ -171,7 +173,7 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
           ref={contentRef}
           className={cn(
             "resume-content w-full h-full",
-            template === "classic" && "font-serif",
+            // template === "classic" && "font-serif",
             template === "professional" && "font-sans"
           )}
           style={{
@@ -183,45 +185,51 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
           <TemplateComponent resumeData={resumeData} sections={sections} />
         </div>
       </div>
-      {/* Render only the current page for preview */}
-      {pages.length > 0 && (
-        <div>
-          {pages.map((page, idx) => (
-            <div
-              key={idx}
-              style={
-                showAllPagesForExport || idx === currentPage
-                  ? { visibility: 'visible', position: 'relative', width: '100%' }
-                  : { display: 'none' }
-              }
-              className="resume-page-container"
-            >
-              {page}
+      {/* Preview pages */}
+      <div className="p-8">
+        {pages.length > 0 && (
+          <>
+            {pages.map((page, idx) => (
+              <div
+                key={idx}
+                style={
+                  showAllPagesForExport || idx === currentPage
+                    ? { visibility: 'visible' }
+                    : { display: 'none' }
+                }
+                className="resume-page-container
+                           w-[794px] h-[1123px]
+                           overflow-hidden
+                           mx-auto
+                           relative"
+              >
+                {page}
+              </div>
+            ))}
+            <div className="flex justify-center items-center gap-4 mt-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+                disabled={currentPage === 0}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-600">
+                Page {currentPage + 1} of {pages.length}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, pages.length - 1))}
+                disabled={currentPage === pages.length - 1}
+              >
+                Next
+              </Button>
             </div>
-          ))}
-          <div className="flex justify-center items-center gap-4 mt-2 print:hidden">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-              disabled={currentPage === 0}
-            >
-              Previous
-            </Button>
-            <span className="text-sm text-gray-600">
-              Page {currentPage + 1} of {pages.length}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage((p) => Math.min(p + 1, pages.length - 1))}
-              disabled={currentPage === pages.length - 1}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

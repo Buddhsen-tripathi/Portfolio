@@ -145,7 +145,7 @@ const defaultResumeData: ResumeData = {
 
 export default function Craftfolio() {
   const [resumeData, setResumeData] = useState<ResumeData>(defaultResumeData);
-  const [template, setTemplate] = useState<"classic" | "professional">("professional");
+  const [template, setTemplate] = useState<"professional">("professional");
   const [sections, setSections] = useState<Section[]>(defaultSections);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
@@ -176,7 +176,7 @@ export default function Craftfolio() {
             }
           }
 
-          if (savedTemplate && ['professional', 'classic'].includes(savedTemplate)) {
+          if (savedTemplate && ['professional'].includes(savedTemplate)) {
             setTemplate(savedTemplate as typeof template);
           }
 
@@ -309,7 +309,7 @@ export default function Craftfolio() {
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-2">Choose Template</h2>
             <div className="flex gap-2">
-              {["professional", "classic"].map((t) => (
+              {["professional"].map((t) => (
                 <Button
                   key={t}
                   onClick={() => handleTemplateChange(t as typeof template)}

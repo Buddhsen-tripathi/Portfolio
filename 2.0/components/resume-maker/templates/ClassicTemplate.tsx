@@ -1,6 +1,4 @@
 import { ResumeData } from "@/app/craftfolio/page";
-import { cn } from "@/lib/utils";
-import { SiGithub, SiLinkedin } from "react-icons/si";
 
 interface Section {
   id: string;
@@ -19,13 +17,13 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
     <div className="font-serif text-black">
       {/* Header */}
       <div className="mb-8 text-center border-b-2 border-black pb-4" data-section-id="personal">
-        <h1 className="text-[18pt] font-bold mb-2">{resumeData.personalInfo.fullName || "Your Name"}</h1>
+        <h1 className="text-[18pt] font-bold mb-1">{resumeData.personalInfo.fullName || "Your Name"}</h1>
         <div className="flex flex-wrap justify-center gap-4 text-[11pt]">
           {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
           {resumeData.personalInfo.phone && <span>{resumeData.personalInfo.phone}</span>}
           {resumeData.personalInfo.location && <span>{resumeData.personalInfo.location}</span>}
         </div>
-        <div className="flex flex-wrap justify-center gap-4 mt-2 text-[11pt]">
+        <div className="flex flex-wrap justify-center gap-4 mt-1 text-[11pt]">
           {resumeData.personalInfo.website && (
             <a href={resumeData.personalInfo.website} className="text-blue-700 hover:underline">Website</a>
           )}
@@ -46,13 +44,13 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
         <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">
-              <h2 className="text-[14pt] font-bold mb-2 uppercase tracking-wide">PROFESSIONAL SUMMARY</h2>
+              <h2 className="text-[14pt] font-bold mb-2 uppercase tracking-wide">SUMMARY</h2>
               <p className="text-[11pt]">{resumeData.summary}</p>
             </div>
           )}
           {section.id === "experience" && resumeData.experience.length > 0 && (
             <div className="mb-6">
-              <h2 className="text-[14pt] font-bold mb-3 uppercase tracking-wide">PROFESSIONAL EXPERIENCE</h2>
+              <h2 className="text-[14pt] font-bold mb-3 uppercase tracking-wide">EXPERIENCE</h2>
               {resumeData.experience.map((exp) => (
                 <div key={exp.id} className="mb-4">
                   <div className="flex justify-between items-start">
