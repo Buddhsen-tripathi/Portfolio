@@ -44,7 +44,7 @@ export default function ClassicTemplate({ resumeData, sections }: { resumeData: 
         </div>
       </div>
       {/* Sections */}
-      {sections.map((section) => section.visible && (
+      {sections.filter(s => s.visible).map(section => (
         <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">

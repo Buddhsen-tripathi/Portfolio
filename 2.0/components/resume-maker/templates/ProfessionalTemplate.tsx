@@ -22,7 +22,7 @@ export default function ProfessionalTemplate({ resumeData, sections }: { resumeD
       lineHeight: 1.2,
       marginBottom: '1rem',
       color: '#000000',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans-Bold, Arial, sans-serif',
     },
     subHeading: {
       fontSize: '20px',
@@ -32,41 +32,41 @@ export default function ProfessionalTemplate({ resumeData, sections }: { resumeD
       color: '#000000',
       textTransform: 'uppercase' as const,
       letterSpacing: '0.05em',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans-Bold, Arial, sans-serif',
     },
     jobTitle: {
       fontSize: '18px',
       fontWeight: 600,
       color: '#000000',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans-Bold, Arial, sans-serif',
     },
     normal: {
       fontSize: '13px',
       color: '#374151', // text-gray-700
       fontWeight: 'normal',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans, Arial, sans-serif',
     },
     companyName: {
       fontSize: '15px',
       fontWeight: 500,
       color: '#374151',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans-Bold, Arial, sans-serif',
     },
     link: {
       color: '#2563eb', // blue-600
       textDecoration: 'none',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans, Arial, sans-serif',
     },
     dateText: {
       fontSize: '12px',
       color: '#6b7280', // text-gray-500
       fontWeight: 'normal',
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'DejaVuSans, Arial, sans-serif',
     }
   };
 
   return (
-    <div className="font-sans text-black" style={{ fontFamily: 'Helvetica, Arial, sans-serif' }}>
+    <div className="font-sans text-black" style={{ fontFamily: 'DejaVuSans, Arial, sans-serif' }}>
       {/* Header */}
       <div className="mb-8 border-b-2 border-gray-300 text-center" data-section-id="personal" style={{paddingBottom: '1.5rem'}}>
         <h1 className="text-[32px] font-bold mb-4" style={styles.heading}>{resumeData.personalInfo.fullName || "Your Name"}</h1>
@@ -89,7 +89,7 @@ export default function ProfessionalTemplate({ resumeData, sections }: { resumeD
       </div>
 
       {/* Sections */}
-      {sections.map((section) => section.visible && (
+      {sections.filter(s => s.visible).map(section => (
         <div key={section.id} data-section-id={section.id}>
           {section.id === "summary" && resumeData.summary && (
             <div className="mb-6">

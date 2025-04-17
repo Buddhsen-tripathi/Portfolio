@@ -10,9 +10,7 @@ import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
 import { Tooltip } from "@/components/ui/tooltip";
 import ProfessionalTemplate from "./templates/ProfessionalTemplate";
-import ModernTemplate from "./templates/ModernTemplate";
 import ClassicTemplate from "./templates/ClassicTemplate";
-import MinimalTemplate from "./templates/MinimalTemplate";
 
 interface Section {
   id: string;
@@ -21,7 +19,7 @@ interface Section {
 
 interface ResumePreviewProps {
   resumeData: ResumeData;
-  template: "modern" | "classic" | "minimal" | "professional";
+  template: "classic" | "professional";
   onExportPDF: () => void;
   sections: Section[];
   showPreview?: boolean;
@@ -29,9 +27,7 @@ interface ResumePreviewProps {
 
 const templateMap = {
   professional: ProfessionalTemplate,
-  modern: ModernTemplate,
   classic: ClassicTemplate,
-  minimal: MinimalTemplate,
 };
 
 const PAGE_WIDTH = 794; // px
@@ -137,96 +133,26 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
     document.body.removeChild(tempContainer);
   }, [resumeData, template, sections]);
 
-  // PDF export: render each page to canvas and add to PDF with improved quality
-  const handleExportPDF = async () => {
-    setShowAllPagesForExport(true);
-    await new Promise((resolve) => setTimeout(resolve, 100)); // let DOM update
-    setExporting(true);
-    try {
-      // Make sure fonts are loaded before rendering
-      if (document.fonts && document.fonts.ready) {
-        await document.fonts.ready;
-        await new Promise((resolve) => setTimeout(resolve, 300));
-      }
-
-      // Select the actually rendered .resume-page elements
-      const pageDivs = Array.from(document.querySelectorAll('.resume-page')) as HTMLDivElement[];
-      if (!pageDivs.length) {
-        setExporting(false);
-        setShowAllPagesForExport(false);
-        return;
-      }
-
-      // Create PDF with proper settings
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [PAGE_WIDTH, PAGE_HEIGHT],
-        hotfixes: ["px_scaling"],
-      });
-
-      // Process each page
-      for (let i = 0; i < pageDivs.length; i++) {
-        // Apply fixes to ensure text is rendered as black
-        const pageDiv = pageDivs[i];
-        const textElements = pageDiv.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span');
-        textElements.forEach(el => {
-          if (window.getComputedStyle(el as HTMLElement).color !== 'rgb(0, 0, 0)') {
-            (el as HTMLElement).style.color = 'rgb(0, 0, 0)';
-          }
-        });
-
-        // Make sure links are preserved with blue color
-        const links = pageDiv.querySelectorAll('a');
-        links.forEach(link => {
-          link.style.color = '#2563eb'; // Blue color
-        });
-
-        // Render to canvas with optimized settings
-        const pageCanvas = await html2canvas(pageDiv, {
-          scale: 2.0, // Higher scale for better quality
-          useCORS: true,
-          logging: false,
-          width: PAGE_WIDTH,
-          height: PAGE_HEIGHT,
-          windowWidth: PAGE_WIDTH,
-          windowHeight: PAGE_HEIGHT,
-          backgroundColor: '#ffffff', // Ensure white background
-          imageTimeout: 1500,
-          onclone: (document) => {
-            // Fix font rendering in the cloned document
-            const style = document.createElement('style');
-            style.innerHTML = `
-              * {
-                font-family: Helvetica, Arial, sans-serif !important;
-                -webkit-font-smoothing: antialiased;
-                -moz-osx-font-smoothing: grayscale;
-              }
-            `;
-            document.head.appendChild(style);
-            return document;
-          }
-        });
-
-        // Add to PDF with proper quality settings
-        const imgData = pageCanvas.toDataURL("image/png", 1.0);
-        if (i > 0) pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT], 'portrait');
-        pdf.addImage(imgData, "PNG", 0, 0, PAGE_WIDTH, PAGE_HEIGHT, undefined, 'FAST');
-      }
-
-      // Save PDF with proper filename
-      const firstName = resumeData.personalInfo.fullName?.split(' ')[0] || '';
-      const lastName = resumeData.personalInfo.fullName?.split(' ').slice(1).join(' ') || '';
-      const fileName = resumeData.personalInfo.fullName 
-        ? `${firstName}_${lastName}_Resume.pdf`
-        : "resume.pdf";
-
-      pdf.save(fileName);
-      onExportPDF();
-    } finally {
-      setExporting(false);
-      setShowAllPagesForExport(false);
+  // Export PDF using server API
+  const handleServerExportPDF = async () => {
+    const response = await fetch('/api/export-pdf', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ resumeData, template, sections }),
+    });
+    if (!response.ok) {
+      alert('Failed to export PDF');
+      return;
     }
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${resumeData.personalInfo.fullName || 'resume'}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   };
 
   if (!showPreview) return null;
@@ -234,16 +160,10 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
   return (
     <div className="space-y-4 print-resume-root">
       <div className="flex justify-end gap-2 print:hidden">
-        <Tooltip content="Export your resume as a PDF (screenshot of what you see)">
-          <Button onClick={handleExportPDF} className="flex items-center gap-2" disabled={exporting}>
-            {exporting ? (
-              <span className="animate-spin w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full"></span>
-            ) : (
-              <Download className="w-4 h-4" />
-            )}
-            Export PDF
-          </Button>
-        </Tooltip>
+        <Button onClick={handleServerExportPDF} className="flex items-center gap-2" variant="default">
+          <Download className="w-4 h-4" />
+          Export PDF
+        </Button>
       </div>
       {/* Hidden content for measuring/splitting */}
       <div style={{ display: 'none' }}>
@@ -251,9 +171,7 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
           ref={contentRef}
           className={cn(
             "resume-content w-full h-full",
-            template === "modern" && "font-sans",
             template === "classic" && "font-serif",
-            template === "minimal" && "font-sans",
             template === "professional" && "font-sans"
           )}
           style={{

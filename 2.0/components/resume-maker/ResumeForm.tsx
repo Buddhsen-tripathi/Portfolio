@@ -316,7 +316,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="website">Website (No https://)</Label>
+              <Label htmlFor="website">Website</Label>
               <Input
                 id="website"
                 value={resumeData.personalInfo.website}
@@ -324,7 +324,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="linkedin">LinkedIn Username</Label>
+              <Label htmlFor="linkedin">LinkedIn</Label>
               <Input
                 id="linkedin"
                 value={resumeData.personalInfo.linkedin}
@@ -332,7 +332,7 @@ export default function ResumeForm({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="github">GitHub Username</Label>
+              <Label htmlFor="github">GitHub</Label>
               <Input
                 id="github"
                 value={resumeData.personalInfo.github}
