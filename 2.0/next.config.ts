@@ -15,3 +15,16 @@ const nextConfig: NextConfig = withMDX({
 });
 
 export default nextConfig;
+
+// PDFKit polyfill for Next.js
+nextConfig.webpack = (config, { isServer }) => {
+  if (!isServer) {
+    config.resolve.fallback = {
+      ...(config.resolve.fallback || {}),
+      fs: false,
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer/')
+    };
+  }
+  return config;
+};
