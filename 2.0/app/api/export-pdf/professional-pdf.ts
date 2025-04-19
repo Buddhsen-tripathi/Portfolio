@@ -124,18 +124,18 @@ export function renderProfessionalTemplate(
       data.experience.forEach((exp: any) => {
         doc.font(fontBold).fontSize(12).fillColor('#000')
           .text(exp.position, doc.page.margins.left, doc.y, { width: contentWidth * 0.65, continued: false });
-        doc.font(fontBold).fontSize(11).fillColor('#374151')
-          .text(exp.company, doc.page.margins.left, doc.y + 10, { width: contentWidth * 0.65, continued: false });
         doc.font(font).fontSize(9.5).fillColor('#6b7280')
           .text(`${formatDate(exp.startDate)} - ${exp.current ? 'Present' : formatDate(exp.endDate)}`,
             doc.page.margins.left + contentWidth * 0.68, doc.y - 12, {
-              width: contentWidth * 0.32,
-              align: 'right',
-              continued: false,
-            });
+            width: contentWidth * 0.32,
+            align: 'right',
+            continued: false,
+          });
+        doc.font(fontBold).fontSize(11).fillColor('#374151')
+          .text(exp.company, doc.page.margins.left, doc.y + 10, { width: contentWidth * 0.65, continued: false });
         doc.y += 12;
         doc.font(font).fontSize(9.5).fillColor('#374151')
-          .text(exp.description, doc.page.margins.left, doc.y+2, {
+          .text(exp.description, doc.page.margins.left, doc.y + 2, {
             width: contentWidth,
             align: 'left'
           });
@@ -159,22 +159,24 @@ export function renderProfessionalTemplate(
       section('Education');
       data.education.forEach((edu: any) => {
         doc.font(fontBold).fontSize(12).fillColor('#000')
-          .text(`${edu.degree} in ${edu.field}`, doc.page.margins.left, doc.y-1, {
-            width: contentWidth * 0.65,
-            continued: false,
-          });
-        doc.font(fontBold).fontSize(10).fillColor('#374151')
-          .text(edu.institution, doc.page.margins.left, doc.y + 8, {
+          .text(`${edu.degree} in ${edu.field}`, doc.page.margins.left, doc.y - 1, {
             width: contentWidth * 0.65,
             continued: false,
           });
         doc.font(font).fontSize(10).fillColor('#6b7280')
           .text(`${formatDate(edu.startDate)} - ${edu.current ? 'Present' : formatDate(edu.endDate)}`,
             doc.page.margins.left + contentWidth * 0.68, doc.y - 10, {
-              width: contentWidth * 0.32,
-              align: 'right',
-              continued: false,
-            });
+            width: contentWidth * 0.32,
+            align: 'right',
+            continued: false,
+          });
+
+        doc.font(fontBold).fontSize(10).fillColor('#374151')
+          .text(edu.institution, doc.page.margins.left, doc.y + 8, {
+            width: contentWidth * 0.65,
+            continued: false,
+          });
+
         doc.y += 4;
         if (edu.gpa) {
           doc.font(font).fontSize(9.5).fillColor('#374151')
@@ -198,7 +200,7 @@ export function renderProfessionalTemplate(
       section('Skills');
       const colWidth = (contentWidth - 8) / 2; // 4pt gap
       let x = doc.page.margins.left;
-      let y = doc.y+2;
+      let y = doc.y + 2;
       let col = 0;
       data.skills.forEach((skill: string) => {
         if (col === 2) {
@@ -233,17 +235,17 @@ export function renderProfessionalTemplate(
       section('Projects');
       data.projects.forEach((proj: any) => {
         doc.font(fontBold).fontSize(11.25).fillColor('#000')
-          .text(proj.name, doc.page.margins.left, doc.y+4, {
+          .text(proj.name, doc.page.margins.left, doc.y + 4, {
             width: contentWidth,
             continued: false
           });
         doc.font(font).fontSize(10).fillColor('#6b7280')
-          .text(proj.technologies, doc.page.margins.left, doc.y+2, {
+          .text(proj.technologies, doc.page.margins.left, doc.y + 2, {
             width: contentWidth,
             continued: false
           });
         doc.font(font).fontSize(9.5).fillColor('#374151')
-          .text(proj.description, doc.page.margins.left, doc.y+2, {
+          .text(proj.description, doc.page.margins.left, doc.y + 2, {
             width: contentWidth,
             align: 'left',
             continued: false
@@ -271,18 +273,18 @@ export function renderProfessionalTemplate(
             width: contentWidth * 0.65,
             continued: false,
           });
+        doc.font(font).fontSize(9.5).fillColor('#6b7280')
+          .text(formatDate(cert.date),
+            doc.page.margins.left + contentWidth * 0.68, doc.y - 10, {
+            width: contentWidth * 0.32,
+            align: 'right',
+            continued: false,
+        });  
         doc.font(fontBold).fontSize(10).fillColor('#374151')
           .text(cert.issuer, doc.page.margins.left, doc.y + 10, {
             width: contentWidth * 0.65,
             continued: false,
           });
-        doc.font(font).fontSize(9.5).fillColor('#6b7280')
-          .text(formatDate(cert.date),
-            doc.page.margins.left + contentWidth * 0.68, doc.y - 10, {
-              width: contentWidth * 0.32,
-              align: 'right',
-              continued: false,
-            });
         doc.y += 18;
         doc.y += 8;
       });

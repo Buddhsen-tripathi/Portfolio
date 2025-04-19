@@ -33,18 +33,18 @@ export async function POST(request: Request) {
     // Generate content with proper error handling
     try {
       const result = await model.generateContent(prompt);
-      
+
       if (!result.response) {
         throw new Error("No response received from the model");
       }
-      
+
       const response = result.response;
       const text = response.text();
-      
+
       if (!text) {
         throw new Error("Empty response from the model");
       }
-      
+
       return NextResponse.json({ suggestion: text });
     } catch (modelError: any) {
       console.error("Model generation error:", modelError);
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     }
   } catch (error: any) {
     console.error("Error generating suggestion:", error);
-    
+
     // Handle specific error types
     if (error.message?.includes("403")) {
       return NextResponse.json(
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
         { status: 403 }
       );
     }
-    
+
     return NextResponse.json(
       { error: "Failed to generate suggestion. Please try again later." },
       { status: 500 }
@@ -72,30 +72,26 @@ export async function POST(request: Request) {
 }
 
 function generatePrompt(section: string, currentContent: string): string {
-  const basePrompt = `You are a professional resume writer. Please provide improved content for the following ${section} section of a resume.
-  Current content: "${currentContent}"
-  
-  Provide the complete, improved text that can be directly copied and pasted into the resume. The content should be:
-  1. Professional and impactful
-  2. Include quantifiable achievements where applicable
-  3. Use strong action verbs
-  4. Include relevant industry keywords
-  5. Clear and concise
-  
-  Return ONLY the improved text, without any explanations or bullet points about what to change.`;
+  const baseInstruction = `You are an expert resume writing assistant. Your task is to refine or generate content for the "${section}" section of a user's resume.
+Focus on creating professional, concise, and impactful text that highlights skills and achievements effectively. Use strong action verbs.
+Current content provided by the user (if any): "${currentContent}"
+
+Please provide ONLY the improved or generated text suitable for direct inclusion in the resume. Do not include explanations, introductory phrases, or markdown formatting like bullet points unless specifically requested for that section.`;
 
   switch (section.toLowerCase()) {
     case "summary":
-      return `${basePrompt}\n\nFor the summary section, write 2-3 sentences that highlight key strengths and career objectives.`;
+      return `${baseInstruction}\n\nGenerate a compelling professional summary (2-4 sentences) that encapsulates the candidate's key qualifications, experience level, and career goals.`;
     case "experience":
-      return `${basePrompt}\n\nFor experience entries, write 3-4 bullet points that emphasize achievements and responsibilities using strong action verbs.`;
+      return `${baseInstruction}\n\nRefine the provided job description or generate 3-5 bullet points for a professional role. Each point should start with a strong action verb and detail responsibilities and quantifiable achievements where possible (e.g., "Managed project X, resulting in Y% improvement").`;
     case "education":
-      return `${basePrompt}\n\nFor education entries, include degree, institution, graduation date, and 2-3 relevant achievements or coursework.`;
+      return `${baseInstruction}\n\nFormat the education entry clearly. Include Degree Name, Major/Field of Study, Institution Name, and Graduation Date (or Expected Date). If relevant, add 1-2 bullet points for honors, relevant coursework, or significant academic projects.`;
     case "skills":
-      return `${basePrompt}\n\nList 8-10 relevant technical and soft skills, separated by commas.`;
+      return `${baseInstruction}\n\nGenerate a comma-separated list of 10-15 relevant technical skills and soft skills suitable for a professional resume. Example: "Project Management, Data Analysis, Communication, Leadership, Microsoft Office Suite, Specific Software/Tool".`;
     case "projects":
-      return `${basePrompt}\n\nWrite 2-3 bullet points describing the project, technologies used, and measurable outcomes.`;
+      return `${baseInstruction}\n\nDescribe a personal or professional project. Include the project name, 2-3 bullet points detailing the project's purpose, your contributions, methods/tools used, and any measurable outcomes or key features. Start bullet points with action verbs.`;
+    case "certifications":
+      return `${baseInstruction}\n\nFormat the certification entry. Include the Certification Name, Issuing Organization, and Date Received.`;
     default:
-      return basePrompt;
+      return `${baseInstruction}\n\nPlease generate appropriate content for the "${section}" section of a resume.`;
   }
 }
