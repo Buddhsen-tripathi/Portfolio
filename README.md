@@ -1,39 +1,60 @@
-# Portfolio
+# Portfolio Website - Buddhsen Tripathi
 
-This repository contains different versions of my personal portfolio website hosted at [buddhsentripathi.com](https://www.buddhsentripathi.com/).
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-## Versions
+Welcome to the repository for my personal portfolio website, live at [buddhsentripathi.com](https://www.buddhsentripathi.com/). <br/>This repository hosts the source code for different iterations of the site.
 
-### `2.0` (Currently Deployed)  
-- **Tech Stack:** Next.js, Tailwind CSS  
-- **Description:** This is the latest version of my portfolio, optimized for performance and SEO with server-side rendering (SSR), modern UI/UX enhancements, and self-hosted blogs.
+## 🚀 Versions
 
-### `1.0`  
-- **Tech Stack:** React, Vite  
-- **Description:** The initial version of my portfolio, built with React and Vite for a fast and lightweight experience. This version is no longer actively maintained but remains in the repo for reference.  
+### `2.0` (✨ Current & Live)
+- **Tech Stack:** Next.js 15 (App Router), Tailwind CSS, TypeScript, Supabase (for views/subscriptions)
+- **Description:** The latest iteration, focusing on performance, SEO, and a modern developer experience. Features include:
+    - Server-Side Rendering (SSR) & Static Site Generation (SSG)
+    - Self-hosted blog with Markdown
+    - View counters & Newsletter subscription
+    - Interactive tools and games (e.g., Resume Builder, Code Runner)
+- **Status:** Actively developed and deployed.
 
-## Setup & Development
+### `1.0` (Legacy)
+- **Tech Stack:** React, Vite, Tailwind CSS
+- **Description:** The original version built with a client-side React setup using Vite. Fast and lightweight, but lacks some of the advanced features of v2.0.
+- **Status:** No longer actively maintained, kept for historical reference.
 
-### Running `2.0`
-```sh
+## 🛠️ Setup & Development
+
+Ensure you have Node.js (v18 or later recommended) and npm installed.
+
+### Running `2.0` (Next.js)
+```bash
 cd 2.0
 npm install
+# For Supabase integration, create a .env.local file with your keys:
+# NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+# SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_KEY (for admin tasks)
+# GEMINI_API_KEY=YOUR_GEMINI_KEY (for resume suggestions)
 npm run dev
 ```
-### Running `1.0`
-```sh
+Access at `http://localhost:3000`.
+
+### Running `1.0` (React + Vite)
+```bash
 cd 1.0
 npm install
 npm run dev
 ```
+Access at `http://localhost:5173` (or as indicated by Vite).
 
-### Deployment
-The 2.0 version is currently deployed and accessible online. If you want to deploy it locally, you can use:
-```sh
-npm run build && npm run start
+## ☁️ Deployment (Version 2.0)
+
+The `2.0` branch/folder is automatically deployed to Vercel upon pushes to the main branch.
+
+To build and run a production version locally:
+```bash
+cd 2.0
+npm run build
+npm run start
 ```
 
-## Contributions & Feedback
+## 🤝 Feedback
 This is my personal portfolio, but if you have feedback or suggestions, feel free to open an issue or reach out!
-
-Let me know if you want any modifications! 🚀
