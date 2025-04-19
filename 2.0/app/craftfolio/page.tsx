@@ -152,6 +152,7 @@ export default function Craftfolio() {
   const [error, setError] = useState<string | null>(null);
   const [showCustomizePanel, setShowCustomizePanel] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [activeSuggestionId, setActiveSuggestionId] = useState<string | null>(null);
 
   useEffect(() => {
     const loadSavedData = () => {
@@ -163,7 +164,6 @@ export default function Craftfolio() {
 
           if (savedResumeData) {
             const parsedData = JSON.parse(savedResumeData);
-            // Validate the data structure
             if (
               parsedData?.personalInfo &&
               Array.isArray(parsedData?.experience) &&
@@ -191,7 +191,6 @@ export default function Craftfolio() {
         }
       } catch (error) {
         console.error('Error loading saved data:', error);
-        // If there's an error loading saved data, fall back to defaults
         setResumeData(defaultResumeData);
         setTemplate('professional');
         setSections(defaultSections);
@@ -202,9 +201,7 @@ export default function Craftfolio() {
 
     loadSavedData();
 
-    return () => {
-      // Optional: You could clear temporary data here if needed
-    };
+    return () => {};
   }, []);
 
   const handleReset = () => {
@@ -223,7 +220,8 @@ export default function Craftfolio() {
     localStorage.setItem('resumeData', JSON.stringify(data));
   };
 
-  const handleGetSuggestion = async (section: string, content: string) => {
+  const handleGetSuggestion = async (section: string, content: string, itemId: string) => {
+    setActiveSuggestionId(itemId);
     setIsLoading(true);
     setError(null);
     setSuggestion(null);
@@ -349,6 +347,8 @@ export default function Craftfolio() {
               isLoading={isLoading}
               suggestion={suggestion}
               error={error}
+              activeSuggestionId={activeSuggestionId}
+              setActiveSuggestionId={setActiveSuggestionId}
             />
 
             {showCustomizePanel && (

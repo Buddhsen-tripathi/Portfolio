@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,10 +11,12 @@ import { ResumeData } from "@/app/craftfolio/page";
 interface ResumeFormProps {
   resumeData: ResumeData;
   onResumeDataChange: (data: ResumeData) => void;
-  onGetSuggestion: (section: string, content: string) => Promise<void>;
+  onGetSuggestion: (section: string, content: string, itemId: string) => Promise<void>;
   isLoading: boolean;
   suggestion: string | null;
   error: string | null;
+  activeSuggestionId: string | null;
+  setActiveSuggestionId: (id: string | null) => void;
 }
 
 export default function ResumeForm({
@@ -24,8 +26,14 @@ export default function ResumeForm({
   isLoading,
   suggestion,
   error,
+  activeSuggestionId,
+  setActiveSuggestionId,
 }: ResumeFormProps) {
   const [activeSection, setActiveSection] = useState<string>("personal");
+
+  useEffect(() => {
+    setActiveSuggestionId(null);
+  }, [activeSection, setActiveSuggestionId]);
 
   const handlePersonalInfoChange = (field: keyof ResumeData["personalInfo"], value: string) => {
     onResumeDataChange({
@@ -161,7 +169,7 @@ export default function ResumeForm({
           id: Date.now().toString(),
           name: "",
           description: "",
-          technologies: ""
+          technologies: "",
         },
       ],
     });
@@ -184,7 +192,7 @@ export default function ResumeForm({
           id: Date.now().toString(),
           name: "",
           issuer: "",
-          date: ""
+          date: "",
         },
       ],
     });
@@ -198,38 +206,16 @@ export default function ResumeForm({
     });
   };
 
-  const handleGetSuggestion = async (section: string, content: string) => {
+  const handleGetSuggestionClick = async (section: string, content: string, itemId: string) => {
     try {
-      if (!content || content.trim() === '') {
-        let contextPrompt = '';
-        
-        switch (section) {
-          case 'summary':
-            contextPrompt = 'Please provide a professional summary for a resume. The person has experience in software development and is looking for a role in web development.';
-            break;
-          case 'experience':
-            contextPrompt = 'Please provide a job description for a software developer role. Include responsibilities and achievements.';
-            break;
-          case 'education':
-            contextPrompt = 'Please provide education details for a computer science degree.';
-            break;
-          case 'skills':
-            contextPrompt = 'Please suggest relevant technical and soft skills for a web developer.';
-            break;
-          case 'projects':
-            contextPrompt = 'Please provide a project description for a web application. Include technologies used and outcomes.';
-            break;
-          default:
-            contextPrompt = 'Please provide content for this section of the resume.';
-        }
-        
-        await onGetSuggestion(section, contextPrompt);
-      } else {
-        await onGetSuggestion(section, content);
-      }
+      await onGetSuggestion(section, content, itemId);
     } catch (err) {
       console.error("Error getting suggestion:", err);
     }
+  };
+
+  const switchSection = (sectionId: string) => {
+    setActiveSection(sectionId);
   };
 
   return (
@@ -237,43 +223,43 @@ export default function ResumeForm({
       <div className="flex flex-wrap gap-2">
         <Button
           variant={activeSection === "personal" ? "default" : "outline"}
-          onClick={() => setActiveSection("personal")}
+          onClick={() => switchSection("personal")}
         >
           Personal Info
         </Button>
         <Button
           variant={activeSection === "summary" ? "default" : "outline"}
-          onClick={() => setActiveSection("summary")}
+          onClick={() => switchSection("summary")}
         >
           Summary
         </Button>
         <Button
           variant={activeSection === "experience" ? "default" : "outline"}
-          onClick={() => setActiveSection("experience")}
+          onClick={() => switchSection("experience")}
         >
           Experience
         </Button>
         <Button
           variant={activeSection === "education" ? "default" : "outline"}
-          onClick={() => setActiveSection("education")}
+          onClick={() => switchSection("education")}
         >
           Education
         </Button>
         <Button
           variant={activeSection === "skills" ? "default" : "outline"}
-          onClick={() => setActiveSection("skills")}
+          onClick={() => switchSection("skills")}
         >
           Skills
         </Button>
         <Button
           variant={activeSection === "projects" ? "default" : "outline"}
-          onClick={() => setActiveSection("projects")}
+          onClick={() => switchSection("projects")}
         >
           Projects
         </Button>
         <Button
           variant={activeSection === "certifications" ? "default" : "outline"}
-          onClick={() => setActiveSection("certifications")}
+          onClick={() => switchSection("certifications")}
         >
           Certifications
         </Button>
@@ -351,11 +337,11 @@ export default function ResumeForm({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleGetSuggestion("summary", resumeData.summary)}
-                disabled={isLoading}
+                onClick={() => handleGetSuggestionClick("summary", resumeData.summary, "summary")}
+                disabled={isLoading && activeSuggestionId === "summary"}
               >
                 <Wand2 className="h-4 w-4 mr-2" />
-                Get AI Suggestions
+                {isLoading && activeSuggestionId === "summary" ? "Loading..." : "Get AI Suggestions"}
               </Button>
             </div>
             <Textarea
@@ -364,12 +350,12 @@ export default function ResumeForm({
               onChange={(e) => handleSummaryChange(e.target.value)}
               rows={4}
             />
-            {error && (
+            {activeSuggestionId === "summary" && error && (
               <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
                 {error}
               </div>
             )}
-            {suggestion && (
+            {activeSuggestionId === "summary" && suggestion && (
               <div className="p-4 text-sm bg-blue-50 rounded-md">
                 <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
                 <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
@@ -381,75 +367,78 @@ export default function ResumeForm({
 
       {activeSection === "experience" && (
         <div className="space-y-4">
-          {resumeData.experience.map((exp, index) => (
-            <div key={exp.id} className="space-y-4 p-4 border rounded-lg">
-              <div className="flex justify-between items-center">
-                <h3 className="font-semibold">Experience {index + 1}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeExperience(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor={`position-${index}`}>Position</Label>
-                  <Input
-                    id={`position-${index}`}
-                    value={exp.position}
-                    onChange={(e) => handleExperienceChange(index, "position", e.target.value)}
-                  />
+          {resumeData.experience.map((exp, index) => {
+            const itemId = `experience-${exp.id}`;
+            return (
+              <div key={exp.id} className="space-y-4 p-4 border rounded-lg">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold">Experience {index + 1}</h3>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removeExperience(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`company-${index}`}>Company</Label>
-                  <Input
-                    id={`company-${index}`}
-                    value={exp.company}
-                    onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`startDate-${index}`}>Start Date</Label>
-                  <Input
-                    id={`startDate-${index}`}
-                    type="month"
-                    value={exp.startDate}
-                    onChange={(e) => handleExperienceChange(index, "startDate", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`endDate-${index}`}>End Date</Label>
-                  <Input
-                    id={`endDate-${index}`}
-                    type="month"
-                    value={exp.endDate}
-                    onChange={(e) => handleExperienceChange(index, "endDate", e.target.value)}
-                    disabled={exp.current}
-                  />
-                </div>
-                <div className="col-span-2">
-                  <Label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={exp.current}
-                      onChange={(e) => handleExperienceChange(index, "current", e.target.checked)}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor={`position-${index}`}>Position</Label>
+                    <Input
+                      id={`position-${index}`}
+                      value={exp.position}
+                      onChange={(e) => handleExperienceChange(index, "position", e.target.value)}
                     />
-                    <span>I currently work here</span>
-                  </Label>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`company-${index}`}>Company</Label>
+                    <Input
+                      id={`company-${index}`}
+                      value={exp.company}
+                      onChange={(e) => handleExperienceChange(index, "company", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`startDate-${index}`}>Start Date</Label>
+                    <Input
+                      id={`startDate-${index}`}
+                      type="month"
+                      value={exp.startDate}
+                      onChange={(e) => handleExperienceChange(index, "startDate", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`endDate-${index}`}>End Date</Label>
+                    <Input
+                      id={`endDate-${index}`}
+                      type="month"
+                      value={exp.endDate}
+                      onChange={(e) => handleExperienceChange(index, "endDate", e.target.value)}
+                      disabled={exp.current}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={exp.current}
+                        onChange={(e) => handleExperienceChange(index, "current", e.target.checked)}
+                      />
+                      <span>I currently work here</span>
+                    </Label>
+                  </div>
                 </div>
-                <div className="col-span-2 space-y-2">
+                <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <Label htmlFor={`description-${index}`}>Description</Label>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleGetSuggestion("experience", exp.description)}
-                      disabled={isLoading}
+                      onClick={() => handleGetSuggestionClick("experience", exp.description, itemId)}
+                      disabled={isLoading && activeSuggestionId === itemId}
                     >
                       <Wand2 className="h-4 w-4 mr-2" />
-                      Get AI Suggestions
+                      {isLoading && activeSuggestionId === itemId ? "Loading..." : "Get AI Suggestions"}
                     </Button>
                   </div>
                   <Textarea
@@ -458,12 +447,12 @@ export default function ResumeForm({
                     onChange={(e) => handleExperienceChange(index, "description", e.target.value)}
                     rows={4}
                   />
-                  {error && (
+                  {activeSuggestionId === itemId && error && (
                     <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
                       {error}
                     </div>
                   )}
-                  {suggestion && (
+                  {activeSuggestionId === itemId && suggestion && (
                     <div className="p-4 text-sm bg-blue-50 rounded-md">
                       <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
                       <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
@@ -471,8 +460,8 @@ export default function ResumeForm({
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           <Button onClick={addExperience} variant="outline">
             <Plus className="h-4 w-4 mr-2" />
             Add Experience
@@ -482,83 +471,86 @@ export default function ResumeForm({
 
       {activeSection === "education" && (
         <div className="space-y-4">
-          {resumeData.education.map((edu, index) => (
-            <div key={edu.id} className="space-y-4 p-4 border rounded-lg">
-              <div className="flex justify-between items-center">
-                <h3 className="font-semibold">Education {index + 1}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeEducation(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor={`degree-${index}`}>Degree</Label>
-                  <Input
-                    id={`degree-${index}`}
-                    value={edu.degree}
-                    onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
-                  />
+          {resumeData.education.map((edu, index) => {
+            const itemId = `education-${edu.id}`;
+            return (
+              <div key={edu.id} className="space-y-4 p-4 border rounded-lg">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold">Education {index + 1}</h3>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removeEducation(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`field-${index}`}>Field of Study</Label>
-                  <Input
-                    id={`field-${index}`}
-                    value={edu.field}
-                    onChange={(e) => handleEducationChange(index, "field", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`institution-${index}`}>Institution</Label>
-                  <Input
-                    id={`institution-${index}`}
-                    value={edu.institution}
-                    onChange={(e) => handleEducationChange(index, "institution", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`gpa-${index}`}>GPA</Label>
-                  <Input
-                    id={`gpa-${index}`}
-                    value={edu.gpa}
-                    onChange={(e) => handleEducationChange(index, "gpa", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`startDate-${index}`}>Start Date</Label>
-                  <Input
-                    id={`startDate-${index}`}
-                    type="month"
-                    value={edu.startDate}
-                    onChange={(e) => handleEducationChange(index, "startDate", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`endDate-${index}`}>End Date</Label>
-                  <Input
-                    id={`endDate-${index}`}
-                    type="month"
-                    value={edu.endDate}
-                    onChange={(e) => handleEducationChange(index, "endDate", e.target.value)}
-                    disabled={edu.current}
-                  />
-                </div>
-                <div className="col-span-2">
-                  <Label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={edu.current}
-                      onChange={(e) => handleEducationChange(index, "current", e.target.checked)}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor={`degree-${index}`}>Degree</Label>
+                    <Input
+                      id={`degree-${index}`}
+                      value={edu.degree}
+                      onChange={(e) => handleEducationChange(index, "degree", e.target.value)}
                     />
-                    <span>I am currently studying here</span>
-                  </Label>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`field-${index}`}>Field of Study</Label>
+                    <Input
+                      id={`field-${index}`}
+                      value={edu.field}
+                      onChange={(e) => handleEducationChange(index, "field", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`institution-${index}`}>Institution</Label>
+                    <Input
+                      id={`institution-${index}`}
+                      value={edu.institution}
+                      onChange={(e) => handleEducationChange(index, "institution", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`gpa-${index}`}>GPA</Label>
+                    <Input
+                      id={`gpa-${index}`}
+                      value={edu.gpa}
+                      onChange={(e) => handleEducationChange(index, "gpa", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`startDate-${index}`}>Start Date</Label>
+                    <Input
+                      id={`startDate-${index}`}
+                      type="month"
+                      value={edu.startDate}
+                      onChange={(e) => handleEducationChange(index, "startDate", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`endDate-${index}`}>End Date</Label>
+                    <Input
+                      id={`endDate-${index}`}
+                      type="month"
+                      value={edu.endDate}
+                      onChange={(e) => handleEducationChange(index, "endDate", e.target.value)}
+                      disabled={edu.current}
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        checked={edu.current}
+                        onChange={(e) => handleEducationChange(index, "current", e.target.checked)}
+                      />
+                      <span>I am currently studying here</span>
+                    </Label>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           <Button onClick={addEducation} variant="outline">
             <Plus className="h-4 w-4 mr-2" />
             Add Education
@@ -574,11 +566,11 @@ export default function ResumeForm({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => handleGetSuggestion("skills", resumeData.skills.join(", "))}
-                disabled={isLoading}
+                onClick={() => handleGetSuggestionClick("skills", resumeData.skills.join(", "), "skills")}
+                disabled={isLoading && activeSuggestionId === "skills"}
               >
                 <Wand2 className="h-4 w-4 mr-2" />
-                Get AI Suggestions
+                {isLoading && activeSuggestionId === "skills" ? "Loading..." : "Get AI Suggestions"}
               </Button>
             </div>
             <Textarea
@@ -587,12 +579,12 @@ export default function ResumeForm({
               onChange={(e) => handleSkillsChange(e.target.value)}
               rows={4}
             />
-            {error && (
+            {activeSuggestionId === "skills" && error && (
               <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
                 {error}
               </div>
             )}
-            {suggestion && (
+            {activeSuggestionId === "skills" && suggestion && (
               <div className="p-4 text-sm bg-blue-50 rounded-md">
                 <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
                 <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
@@ -604,46 +596,49 @@ export default function ResumeForm({
 
       {activeSection === "projects" && (
         <div className="space-y-4">
-          {resumeData.projects.map((proj, index) => (
-            <div key={proj.id} className="space-y-4 p-4 border rounded-lg">
-              <div className="flex justify-between items-center">
-                <h3 className="font-semibold">Project {index + 1}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeProject(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor={`name-${index}`}>Project Name</Label>
-                  <Input
-                    id={`name-${index}`}
-                    value={proj.name}
-                    onChange={(e) => handleProjectsChange(index, "name", e.target.value)}
-                  />
+          {resumeData.projects.map((proj, index) => {
+            const itemId = `project-${proj.id}`;
+            return (
+              <div key={proj.id} className="space-y-4 p-4 border rounded-lg">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold">Project {index + 1}</h3>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removeProject(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor={`name-${index}`}>Project Name</Label>
+                    <Input
+                      id={`name-${index}`}
+                      value={proj.name}
+                      onChange={(e) => handleProjectsChange(index, "name", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`technologies-${index}`}>Technologies Used</Label>
+                    <Input
+                      id={`technologies-${index}`}
+                      value={proj.technologies}
+                      onChange={(e) => handleProjectsChange(index, "technologies", e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`technologies-${index}`}>Technologies Used</Label>
-                  <Input
-                    id={`technologies-${index}`}
-                    value={proj.technologies}
-                    onChange={(e) => handleProjectsChange(index, "technologies", e.target.value)}
-                  />
-                </div>
-                <div className="col-span-2 space-y-2">
                   <div className="flex justify-between items-center">
                     <Label htmlFor={`description-${index}`}>Description</Label>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleGetSuggestion("projects", proj.description)}
-                      disabled={isLoading}
+                      onClick={() => handleGetSuggestionClick("projects", proj.description, itemId)}
+                      disabled={isLoading && activeSuggestionId === itemId}
                     >
                       <Wand2 className="h-4 w-4 mr-2" />
-                      Get AI Suggestions
+                      {isLoading && activeSuggestionId === itemId ? "Loading..." : "Get AI Suggestions"}
                     </Button>
                   </div>
                   <Textarea
@@ -652,12 +647,12 @@ export default function ResumeForm({
                     onChange={(e) => handleProjectsChange(index, "description", e.target.value)}
                     rows={4}
                   />
-                  {error && (
+                  {activeSuggestionId === itemId && error && (
                     <div className="p-4 text-sm text-red-500 bg-red-50 rounded-md">
                       {error}
                     </div>
                   )}
-                  {suggestion && (
+                  {activeSuggestionId === itemId && suggestion && (
                     <div className="p-4 text-sm bg-blue-50 rounded-md">
                       <h4 className="font-medium text-blue-700 mb-2">AI Suggestions:</h4>
                       <div className="text-blue-600 whitespace-pre-line">{suggestion}</div>
@@ -665,8 +660,8 @@ export default function ResumeForm({
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
           <Button onClick={addProject} variant="outline">
             <Plus className="h-4 w-4 mr-2" />
             Add Project
@@ -676,47 +671,50 @@ export default function ResumeForm({
 
       {activeSection === "certifications" && (
         <div className="space-y-4">
-          {resumeData.certifications.map((cert, index) => (
-            <div key={cert.id} className="space-y-4 p-4 border rounded-lg">
-              <div className="flex justify-between items-center">
-                <h3 className="font-semibold">Certification {index + 1}</h3>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => removeCertification(index)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+          {resumeData.certifications.map((cert, index) => {
+            const itemId = `certification-${cert.id}`;
+            return (
+              <div key={cert.id} className="space-y-4 p-4 border rounded-lg">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold">Certification {index + 1}</h3>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => removeCertification(index)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor={`name-${index}`}>Certification Name</Label>
+                    <Input
+                      id={`name-${index}`}
+                      value={cert.name}
+                      onChange={(e) => handleCertificationsChange(index, "name", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`issuer-${index}`}>Issuing Organization</Label>
+                    <Input
+                      id={`issuer-${index}`}
+                      value={cert.issuer}
+                      onChange={(e) => handleCertificationsChange(index, "issuer", e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`date-${index}`}>Date</Label>
+                    <Input
+                      id={`date-${index}`}
+                      type="month"
+                      value={cert.date}
+                      onChange={(e) => handleCertificationsChange(index, "date", e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor={`name-${index}`}>Certification Name</Label>
-                  <Input
-                    id={`name-${index}`}
-                    value={cert.name}
-                    onChange={(e) => handleCertificationsChange(index, "name", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`issuer-${index}`}>Issuing Organization</Label>
-                  <Input
-                    id={`issuer-${index}`}
-                    value={cert.issuer}
-                    onChange={(e) => handleCertificationsChange(index, "issuer", e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor={`date-${index}`}>Date</Label>
-                  <Input
-                    id={`date-${index}`}
-                    type="month"
-                    value={cert.date}
-                    onChange={(e) => handleCertificationsChange(index, "date", e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
           <Button onClick={addCertification} variant="outline">
             <Plus className="h-4 w-4 mr-2" />
             Add Certification
