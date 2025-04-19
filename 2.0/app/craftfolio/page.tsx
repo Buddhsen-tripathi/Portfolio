@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ResumeForm from "@/components/resume-maker/ResumeForm";
-import ResumePreview from "@/components/resume-maker/ResumePreview";
+import ResumeForm from "@/components/craftfolio/ResumeForm";
+import ResumePreview from "@/components/craftfolio/ResumePreview";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
