@@ -160,13 +160,34 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
   if (!showPreview) return null;
 
   return (
-    <div className="space-y-4 print-resume-root">
-      <div className="flex justify-end gap-2 print:hidden">
+    <div className="space-y-4">
+      <div className="flex justify-end gap-2 pb-2">
         <Button onClick={handleServerExportPDF} className="flex items-center gap-2" variant="default">
           <Download className="w-4 h-4" />
           Export PDF
         </Button>
       </div>
+      <div className="flex justify-end items-center gap-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
+                disabled={currentPage === 0}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-600">
+                Page {currentPage + 1} of {pages.length}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, pages.length - 1))}
+                disabled={currentPage === pages.length - 1}
+              >
+                Next
+              </Button>
+            </div>
       {/* Hidden content for measuring/splitting */}
       <div style={{ display: 'none' }}>
         <div
@@ -206,27 +227,6 @@ export default function ResumePreview({ resumeData, template, onExportPDF, secti
                 {page}
               </div>
             ))}
-            <div className="flex justify-center items-center gap-4 mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
-                disabled={currentPage === 0}
-              >
-                Previous
-              </Button>
-              <span className="text-sm text-gray-600">
-                Page {currentPage + 1} of {pages.length}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(p + 1, pages.length - 1))}
-                disabled={currentPage === pages.length - 1}
-              >
-                Next
-              </Button>
-            </div>
           </>
         )}
       </div>

@@ -290,7 +290,7 @@ export default function Craftfolio() {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto">
       <div className="w-full flex items-center justify-between mb-6 pb-4">
         <div className="flex items-center space-x-4">
           <Link href="/projects" className="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-blue-600">
@@ -339,6 +339,7 @@ export default function Craftfolio() {
           </div>
         </div>
 
+        <h2 className="text-xl font-semibold">Resume Form</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-8">
             <ResumeForm

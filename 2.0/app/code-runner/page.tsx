@@ -305,7 +305,7 @@ export default function CodeRunner() {
   }
 
   return (
-    <div className="container mx-auto py-4 space-y-4 px-4">
+    <div className="container mx-auto space-y-4 px-4">
 
       {/* Meta tags for SEO */}
       <title>Code Runner - Dodge the Bugs Game | Buddhsen Tripathi</title>
