@@ -6,7 +6,15 @@ const projects = [
     description: "Deepfind.me is an educational OSINT platform offering tools and resources to help users understand and manage their digital footprint.",
     github: null,
     demo: "https://deepfind.me?ref=buddhsen-tripathi",
-    technologies: ["Next.Js", "NestJs", "TypeScript", "Supabase", "AWS", "OpenAI API"],
+    technologies: ["Next.Js", "NestJs", "Supabase", "Web Crypto API", "OpenAI API"],
+  },
+  {
+    title: "Craftfolio",
+    image: "/craftfolio.webp",
+    description: "Craftfolio is a resume builder that allows users to create and customize their resumes using various templates and sections.",
+    github: null,
+    demo: "https://www.buddhsentripathi.com/linkedinfy-my-post",
+    technologies: ["Next.Js", "TypeScript", "Tailwind CSS", "PDFKit", "Gemini API"],
   },
   {
     title: "openai-api-helper",
@@ -141,7 +149,7 @@ export default function FeaturedProjects() {
               <div className="md:w-3/5 p-4">
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
                 <p className="mb-4 mt-4">{project.description}</p>
-                <p className="mb-4 mt-4"><ViewCounter slug={project.path} readOnly={true} /></p>
+                {project.path && <p className="mb-4 mt-4"><ViewCounter slug={project.path} readOnly={true} /></p>}
                 <div className="flex space-x-4">
                   <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                     <BsArrowUpRight className="inline-block mr-1" /> Live
