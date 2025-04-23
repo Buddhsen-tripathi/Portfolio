@@ -2,10 +2,10 @@ import NewsletterSubscription from "@/components/NewsletterSubscription";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Buddhsen Tripathi - Newsletter",
+    title: "Newsletter - Buddhsen Tripathi",
     description: "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
     openGraph: {
-        title: "Buddhsen Tripathi - Newsletter",
+        title: "Newsletter - Buddhsen Tripathi",
         description: "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
         url: "https://buddhsentripathi.com/newsletter",
         // images: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Buddhsen Tripathi - Newsletter",
+        title: "Newsletter - Buddhsen Tripathi",
         description: "Subscribe to my newsletter for updates on web development, AI, and personal projects.",
         images: ["/default-image.webp"],
     },
