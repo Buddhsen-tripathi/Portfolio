@@ -13,7 +13,7 @@ const projects = [
     image: "/craftfolio.webp",
     description: "Craftfolio is a resume builder that allows users to create and customize their resumes using various templates and sections.",
     github: null,
-    demo: "https://www.buddhsentripathi.com/linkedinfy-my-post",
+    demo: "https://www.buddhsentripathi.com/craftfolio",
     technologies: ["Next.Js", "TypeScript", "Tailwind CSS", "PDFKit", "Gemini API"],
   },
   {
