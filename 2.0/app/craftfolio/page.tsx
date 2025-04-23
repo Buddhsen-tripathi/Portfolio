@@ -301,7 +301,7 @@ export default function Craftfolio() {
         </div>
       </div>
       <h1 className="text-3xl font-bold text-center text-primary mb-4">CraftFolio</h1>
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-white text-center mb-4">Create your ideal resume with no coding required and full customization</h3>
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-white text-center mb-4">Create your ideal resume with zero code and total control.</h3>
       <div className="flex flex-col gap-8">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex-1">
