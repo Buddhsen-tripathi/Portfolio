@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown_ip';
 
     const allowedOrigins = [
-
+        'http://localhost:3000',
         'https://www.buddhsentripathi.com',
         'https://buddhsentripathi.com'
         // Add any other origins that should bypass rate limiting
