@@ -16,9 +16,7 @@ export default function Hero() {
         <h1 className="text-4xl font-bold">Buddhsen Tripathi</h1>
         <p className="max-w-2xl text-center md:text-left text-muted-foreground">
           Hello! I'm a passionate full-stack web developer with expertise in React, Next.js, Java and TypeScript.<br/>
-          I love creating responsive and user-friendly web applications. With a keen eye for design
-          and a strong foundation in modern web technologies, I strive to deliver high-quality
-          solutions that meet both user needs and business goals.
+          I build responsive, user-friendly web apps with a focus on clean design and solid performance. My goal is to create smart, reliable solutions that work beautifully for users and businesses alike.
         </p>
         <div className="flex space-x-4">
           <a href="https://github.com/buddhsen-tripathi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
