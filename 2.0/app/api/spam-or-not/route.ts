@@ -20,8 +20,8 @@ const genAI = new GoogleGenerativeAI(geminiApiKey || "fallback-gemini-key");
 
 // --- Rate Limiter Configuration ---
 const rateLimiter = new RateLimiterMemory({
-    points: 5, 
-    duration: 20, 
+    points: 5, // Allow 5 requests...
+    duration: 20, // ...per 20 seconds per unique key (IP + Origin)
 });
 // --- End Rate Limiter Configuration ---
 
@@ -51,12 +51,35 @@ const CACHE_TTL_HOURS = 24;
 
 export async function POST(request: NextRequest) {
 
-    const ip = (await headers()).get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? '127.0.0.1';
+    // --- Rate Limiting Check ---
+    const requestHeaders = await headers(); 
+    const origin = requestHeaders.get('origin') ?? 'unknown_origin';
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown_ip';
+
+    const allowedOrigins = [
+
+        'https://www.buddhsentripathi.com',
+        'https://buddhsentripathi.com'
+        // Add any other origins that should bypass rate limiting
+    ];
+
+    // --- Origin Check ---
+    // Block requests from origins not in the allowed list
+    if (!allowedOrigins.includes(origin)) {
+        console.warn(`Blocked request from disallowed origin: ${origin} (IP: ${ip})`);
+        return NextResponse.json({ error: 'Forbidden: Invalid origin' }, { status: 403 });
+    }
+    // --- End Origin Check ---
+
+    // --- Rate Limiting Check (Now only applies to allowed origins) ---
+    // Create a combined key using IP and the allowed origin
+    const rateLimitKey = `${ip}_${origin}`;
 
     try {
-        await rateLimiter.consume(ip);
+        // Apply rate limiting even for allowed origins
+        await rateLimiter.consume(rateLimitKey);
     } catch (rejRes: any) {
-        console.warn(`Rate limit exceeded for IP: ${ip}`);
+        console.warn(`Rate limit exceeded for ALLOWED Key: ${rateLimitKey} (IP: ${ip}, Origin: ${origin})`);
         const secs = Math.ceil(rejRes?.msBeforeNext / 1000) || 1;
         return NextResponse.json({ error: 'Too Many Requests' }, {
             status: 429,
@@ -65,7 +88,6 @@ export async function POST(request: NextRequest) {
             },
         });
     }
-
     // --- End Rate Limiting Check ---
 
     if (!exaApiKey || !geminiApiKey) {
