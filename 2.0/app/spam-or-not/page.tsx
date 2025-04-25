@@ -91,6 +91,9 @@ export default function SpamOrNotPage() {
                 <p className="text-muted-foreground max-w-xl mx-auto">
                     Enter a Twitter/X username (without the @) to analyze their recent activity for potential spam-like behavior using AI.
                 </p>
+                <p className="text-muted-foreground max-w-xl mx-auto mt-2">
+                    Built using Exa and Gemini AI models for accurate analysis.
+                </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5 mb-10">
