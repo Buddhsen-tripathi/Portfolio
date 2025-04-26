@@ -76,7 +76,7 @@ export default function SpamOrNotPage() {
 
     return (
         <main className="container mx-auto space-y-4 px-4">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-16">
                 <Link href="/projects" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Projects

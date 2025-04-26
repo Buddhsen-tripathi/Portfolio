@@ -36,6 +36,15 @@ const projects = [
 
 const funnyProjects = [
   {
+    title: "Twitter/X Spam Check",
+    image: "/spam-or-not.webp",
+    description: "Enter a Twitter/X username to analyze their recent activity for potential spam-like behavior using AI.",
+    github: null,
+    demo: "https://www.buddhsentripathi.com/spam-or-not",
+    technologies: [],
+    path: "spam-or-not"
+  },
+  {
     title: "Linkedinfy My Post",
     image: "/linkedinfy.webp",
     description: "Transform your posts into high-engagement LinkedIn content in seconds. Optimize, refine, and stand out effortlessly.",
@@ -43,7 +52,7 @@ const funnyProjects = [
     demo: "https://www.buddhsentripathi.com/linkedinfy-my-post",
     technologies: [],
     path: "linkedinfy-my-post"
-},
+  },
   {
     title: "Code Runner",
     image: "/code-runner.webp",
@@ -51,7 +60,7 @@ const funnyProjects = [
     github: null,
     demo: "https://www.buddhsentripathi.com/code-runner",
     technologies: [],
-    path:"code-runner"
+    path: "code-runner"
   },
   {
     title: "Japanese Lucky Birthday Rankings 2025",
@@ -60,7 +69,7 @@ const funnyProjects = [
     github: null,
     demo: "https://www.buddhsentripathi.com/2025-birthday-rankings",
     technologies: [],
-    path:"2025-birthday-rankings"
+    path: "2025-birthday-rankings"
   },
 ];
 
