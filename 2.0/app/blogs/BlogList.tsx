@@ -4,13 +4,13 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Search } from 'lucide-react'
 import ViewCounter from '@/components/ViewCounter';
-import NewsletterSubscription from '@/components/NewsletterSubscription';
 
 export interface BlogPost {
   title: string;
   excerpt: string;
   slug: string;
   date: string;
+  type?: string;
 }
 
 export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
@@ -36,7 +36,7 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
       </div>
 
       {/* Blog List */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <Link key={post.slug} href={`/blogs/${post.slug}`} className="block h-full">
@@ -59,10 +59,9 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
             </Link>
           ))
         ) : (
-          <p className="text-center text-muted-foreground">No matching blog posts found.</p>
+          <p className="text-center text-muted-foreground md:col-span-2">No matching blog posts found in this section.</p>
         )}
       </div>
-      <NewsletterSubscription/>
     </div>
   );
 }
