@@ -16,7 +16,8 @@ export interface BlogPost {
 export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredPosts = blogPosts.filter((post: { title: string; excerpt: string }) =>
+  // Update filter type to use BlogPost
+  const filteredPosts = blogPosts.filter((post: BlogPost) =>
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -36,10 +37,11 @@ export default function BlogList({ blogPosts }: { blogPosts: BlogPost[] }) {
       </div>
 
       {/* Blog List */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <Link key={post.slug} href={`/blogs/${post.slug}`} className="block h-full">
+              {/* Access properties directly from post, not post.metadata */}
               <article className="p-6 bg-card rounded-lg shadow-sm border hover:shadow-md transition-shadow hover:bg-primary/10 cursor-pointer flex flex-col h-full">
                 <div className="space-y-4 flex-grow">
                   <div>

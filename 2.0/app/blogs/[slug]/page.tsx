@@ -101,7 +101,6 @@ export default async function BlogPost({ params }: { params: paramsType }) {
           SocialShare: SocialShare
         }}
       />
-
       {/* Newsletter subscription component */}
       <NewsletterSubscription />
 
