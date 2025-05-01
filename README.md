@@ -33,6 +33,7 @@ npm install
 # NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 # SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_KEY (for admin tasks)
 # GEMINI_API_KEY=YOUR_GEMINI_KEY (for resume suggestions)
+# EXA_API_KEY=EXA_KEY (for X/Twitter post retrieval for spam detection) 
 npm run dev
 ```
 Access at `http://localhost:3000`.
