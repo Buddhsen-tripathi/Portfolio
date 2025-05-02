@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { getAllBlogPosts } from './utils'
-import BlogList, { type BlogPost } from './BlogList'
+import { getAllBlogPosts, type BlogPost } from './utils'
+import BlogList from './BlogList'
 import BackToTopButton from '@/components/BacktoTopButton'
 import NewsletterSubscription from '@/components/NewsletterSubscription'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 export default async function BlogPage() {
   const allPosts: BlogPost[] = await getAllBlogPosts()
 
-  // Filter posts based on the 'type' metadata property
+  // Filter posts based on the 'type' property directly
   const technicalPosts = allPosts.filter(post => post.type !== 'personal');
   const personalPosts = allPosts.filter(post => post.type === 'personal');
 
