@@ -26,9 +26,9 @@ export default async function FeaturedPosts() {
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
                   <p className="text-muted-foreground">
-                    {post.excerpt.length > 200
+                    {post.excerpt && post.excerpt.length > 200
                       ? `${post.excerpt.substring(0, 200)}...`
-                      : post.excerpt}
+                      : post.excerpt || ''}
                   </p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4 pt-2">
